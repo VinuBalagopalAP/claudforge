@@ -1,5 +1,7 @@
 # ⚒️ ClaudForge
 
+![GitHub release](https://img.shields.io/github/v/release/VinuBalagopalAP/claudforge)
+
 **Premium automated suite to package and deploy your local skills to Claude.ai.**
 
 ClaudForge provides two specialized scripts to handle different upload scenarios, ensuring your skills are perfectly formatted and deployed with minimal effort. Both scripts are **fully compatible with Windows, macOS, and Linux**.
