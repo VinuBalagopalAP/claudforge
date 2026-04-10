@@ -5,36 +5,43 @@
 # ClaudForge ⚒️
 
 ### The high-performance CLI suite for Claude.ai Skills.
-
-**Stealth-enabled. Self-healing. Batch-optimized. Any scale.**
+**Package. Validate. Deploy. Any scale. From your terminal.**
 
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/VinuBalagopalAP/claudforge?style=social)](https://github.com/VinuBalagopalAP/claudforge)
 
-[**Quick Start**](#-quick-start) · [**Features**](#-features) · [**CLI Reference**](#-cli-reference) · [**Resilient Batching**](#-resilient-batching) · [**Website**](https://claudforge.vercel.app)
+[**Quick Start**](#-quick-start) · [**Features**](#-features) · [**CLI Reference**](#-cli-reference) · [**Roadmap**](#-roadmap) · [**Website**](https://claudforge.vercel.app)
 
 </div>
 
 ---
 
-## The Scale Problem
+## The Problem
 
-Uploading 10 skills is a chore. Uploading **800+ skills** is an operational hurdle. 
-ClaudForge transforms this process from a manual nightmare into a "set-and-forget" automation suite. It uses elite browser automation, stealth viewports, and self-healing logic to bypass bot detection and manage massive skill libraries.
+Every Claude.ai power user knows this pain:
+1. Zip the skill folder manually
+2. Open browser
+3. Navigate to settings -> skills
+4. Bypass Cloudflare
+5. Upload
+6. Repeat for every. single. skill.
+
+**ClaudForge fixes this.** One command. Any scale. Whether you have 10 skills or 832, it handles the logic, the auth, and the persistence so you don't have to.
 
 ---
 
-## ✨ Premium Features
+## ✨ Features
 
 | Feature | What it does |
 |---------|-------------|
-| 🕵️ **Stealth Viewports** | Human-mimicry delays, randomized viewports, and physical click simulation to bypass detection. |
-| 🛡️ **Self-Healing** | Auto-retry logic with "Safety Clicks" and "Smart Reloads" to unfreeze automation if Cloudflare blocks a UI element. |
-| 📋 **Smart History** | Persistent `.claudforge_history` tracking ensures you never repeat work. Resume a 1000-skill run instantly. |
-| 🚀 **Predictive Queue** | `--limit` now guarantees *new* uploads by automatically refilling the queue from pending items. |
-| 🛠️ **Auto-Sanitize** | Automatic renaming of reserved words (e.g., `anthropic` -> `assistant`) during large batch runs. |
-| 📊 **Progress Dashboard** | Instant `status` and `list` commands to monitor your deployment health without opening a browser. |
+| 🕵️ **Stealth Automation** | Human-mimicry delays, randomized viewports, and physical click simulation to stay undetected. |
+| 🛡️ **Self-Healing** | "Flicker-Proof" logic with auto-retries and smart reloads to handle Claude.ai's dynamic UI. |
+| 📦 **Predictive Batching** | `--limit` now guarantees *fresh* uploads by refilling the queue from pending items. |
+| 📋 **Cloud Inventory** | Scans your Claude.ai account instantly to detect existing skills before starting a run. |
+| 🛠️ **Auto-Sanitize** | Scans for reserved words (like `anthropic`) and renames them to `assistant` automatically. |
+| 📊 **Progress Dashboard** | `status` and `list` commands for instant visibility into your deployment history. |
+| 💻 **Cross-Platform** | Native support for macOS, Windows, and Linux. |
 
 ---
 
@@ -43,51 +50,87 @@ ClaudForge transforms this process from a manual nightmare into a "set-and-forge
 **Requirements:** Python 3.7+, Chrome browser
 
 ```bash
-# 1. Install & Setup
+# 1. Setup
 git clone https://github.com/VinuBalagopalAP/claudforge.git
 cd claudforge
 pip install -r requirements.txt
 playwright install chrome
 
-# 2. Check your progress
-claudforge status ./skills_dir
+# 2. Check your batch status
+claudforge status ./my_skills_collection
 
-# 3. Deploy a smart batch
-claudforge upload ./skills_dir --limit 10 --profile "my_claude_session"
+# 3. Deploy (Smart detection: folder or batch)
+claudforge upload ./my_skills_collection --limit 10 --profile "claude_user"
 ```
 
 ---
 
 ## 📖 CLI Reference
 
-### `claudforge upload [PATH]`
-Deploy a skill or a batch of skills. ClaudForge automatically detects if the path is a single skill or a directory.
-- `--limit N`: Strictly upload N **new** skills.
-- `--force`: Ignore local history and re-verify everything against the cloud.
-- `--profile NAME`: User a persistent Chrome profile (keeps you logged in).
+```
+Usage: claudforge [command] [PATH] [options]
 
-### `claudforge status [PATH]`
-Get a lightning-fast report on your batch progress.
-- Total Folders
-- Successfully Synced (History)
-- Pending Uploads
-- Completion %
+Commands:
+  upload [PATH]     Deploy a skill or batch (auto-detects mode)
+  status [PATH]     Fast summary of batch progress (Local History vs Total)
+  list [PATH]       List every skill name recorded in the local history
+  validate [PATH]   Check SKILL.md structure and reserved word compliance
+  init              Scaffold a new Claude skill folder
+  doctor            Check environment health (Chrome, Playwright, Python)
 
-### `claudforge list [PATH]`
-Audit every skill name currently recorded in your local history.
-
-### `claudforge validate [PATH]`
-Verify `SKILL.md` structure and reserved word compliance.
+Options:
+  --limit N           Strictly attempt N brand-new uploads
+  --force, -f         Ignore local history; re-verify everything on Cloud
+  --profile NAME      Use a persistent Chrome profile (keeps you logged in)
+  --headless          Run in headless mode
+```
 
 ---
 
-## 🤖 Resilient Batching
+## 🎯 Use Cases
 
-### The Duplicate Manager
-If ClaudForge detects skills that already exist on the cloud but aren't in your history, it won't crash. It defers them to the end of the batch and presents a numbered interactive list, allowing you to selectively replace or skip them in bulk.
+**The "Mass Collection" Publisher**
+> You have 800+ skills (like the Composio collection). You run `claudforge upload` in chunks of 50. The tool remembers what you've done, handles Cloudflare blocks, and skips duplicates automatically.
 
-### "Flicker-Proof" Technology
-Claude.ai's UI often re-renders during uploads. ClaudForge uses a unique polling-and-retry strategy that catches "Detached Element" errors and resolves them in milliseconds, preventing the 30-second timeouts common in standard automation tools.
+**Team Skill Library**
+> Your team shares a private `/skills` directory. You add ClaudForge to your CI pipeline and every merged PR auto-deploys the updated skill library.
+
+**Solo Power User**
+> You maintain 15 custom skills. Instead of zipping and clicking for 20 minutes, you run `claudforge upload ./my-skills` and it finishes in seconds.
+
+---
+
+## 🏗 Architecture
+
+```
+claudforge/
+├── uploader/
+│   ├── single.py            # Flicker-proof upload logic & success polling
+│   └── batch.py             # Predictive queueing & pre-batch sanitization
+├── browser/
+│   └── launcher.py          # Stealth Chrome launcher & Inventory scraping
+├── utils/
+│   ├── history.py           # Persistent .claudforge_history management
+│   ├── yaml_parser.py       # SKILL.md parsing & Auto-Sanitization
+│   └── zipper.py            # High-speed skill packaging
+└── cli.py                   # Typer CLI (Dashboards & Commands)
+```
+
+---
+
+## 🗺 Roadmap
+
+| Status | Feature |
+|--------|---------|
+| ✅ Done | Single & Batch Smart Upload |
+| ✅ Done | Self-Healing (Flicker-Resistance) |
+| ✅ Done | Cloud Inventory Scraping |
+| ✅ Done | Predictive `--limit` Logic |
+| ✅ Done | `claudforge status` & `list` Dashboards |
+| ✅ Done | Auto-Sanitization (Anthropic -> Assistant) |
+| 🔄 In Progress | `pip install claudforge` (PyPI packaging) |
+| 📋 Planned | `claudforge rollback` — revert to prior version |
+| 💡 Exploring | Web UI Dashboard for batch monitoring |
 
 ---
 
@@ -101,8 +144,6 @@ ClaudForge uses browser automation to interact with Claude.ai's UI. This is not 
 
 MIT — Copyright (c) 2026 Vinu Balagopal AP
 
----
-
 <div align="center">
-Made with ⚒️ by <a href="https://github.com/VinuBalagopalAP">Vinu Balagopal A P</a> · <a href="https://claudforge.vercel.app">Website</a> · <a href="https://github.com/VinuBalagopalAP/claudforge/issues">Issues</a>
+Made with ⚒️ by <a href="https://github.com/VinuBalagopalAP">Vinu Balagopal A P</a> · <a href="https://claudforge.vercel.app">Website</a>
 </div>
