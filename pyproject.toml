@@ -1,0 +1,33 @@
+[project]
+name = "claudforge"
+version = "1.2.0"
+description = "The missing CLI for Claude.ai Skills — automate uploads, manage libraries, ship faster."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.7"
+keywords = ["claude", "anthropic", "claude-ai", "skills", "automation", "cli"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "playwright>=1.40.0",
+    "pyyaml>=6.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+]
+
+[project.scripts]
+claudforge = "claudforge.cli:main"
+
+[project.urls]
+Homepage = "https://claudforge.vercel.app"
+Repository = "https://github.com/VinuBalagopalAP/claudforge"
+Issues = "https://github.com/VinuBalagopalAP/claudforge/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

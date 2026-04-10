@@ -192,6 +192,49 @@
             transform: translateY(-5px);
         }
 
+        /* Comparison Table */
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .comparison-card {
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .comparison-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .comparison-card.manual h4 { color: #ef4444; }
+        .comparison-card.claudforge h4 { color: var(--bg-accent); }
+
+        .comparison-card ul {
+            list-style: none;
+        }
+
+        .comparison-card li {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .comparison-card.claudforge li { color: var(--text-primary); }
+
+        @media (max-width: 768px) {
+            .comparison-container { grid-template-columns: 1fr; }
+        }
+
         .feature-icon {
             width: 48px;
             height: 48px;
