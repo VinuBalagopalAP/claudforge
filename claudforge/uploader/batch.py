@@ -1,6 +1,7 @@
 import os
 import time
 import re
+import json
 from pathlib import Path
 from typing import List, Optional, Set
 import typer
@@ -47,6 +48,43 @@ def parse_selection(input_str: str, max_val: int) -> Set[int]:
             except ValueError: pass
     
     return {i for i in selected if 0 <= i < max_val}
+
+class SessionTracker:
+    """Manages real-time session data for the web dashboard."""
+    def __init__(self, batch_dir: Path, total_folders: int, history_count: int, limit: Optional[int]):
+        self.path = batch_dir / ".claudforge_session.json"
+        self.data = {
+            "project_name": batch_dir.name,
+            "total_folders": total_folders,
+            "history_count": history_count,
+            "session_start": time.time(),
+            "limit": limit,
+            "current_skill": None,
+            "current_index": 0,
+            "results": [],
+            "status": "RUNNING"
+        }
+        self._update()
+
+    def update_current(self, skill_name: str, index: int):
+        self.data["current_skill"] = skill_name
+        self.data["current_index"] = index
+        self._update()
+
+    def add_result(self, name: str, status: str, details: str):
+        self.data["results"].append([name, status, details])
+        self._update()
+
+    def finish(self):
+        self.data["status"] = "FINISHED"
+        self.data["current_skill"] = None
+        self._update()
+
+    def _update(self):
+        try:
+            with open(self.path, 'w') as f:
+                json.dump(self.data, f)
+        except Exception: pass
 
 def run_batch_upload(
     page,
@@ -101,6 +139,9 @@ def run_batch_upload(
         console.print("[green]✅ Everything is already up to date![/green]")
         return
 
+    # Initialize Session Tracker for Dashboard
+    tracker = SessionTracker(batch_dir, len(skill_folders), len(history), limit)
+
     results = [] 
     uploaded_this_session = set()
 
@@ -114,16 +155,20 @@ def run_batch_upload(
             console=console
         ) as progress:
             batch_task = progress.add_task("[cyan]Batch Uploading New Skills...", total=len(to_upload))
-            for folder in to_upload:
+            for i, folder in enumerate(to_upload, 1):
                 progress.update(batch_task, description=f"[cyan]Uploading {folder.name}...")
+                tracker.update_current(folder.name, i)
+                
                 name, status, details = _process_skill(page, folder, zip_dir, keep_zips, console)
                 
                 if status == "DUPLICATE":
                     to_ask.append(folder)
                     results.append((folder.name, "⏭️ Deferring", "Detected during upload"))
+                    tracker.add_result(folder.name, "⏭️ Deferring", "Detected during upload")
                 else:
                     status_fmt = "✅ Success" if status == "SUCCESS" else ("❌ Failed" if status == "FAILED" else status)
                     results.append((name, status_fmt, details))
+                    tracker.add_result(name, status_fmt, details)
                     if status == "SUCCESS":
                         uploaded_this_session.add(folder.name)
                 progress.advance(batch_task)
@@ -190,8 +235,10 @@ def run_batch_upload(
                 uploaded_this_session.add(folder.name)
                 if not any(r[0] == folder.name for r in results):
                     results.append((folder.name, "⏭️ Skipped", "Existing skill (Cloud)"))
+                    tracker.add_result(folder.name, "⏭️ Skipped", "Existing skill (Cloud)")
 
     # 4. Save History
+    tracker.finish()
     if uploaded_this_session:
         save_history(batch_dir, uploaded_this_session)
 

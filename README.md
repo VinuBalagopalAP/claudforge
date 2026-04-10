@@ -40,7 +40,8 @@ Every Claude.ai power user knows this pain:
 | 📦 **Predictive Batching** | `--limit` now guarantees *fresh* uploads by refilling the queue from pending items. |
 | 📋 **Cloud Inventory** | Scans your Claude.ai account instantly to detect existing skills before starting a run. |
 | 🛠️ **Auto-Sanitize** | Scans for reserved words (like `anthropic`) and renames them to `assistant` automatically. |
-| 📊 **Progress Dashboard** | `status` and `list` commands for instant visibility into your deployment history. |
+| 📊 **Progress Dashboard** | `status`, `list`, and `dashboard` commands for instant visibility into your deployment history. |
+| 🌐 **Live Monitor** | A real-time web UI to track long-running batches with ETR and success gauges. |
 | 💻 **Cross-Platform** | Native support for macOS, Windows, and Linux. |
 
 ---
@@ -53,14 +54,14 @@ Every Claude.ai power user knows this pain:
 # 1. Setup
 git clone https://github.com/VinuBalagopalAP/claudforge.git
 cd claudforge
-pip install -r requirements.txt
+pip install -r requirements.txt streamlit
 playwright install chrome
 
-# 2. Check your batch status
-claudforge status ./my_skills_collection
+# 2. Launch the Live Monitor (optional)
+claudforge dashboard ./my_skills
 
 # 3. Deploy (Smart detection: folder or batch)
-claudforge upload ./my_skills_collection --limit 10 --profile "claude_user"
+claudforge upload ./my_skills --limit 30 --profile "claude_user"
 ```
 
 ---

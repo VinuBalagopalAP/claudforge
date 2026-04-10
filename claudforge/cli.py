@@ -170,6 +170,33 @@ def list_skills(
     console.print("\n", table)
     console.print(f"\n[dim]Total: {len(history)} skills recorded.[/dim]")
 
+@app.command()
+def dashboard(path: Path = typer.Argument(..., help="Path to the batch directory", metavar="PATH")):
+    """Launch the real-time web dashboard to monitor progress."""
+    import subprocess
+    import sys
+    
+    batch_dir = path.expanduser().resolve()
+    if not batch_dir.is_dir():
+        console.print(f"[red]Error: '{batch_dir}' is not a directory.[/red]")
+        raise typer.Exit(1)
+        
+    dashboard_path = Path(__file__).parent / "dashboard" / "app.py"
+    
+    if not dashboard_path.exists():
+        console.print("[red]Error: Dashboard component not found.[/red]")
+        raise typer.Exit(1)
+    
+    console.print(f"\n[bold cyan]🚀 Launching ClaudForge Live Monitor...[/bold cyan]")
+    console.print(f"[dim]Tracking directory: {batch_dir}[/dim]")
+    console.print("[dim]Opening browser at http://localhost:8501[/dim]\n")
+    
+    try:
+        # Run streamlit as a module
+        subprocess.run([sys.executable, "-m", "streamlit", "run", str(dashboard_path), "--", str(batch_dir)])
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Dashboard stopped.[/yellow]")
+
 def main():
     app()
 
