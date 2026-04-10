@@ -1,35 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "claudforge"
-version = "1.2.0"
-description = "The missing CLI for Claude.ai Skills — automate uploads, manage libraries, ship faster."
+version = "2.0.0"
+description = "The high-performance CLI suite for Claude.ai Skills automation."
 readme = "README.md"
-license = "MIT"
 requires-python = ">=3.7"
-keywords = ["claude", "anthropic", "claude-ai", "skills", "automation", "cli"]
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Programming Language :: Python :: 3",
+license = {file = "LICENSE"}
+authors = [
+    {name = "Vinu Balagopal A P", email = "[vinubalagopalap@gmail.com]"}
 ]
+keywords = ["claude", "ai", "skills", "automation", "cli", "mcp"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Build Tools",
+]
+
 dependencies = [
-    "playwright>=1.40.0",
-    "pyyaml>=6.0",
-    "typer>=0.9.0",
+    "typer[all]>=0.9.0",
     "rich>=13.0.0",
+    "playwright>=1.41.0",
+    "pyyaml>=6.0.0",
+    "streamlit>=1.30.0",
+    "pandas>=2.0.0",
 ]
 
 [project.scripts]
 claudforge = "claudforge.cli:main"
 
 [project.urls]
-Homepage = "https://claudforge.vercel.app"
-Repository = "https://github.com/VinuBalagopalAP/claudforge"
+Homepage = "https://github.com/VinuBalagopalAP/claudforge"
 Issues = "https://github.com/VinuBalagopalAP/claudforge/issues"
 
-[tool.setuptools]
-packages = ["claudforge", "claudforge.uploader", "claudforge.browser", "claudforge.utils"]
+[tool.hatch.build.targets.wheel]
+packages = ["claudforge"]
 
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+[tool.hatch.build.targets.sdist]
+include = [
+    "/claudforge",
+    "README.md",
+    "LICENSE",
+]

@@ -15,6 +15,7 @@ from claudforge.utils.yaml_parser import validate_skill_metadata, get_skill_meta
 from claudforge.utils.history import load_history, save_history
 from claudforge.browser.launcher import get_existing_skills
 from claudforge.uploader.single import upload_skill
+from claudforge.utils.archive import create_snapshot
 
 def get_file_size_fmt(path: Path) -> str:
     """Return a human-readable file size string."""
@@ -47,7 +48,35 @@ def parse_selection(input_str: str, max_val: int) -> Set[int]:
                 selected.add(int(part) - 1)
             except ValueError: pass
     
-    return {i for i in selected if 0 <= i < max_val}
+    return {s for s in selected if 0 <= s < max_val}
+
+def export_web_data(batch_dir: Path, history: Set[str]):
+    """Export the current skill state to a JSON file for the True UI website."""
+    all_folders = [f for f in batch_dir.iterdir() if f.is_dir() and (f / "SKILL.md").exists()]
+    
+    data = {
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "total": len(all_folders),
+        "uploaded_count": len([f for f in all_folders if f.name in history]),
+        "skills": []
+    }
+    
+    for f in sorted(all_folders):
+        data["skills"].append({
+            "name": f.name,
+            "status": "UPLOADED" if f.name in history else "PENDING"
+        })
+        
+    # Project root is 3 levels up from claudforge/uploader/batch.py
+    project_root = Path(__file__).parent.parent.parent
+    website_json = project_root / "website" / "claudforge_data.json"
+    
+    try:
+        if website_json.parent.exists():
+            with open(website_json, "w") as f_out:
+                json.dump(data, f_out, indent=2)
+    except Exception:
+        pass
 
 class SessionTracker:
     """Manages real-time session data for the web dashboard."""
@@ -217,6 +246,9 @@ def run_batch_upload(
                             results[i] = (name, status_fmt, details)
                             found_prev = True
                             break
+                    # Export data for the True UI website
+                    export_web_data(batch_dir, history)
+
                     if not found_prev:
                         results.append((name, status_fmt, details))
                         
@@ -276,6 +308,12 @@ def _process_skill(page, folder: Path, zip_dir: Path, keep_zips: bool, console: 
     # Core upload logic
     status = upload_skill(page, zp, console, auto_replace=force_replace)
     
+    if status == "SUCCESS":
+        # AUTOMATIC SNAPSHOT ON SUCCESS
+        try:
+            create_snapshot(folder.parent, folder)
+        except Exception: pass
+
     duration = time.time() - start_time
     detail_str = f"{duration:.1f}s | {size_str}"
     

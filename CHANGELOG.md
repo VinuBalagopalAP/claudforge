@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.0.0] - 2026-04-11
+
+### Added
+- **Real-time Web Dashboard**: Streamlit-powered monitor (`claudforge dashboard`) with progress gauges, ETR calculations, and live activity logs.
+- **Rollback System**: **NEW**: Automatic timestamped snapshots for every successful upload; revert any skill to a prior version via `claudforge rollback`.
+- **Professional Packaging**: Full `pyproject.toml` support for `pip install` and global `claudforge` command access.
+- **Self-Healing Automation**: Hardened "Flicker-Proof" browser logic that handles DOM re-renders and Cloudflare delays in real-time.
+- **Predictive Batching**: Intelligent `--limit` fulfillment that refills the queue from pending skills automatically.
+- **Cloud Inventory Sync**: Instant account scraping to detect existing skills and prevent redundant uploads.
+- **Auto-Sanitization**: Automatic detection and correction of reserved words (e.g., 'anthropic' -> 'assistant').
+- **Groomed Repository**: Optimized project structure with dedicated `/website` assets and enhanced ignores.
+
+### Changed
+- **Packaging**: Refactored project into a structured Python package ready for PyPI.
+
+---
+
 ## [1.2.0] - 2026-04-10
 
 ### Added
@@ -13,12 +30,13 @@ All notable changes to this project will be documented in this file.
 - **Professional Docs**: Added `CONTRIBUTING.md`, `LICENSE`, and revamped `README.md`.
 
 ### Changed
-- **Packaging**: Refactored project into a structured Python package ready for PyPI.
 - **UX**: Switched to Rich-formatted terminal output for better readability.
 
 ### Fixed
 - Fixed case-sensitivity issues with `SKILL.md` zipping.
 - Improved Cloudflare challenge detection and manual bypass prompts.
+
+---
 
 ## [1.1.0] - 2026-04-09
 - Initial release with standalone batch upload scripts.

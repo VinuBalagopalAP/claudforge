@@ -10,7 +10,7 @@ from claudforge.utils.zipper import zip_folder, cleanup_zips
 from claudforge.utils.yaml_parser import validate_skill_metadata, get_skill_md_path
 from claudforge.utils.history import load_history
 from claudforge.uploader.single import upload_skill
-from claudforge.uploader.batch import run_batch_upload
+from claudforge.uploader.batch import run_batch_upload, export_web_data
 
 app = typer.Typer(
     help="ClaudForge ⚒️ - The missing CLI for Claude.ai Skills.",
@@ -84,7 +84,8 @@ def status(
         return
 
     history = load_history(batch_dir)
-    skill_folders = [d for d in batch_dir.iterdir() if d.is_dir() and not d.name.startswith(('.', '_'))]
+    # Only count folders that actually contain a SKILL.md
+    skill_folders = [d for d in batch_dir.iterdir() if d.is_dir() and (d / "SKILL.md").exists()]
     
     total = len(skill_folders)
     done = len([f for f in skill_folders if f.name in history])
@@ -98,6 +99,9 @@ def status(
     if total > 0:
         percent = (done / total) * 100
         console.print(f"📊 Completion:        [bold]{percent:.1f}%[/bold]\n")
+        
+    # Export data for the True UI website
+    export_web_data(batch_dir, history)
 
 @app.command()
 def validate(
@@ -196,6 +200,55 @@ def dashboard(path: Path = typer.Argument(..., help="Path to the batch directory
         subprocess.run([sys.executable, "-m", "streamlit", "run", str(dashboard_path), "--", str(batch_dir)])
     except KeyboardInterrupt:
         console.print("\n[yellow]Dashboard stopped.[/yellow]")
+
+@app.command()
+def rollback(
+    path: Path = typer.Argument(..., help="Path to the batch directory", metavar="PATH"),
+    skill: str = typer.Argument(..., help="Name of the skill folder to rollback"),
+    profile: Optional[str] = typer.Option(None, "--profile", help="Chrome profile to use"),
+):
+    """Revert a skill to a previous version from the archive."""
+    from rich.prompt import IntPrompt
+    from claudforge.utils.archive import list_snapshots, get_snapshot_zip
+    
+    batch_dir = path.expanduser().resolve()
+    snapshots = list_snapshots(batch_dir, skill)
+    
+    if not snapshots:
+        console.print(f"[yellow]No archives found for '{skill}' in {batch_dir.name}.[/yellow]")
+        return
+        
+    table = Table(title=f"📜 Archive History: {skill}", box=None)
+    table.add_column("#", justify="right", style="dim")
+    table.add_column("Uploaded At", style="cyan")
+    table.add_column("Filename", style="dim")
+    
+    for i, (ts, filename) in enumerate(snapshots, 1):
+        table.add_row(str(i), ts, filename)
+        
+    console.print("\n", table)
+    
+    choice = IntPrompt.ask("\n[bold green]Select version to restore[/bold green]", choices=[str(i) for i in range(1, len(snapshots)+1)])
+    selected_ts, selected_file = snapshots[choice - 1]
+    
+    zip_path = get_snapshot_zip(batch_dir, skill, selected_file)
+    
+    console.print(f"\n[bold yellow]🕒 Preparing rollback to version {selected_ts}...[/bold yellow]")
+    
+    with sync_playwright() as p:
+        try:
+            # We use headless=False by default for rollback to ensure safety
+            browser, page = launch_browser(p, profile_path=profile)
+            navigate_to_skills(page, console)
+            
+            if upload_skill(page, zip_path, console, auto_replace=True):
+                console.print(f"\n[bold green]✅ Successfully rolled back '{skill}' to {selected_ts}![/bold green]")
+            else:
+                console.print(f"\n[bold red]❌ Rollback upload failed.[/bold red]")
+            
+            browser.close()
+        except Exception as e:
+            console.print(f"[bold red]Fatal Error during rollback:[/bold red] {e}")
 
 def main():
     app()

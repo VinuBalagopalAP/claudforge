@@ -35,14 +35,14 @@ Every Claude.ai power user knows this pain:
 
 | Feature | What it does |
 |---------|-------------|
-| 🕵️ **Stealth Automation** | Human-mimicry delays, randomized viewports, and physical click simulation to stay undetected. |
-| 🛡️ **Self-Healing** | "Flicker-Proof" logic with auto-retries and smart reloads to handle Claude.ai's dynamic UI. |
-| 📦 **Predictive Batching** | `--limit` now guarantees *fresh* uploads by refilling the queue from pending items. |
-| 📋 **Cloud Inventory** | Scans your Claude.ai account instantly to detect existing skills before starting a run. |
-| 🛠️ **Auto-Sanitize** | Scans for reserved words (like `anthropic`) and renames them to `assistant` automatically. |
-| 📊 **Progress Dashboard** | `status`, `list`, and `dashboard` commands for instant visibility into your deployment history. |
-| 🌐 **Live Monitor** | A real-time web UI to track long-running batches with ETR and success gauges. |
-| 💻 **Cross-Platform** | Native support for macOS, Windows, and Linux. |
+| 🕵️ **Stealth Automation** | Human-mimicry delays, randomized viewports, and physical click simulation. |
+| 🛡️ **Self-Healing** | "Flicker-Proof" logic with auto-retries and smart success polling. |
+| 🕒 **Rollback System** | **NEW**: Automatically backup skills on every upload; revert versions with one command. |
+| 📦 **Predictive Batching** | `--limit` fulfillment that refills the queue from pending items automatically. |
+| 📋 **Cloud Inventory** | Scans your Claude.ai account instantly to prevent redundant uploads. |
+| 🛠️ **Auto-Sanitize** | Scans for reserved words (like `anthropic`) and fixes them automatically. |
+| 📊 **Progress Dashboard** | `status`, `list`, and `dashboard` commands for real-time visibility. |
+| 🖥️ **Live Monitor** | A dedicated Streamlit Web UI to track long-running batches with ETR gauges. |
 
 ---
 
@@ -54,7 +54,7 @@ Every Claude.ai power user knows this pain:
 # 1. Setup
 git clone https://github.com/VinuBalagopalAP/claudforge.git
 cd claudforge
-pip install -r requirements.txt streamlit
+pip install .           # This installs 'claudforge' globally
 playwright install chrome
 
 # 2. Launch the Live Monitor (optional)
@@ -73,6 +73,8 @@ Usage: claudforge [command] [PATH] [options]
 
 Commands:
   upload [PATH]     Deploy a skill or batch (auto-detects mode)
+  rollback [PATH]   Revert a skill to a previous version from the archive
+  dashboard [PATH]  Launch the real-time web monitor (Streamlit)
   status [PATH]     Fast summary of batch progress (Local History vs Total)
   list [PATH]       List every skill name recorded in the local history
   validate [PATH]   Check SKILL.md structure and reserved word compliance
@@ -112,6 +114,7 @@ claudforge/
 │   └── launcher.py          # Stealth Chrome launcher & Inventory scraping
 ├── utils/
 │   ├── history.py           # Persistent .claudforge_history management
+│   ├── archive.py           # Rollback snapshots & versioning logic
 │   ├── yaml_parser.py       # SKILL.md parsing & Auto-Sanitization
 │   └── zipper.py            # High-speed skill packaging
 └── cli.py                   # Typer CLI (Dashboards & Commands)
@@ -129,9 +132,9 @@ claudforge/
 | ✅ Done | Predictive `--limit` Logic |
 | ✅ Done | `claudforge status` & `list` Dashboards |
 | ✅ Done | Auto-Sanitization (Anthropic -> Assistant) |
-| 🔄 In Progress | `pip install claudforge` (PyPI packaging) |
-| 📋 Planned | `claudforge rollback` — revert to prior version |
-| 💡 Exploring | Web UI Dashboard for batch monitoring |
+| ✅ Done | Professional PyPI Packaging |
+| ✅ Done | Real-time Web Monitor (Streamlit) |
+| ✅ Done | `claudforge rollback` System |
 
 ---
 
