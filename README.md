@@ -4,61 +4,37 @@
 
 # ClaudForge ⚒️
 
-### The missing CLI for Claude.ai Skills.
+### The high-performance CLI suite for Claude.ai Skills.
 
-**Package. Validate. Deploy. From your terminal.**
+**Stealth-enabled. Self-healing. Batch-optimized. Any scale.**
 
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/VinuBalagopalAP/claudforge?style=social)](https://github.com/VinuBalagopalAP/claudforge)
-[![GitHub release](https://img.shields.io/github/v/release/VinuBalagopalAP/claudforge)](https://github.com/VinuBalagopalAP/claudforge/releases)
 
-[**Quick Start**](#-quick-start) · [**Features**](#-features) · [**CLI Reference**](#-cli-reference) · [**Roadmap**](#-roadmap) · [**Website**](https://claudforge.vercel.app)
+[**Quick Start**](#-quick-start) · [**Features**](#-features) · [**CLI Reference**](#-cli-reference) · [**Resilient Batching**](#-resilient-batching) · [**Website**](https://claudforge.vercel.app)
 
 </div>
 
 ---
 
-## The Problem
+## The Scale Problem
 
-Every Claude.ai power user knows this pain:
-
-1. Zip the skill folder manually
-2. Open browser
-3. Navigate to claude.ai/settings/skills
-4. Bypass Cloudflare
-5. Upload
-6. Repeat for every. single. skill.
-
-If you maintain 10+ skills, you lose **hours** to this every week. There's no API, no CLI, no automation — just clicks.
-
-**ClaudForge fixes this.** One command. Any scale.
+Uploading 10 skills is a chore. Uploading **800+ skills** is an operational hurdle. 
+ClaudForge transforms this process from a manual nightmare into a "set-and-forget" automation suite. It uses elite browser automation, stealth viewports, and self-healing logic to bypass bot detection and manage massive skill libraries.
 
 ---
 
-## Demo
-
-```bash
-# Upload a single skill
-claudforge upload --path ./my-trading-skill
-
-# Batch-deploy your entire library
-claudforge upload --batch ./skills/ --limit 20
-```
-
----
-
-## ✨ Features
+## ✨ Premium Features
 
 | Feature | What it does |
 |---------|-------------|
-| ⚡ **Single Upload** | Target one skill folder — auto-zip, upload, validate, done |
-| 📦 **Batch Processing** | Deploy your entire `/skills` directory sequentially with progress tracking |
-| 🛡️ **Cloudflare Bypass** | Built-in Chrome DevTools remote debugging for auth challenges |
-| 📋 **YAML Metadata** | Reads `SKILL.md` headers to auto-populate skill names and descriptions |
-| 🧹 **Auto Cleanup** | Configurable retention or deletion of intermediate zip artifacts |
-| 💻 **Cross-Platform** | Windows, macOS, Linux — OS-specific startup scripts included |
-| 📊 **Deployment Reports** | Summary logs with success/failure counts per batch run |
+| 🕵️ **Stealth Viewports** | Human-mimicry delays, randomized viewports, and physical click simulation to bypass detection. |
+| 🛡️ **Self-Healing** | Auto-retry logic with "Safety Clicks" and "Smart Reloads" to unfreeze automation if Cloudflare blocks a UI element. |
+| 📋 **Smart History** | Persistent `.claudforge_history` tracking ensures you never repeat work. Resume a 1000-skill run instantly. |
+| 🚀 **Predictive Queue** | `--limit` now guarantees *new* uploads by automatically refilling the queue from pending items. |
+| 🛠️ **Auto-Sanitize** | Automatic renaming of reserved words (e.g., `anthropic` -> `assistant`) during large batch runs. |
+| 📊 **Progress Dashboard** | Instant `status` and `list` commands to monitor your deployment health without opening a browser. |
 
 ---
 
@@ -67,111 +43,51 @@ claudforge upload --batch ./skills/ --limit 20
 **Requirements:** Python 3.7+, Chrome browser
 
 ```bash
-# 1. Clone the repo
+# 1. Install & Setup
 git clone https://github.com/VinuBalagopalAP/claudforge.git
 cd claudforge
-
-# 2. Install dependencies
 pip install -r requirements.txt
 playwright install chrome
 
-# 3. Deploy your first skill
-python3 -m claudforge.cli upload --path ./my-skill --connect
+# 2. Check your progress
+claudforge status ./skills_dir
 
-# 4. Batch-deploy a library
-python3 -m claudforge.cli upload --batch ./skills/ --limit 10
+# 3. Deploy a smart batch
+claudforge upload ./skills_dir --limit 10 --profile "my_claude_session"
 ```
-
-*Note: PyPI support (`pip install claudforge`) is coming soon!*
 
 ---
 
 ## 📖 CLI Reference
 
-```
-Usage: claudforge [command] [options]
+### `claudforge upload [PATH]`
+Deploy a skill or a batch of skills. ClaudForge automatically detects if the path is a single skill or a directory.
+- `--limit N`: Strictly upload N **new** skills.
+- `--force`: Ignore local history and re-verify everything against the cloud.
+- `--profile NAME`: User a persistent Chrome profile (keeps you logged in).
 
-Commands:
-  upload      Deploy one or more skills to Claude.ai
-  validate    Validate SKILL.md structure without deploying
-  init        Scaffold a new Claude skill folder
-  doctor      Check environment health (Chrome, Playwright, Python)
-  list        List all currently deployed skills (coming soon)
+### `claudforge status [PATH]`
+Get a lightning-fast report on your batch progress.
+- Total Folders
+- Successfully Synced (History)
+- Pending Uploads
+- Completion %
 
-Options for `upload`:
-  --path PATH         Path to a single skill folder
-  --batch DIR         Path to a directory of skill folders
-  --limit N           Max number of skills to upload in batch mode
-  --connect           Launch Chrome with remote debugging (for Cloudflare)
-  --headless          Run in headless mode (non-interactive)
-  --keep-zips         Retain zipped skill artifacts after upload
+### `claudforge list [PATH]`
+Audit every skill name currently recorded in your local history.
 
-Examples:
-  claudforge upload --path ./my-skill
-  claudforge upload --batch ./skills/ --limit 5 --headless
-  claudforge validate --path ./my-skill
-```
+### `claudforge validate [PATH]`
+Verify `SKILL.md` structure and reserved word compliance.
 
 ---
 
-## 🎯 Use Cases
+## 🤖 Resilient Batching
 
-**Solo Developer / Power User**
-> You've built 15 custom Claude skills for research, writing, and coding. Instead of uploading them one-by-one after every update, you run `claudforge upload --batch ./skills/` and go get coffee.
+### The Duplicate Manager
+If ClaudForge detects skills that already exist on the cloud but aren't in your history, it won't crash. It defers them to the end of the batch and presents a numbered interactive list, allowing you to selectively replace or skip them in bulk.
 
-**Team Skill Library**
-> Your team shares a private `/skills` directory in your monorepo. You add ClaudForge to your CI pipeline and every merged PR auto-deploys the updated skill library.
-
-**Claude Skill Publisher**
-> You're building and distributing Claude skills publicly. ClaudForge lets you test, validate, and ship updates in seconds instead of minutes.
-
----
-
-## 🏗 Architecture
-
-```
-claudforge/
-├── uploader/
-│   ├── single.py            # Core uploader (single skill)
-│   └── batch.py             # Batch orchestrator
-├── browser/
-│   └── launcher.py          # Playwright Chrome launcher
-├── utils/
-│   ├── yaml_parser.py       # SKILL.md metadata extraction
-│   └── zipper.py            # Skill packaging
-└── cli.py                   # Typer CLI entry point
-```
-
-ClaudForge uses **Playwright** to automate the Claude.ai browser interface. Since Claude.ai has no public deployment API, browser automation is the only reliable approach.
-
----
-
-## 🗺 Roadmap
-
-| Status | Feature |
-|--------|---------|
-| ✅ Done | Single skill upload |
-| ✅ Done | Batch upload with limit |
-| ✅ Done | YAML metadata parsing |
-| ✅ Done | Cross-platform support |
-| 🔄 In Progress | `pip install claudforge` (PyPI packaging) |
-| 🔄 In Progress | `claudforge list` — list deployed skills |
-| 📋 Planned | `claudforge rollback` — revert to prior version |
-| 📋 Planned | GitHub Actions template |
-| 💡 Exploring | `--watch` dev loop mode |
-
----
-
-## 🤝 Contributing
-
-ClaudForge is early and actively looking for contributors. The codebase is small, Python-native, and beginner-friendly.
-
-**How to contribute:**
-1. Fork and clone the repo
-2. Create your feature branch
-3. Open a Pull Request
-
-Please open an issue first for anything significant.
+### "Flicker-Proof" Technology
+Claude.ai's UI often re-renders during uploads. ClaudForge uses a unique polling-and-retry strategy that catches "Detached Element" errors and resolves them in milliseconds, preventing the 30-second timeouts common in standard automation tools.
 
 ---
 
