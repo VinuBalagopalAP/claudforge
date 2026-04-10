@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClaudForge | Automated Claude.ai Skill Management</title>
+    <meta name="description" content="Premium automated suite to package and deploy your local skills to Claude.ai with ease. Support for single and batch uploads.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0a0a0b;
+            --bg-card: #151518;
+            --bg-accent: #d97706; /* Claude-ish Orange */
+            --bg-accent-soft: rgba(217, 119, 6, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --gradient-hero: linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3 { line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; }
+        p { color: var(--text-secondary); font-weight: 400; }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 11, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span { color: var(--bg-accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+
+        /* Hero */
+        .hero {
+            padding: 10rem 0 6rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--bg-accent-soft);
+            color: var(--bg-accent);
+            border: 1px solid rgba(217, 119, 6, 0.2);
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            margin-bottom: 1.5rem;
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            font-size: 1.2rem;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--bg-accent);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(217, 119, 6, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-secondary);
+        }
+
+        /* Features */
+        .features {
+            padding: 6rem 0;
+            background: linear-gradient(180deg, var(--bg-body) 0%, rgba(21, 21, 24, 0.8) 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            border-color: rgba(217, 119, 6, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-accent-soft);
+            color: var(--bg-accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 { margin-bottom: 1rem; }
+
+        /* Showcase */
+        .showcase { padding: 6rem 0; }
+
+        .demo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 4rem;
+        }
+
+        .demo-visual {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5);
+        }
+
+        .demo-visual img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .demo-content h3 { font-size: 1.8rem; margin-bottom: 1rem; }
+        .demo-content p { margin-bottom: 1.5rem; }
+
+        .tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Getting Started */
+        .get-started {
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .code-block {
+            background: #000;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: left;
+            max-width: 700px;
+            margin: 2rem auto;
+            border: 1px solid var(--border);
+            position: relative;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: #d1d5db;
+        }
+
+        .code-block::before {
+            content: 'bash';
+            position: absolute;
+            top: 0;
+            right: 1.5rem;
+            transform: translateY(-50%);
+            background: var(--bg-card);
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .code-block span { color: var(--bg-accent); }
+
+        /* Footer */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        footer p { font-size: 0.9rem; }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .demo-container { grid-template-columns: 1fr; gap: 2rem; }
+            .hero h1 { font-size: 3rem; }
+            .demo-visual { order: -1; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">⚒️ Claud<span>Forge</span></div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#showcase">Demo</a>
+                <a href="#getting-started">Setup</a>
+            </div>
+            <a href="https://github.com" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">GitHub</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div class="hero-badge">v1.2.0 • Now with Batch Processing</div>
+            <h1>The Ultimate Forge for <br>Claude Skills</h1>
+            <p>Automate your Claude.ai workflow. Package, validate, and deploy local skills with a single command. Zero friction, total control.</p>
+            <div class="hero-btns">
+                <a href="#getting-started" class="btn btn-primary">Get Started</a>
+                <a href="#showcase" class="btn btn-secondary">View Demo</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Forged for Speed</h2>
+                <p>Everything you need to manage your AI skills efficiently.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Single Upload</h3>
+                    <p>Effortlessly upload a specific skill folder with automatic zipping and cloud-side validation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Batch Processing</h3>
+                    <p>Scan entire collections and upload multiple skills in one go with detailed summary reporting.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Smart Integration</h3>
+                    <p>Bypass login walls and solve Cloudflare challenges manually with built-in remote debugging support.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>Cross-Platform</h3>
+                    <p>Fully compatible with Windows, macOS, and Linux. Built-in OS-specific startup commands.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>YAML Headers</h3>
+                    <p>Seamlessly parse metadata from SKILL.md files for automated naming and descriptions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛠️</div>
+                    <h3>Automated Cleanup</h3>
+                    <p>Optional retention of packaged assets or automatic cleanup to keep your workspace tidy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="showcase" class="showcase">
+        <div class="container">
+            <div class="section-header">
+                <h2>See it in Action</h2>
+                <p>Visual confirmation of your deployment pipeline.</p>
+            </div>
+
+            <!-- Single Upload Demo -->
+            <div class="demo-container">
+                <div class="demo-content">
+                    <div class="tag">Uploader</div>
+                    <h3>Single Skill Upload</h3>
+                    <p>Target a specific folder and let ClaudForge handle the rest. Automatic zipping, uploading, and success logging.</p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="tag">--path</span>
+                        <span class="tag">--connect</span>
+                        <span class="tag">--keep-zips</span>
+                    </div>
+                </div>
+                <div class="demo-visual">
+                    <img src="./assets/helpers/single_upload_demo.png" alt="Single Upload Demo">
+                </div>
+            </div>
+
+            <!-- Batch Upload Demo -->
+            <div class="demo-container" style="margin-top: 8rem;">
+                <div class="demo-visual">
+                    <img src="./assets/helpers/batch_upload_demo.png" alt="Batch Upload Demo">
+                </div>
+                <div class="demo-content">
+                    <div class="tag">Manager</div>
+                    <h3>Batch Skills Processing</h3>
+                    <p>Perfect for large collections. Scan directories, filter skills, and upload them sequentially with a progress limit.</p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="tag">--limit</span>
+                        <span class="tag">--headless</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="getting-started" class="get-started">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quick Start</h2>
+                <p>Deploy your first skill in less than 2 minutes.</p>
+            </div>
+            
+            <div class="code-block">
+                # Clone and install dependencies<br>
+                <span>git clone</span> https://github.com/vinu/claudforge.git<br>
+                <span>cd</span> claudforge<br>
+                <span>pip</span> install -r requirements.txt<br>
+                <span>playwright</span> install chrome
+            </div>
+
+            <div class="code-block" style="margin-top: 1rem;">
+                # Launch single upload<br>
+                <span>python3</span> upload_single_skill.py --path ./my-skill --connect
+            </div>
+
+            <p style="margin-top: 2rem;">Requires Python 3.7+ and Chrome installed.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="logo" style="justify-content: center; margin-bottom: 1.5rem;">⚒️ Claud<span>Forge</span></div>
+            <p>&copy; 2026 ClaudForge. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">Empowering your Claude.ai experience through automation.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple scroll reveal
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .demo-container, .code-block').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
