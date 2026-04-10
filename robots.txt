@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Exclude temporary ZIP files and build artifacts
+Disallow: /_zips/
+Disallow: /__pycache__/
+
+Sitemap: https://claudforge.vercel.app/sitemap.xml
