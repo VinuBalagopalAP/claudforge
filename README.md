@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://claudforge.vercel.app/favicon.png" alt="ClaudForge" width="80" />
+<img src="https://claudforge.vercel.app/assets/favicon/logo.svg" alt="ClaudForge" width="100" />
 
 # ClaudForge ⚒️
 
@@ -183,10 +183,10 @@ ClaudForge uses browser automation to interact with Claude.ai's UI. This is not 
 
 ## 📄 License
 
-MIT — Copyright (c) 2026 Vinubalagopal AP
+MIT — Copyright (c) 2026 Vinu Balagopal AP
 
 ---
 
 <div align="center">
-Made with ⚒️ by <a href="https://github.com/VinuBalagopalAP">Vinubalagopal AP</a> · <a href="https://claudforge.vercel.app">Website</a> · <a href="https://github.com/VinuBalagopalAP/claudforge/issues">Issues</a>
+Made with ⚒️ by <a href="https://github.com/VinuBalagopalAP">Vinu Balagopal A P</a> · <a href="https://claudforge.vercel.app">Website</a> · <a href="https://github.com/VinuBalagopalAP/claudforge/issues">Issues</a>
 </div>
