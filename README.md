@@ -7,8 +7,9 @@
 ### The high-performance CLI suite for Claude.ai Skills.
 **Package. Validate. Deploy. Any scale. From your terminal.**
 
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://python.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PyPI version](https://img.shields.io/pypi/v/claudforge)](https://pypi.org/project/claudforge/)
+[![Python](https://img.shields.io/pypi/pyversions/claudforge)](https://pypi.org/project/claudforge/)
+[![License](https://img.shields.io/pypi/l/claudforge)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/VinuBalagopalAP/claudforge?style=social)](https://github.com/VinuBalagopalAP/claudforge)
 
 [**Quick Start**](#-quick-start) · [**Features**](#-features) · [**CLI Reference**](#-cli-reference) · [**Roadmap**](#-roadmap) · [**Website**](https://claudforge.vercel.app)
@@ -52,10 +53,8 @@ Every Claude.ai power user knows this pain:
 
 ```bash
 # 1. Setup
-git clone https://github.com/VinuBalagopalAP/claudforge.git
-cd claudforge
-pip install .           # This installs 'claudforge' globally
-playwright install chrome
+pip install claudforge
+playwright install chromium
 
 # 2. Launch the Live Monitor (optional)
 claudforge dashboard ./my_skills
@@ -146,7 +145,7 @@ ClaudForge uses browser automation to interact with Claude.ai's UI. This is not 
 
 ## 📄 License
 
-MIT — Copyright (c) 2026 Vinu Balagopal AP
+[MIT](LICENSE) — Copyright (c) 2026 Vinu Balagopal AP
 
 <div align="center">
 Made with ⚒️ by <a href="https://github.com/VinuBalagopalAP">Vinu Balagopal A P</a> · <a href="https://claudforge.vercel.app">Website</a>

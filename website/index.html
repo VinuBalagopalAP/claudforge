@@ -3,15 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClaudForge ⚒️ IRONCLAD | The Calculus of Deployment</title>
+    <title>claudforge — Automate Claude.ai Skills Uploads | CLI Tool</title>
     
-    <meta name="description" content="Deploy 100+ Claude.ai skills with ironclad reliability. ClaudForge IRONCLAD features a mathematically optimized core, self-healing automation, and real-time monitoring.">
+    <meta name="description" content="Deploy 100+ Claude.ai skills with ironclad reliability. claudforge IRONCLAD features a mathematically optimized core, self-healing automation, and real-time monitoring.">
+    <meta name="keywords" content="claude, skills, automation, cli, mcp, playwright, bulk upload, claudforge, ai automation">
+    <link rel="canonical" href="https://claudforge.github.io/">
+
+    <!-- Social Media Preview (OG) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://claudforge.github.io/">
+    <meta property="og:title" content="claudforge — The Calculus of Claude Deployment">
+    <meta property="og:description" content="Scale your Claude skill library with ironclad resilience and mathematical precision.">
+    <meta property="og:image" content="https://claudforge.github.io/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="claudforge — The Calculus of Claude Deployment">
+
+    <!-- Twitter Preview -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://claudforge.github.io/">
+    <meta name="twitter:title" content="claudforge — The Calculus of Claude Deployment">
+    <meta name="twitter:description" content="Engineered for those who don't compromise. The definitive standard for Claude skill automation.">
+    <meta name="twitter:image" content="https://claudforge.github.io/assets/og-image.png">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "claudforge",
+      "description": "High-performance CLI suite for automating Claude.ai Skills uploads using Playwright.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "macOS, Windows, Linux",
+      "url": "https://claudforge.github.io",
+      "downloadUrl": "https://pypi.org/project/claudforge/",
+      "softwareVersion": "2.0.0",
+      "author": {
+        "@type": "Person",
+        "name": "Vinu Balagopal A P"
+      },
+      "keywords": "claude, skills, automation, cli, mcp, playwright"
+    }
+    </script>
     
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="assets/favicon/logo.svg">
+    
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
+    
     <style>
         html { scroll-behavior: smooth; }
     </style>
@@ -25,8 +70,14 @@
         <div class="container nav-flex">
             <div class="logo">
                 <img src="assets/favicon/logo.svg" alt="ClaudForge" width="32">
-                <span>ClaudForge <span class="badge-v">v2.0</span></span>
+                <span>ClaudForge <span class="badge-v">v2.0.0</span></span>
             </div>
+            
+            <a href="https://github.com/VinuBalagopalAP/claudforge" class="mobile-github-stars" id="mobile-gh-stars">
+                <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>
+                <span id="star-count">...</span> Stars
+            </a>
+
             <div class="nav-links">
                 <a href="#logic-suite">Logic</a>
                 <a href="#toolbox">Toolbox</a>
@@ -46,24 +97,37 @@
                 
                 <div class="prodigious-metrics animate-in delay-2">
                     <div class="p-stat">
-                        <label>ACTIVE REPOSITORY</label>
+                        <label>SKILL REPOSITORY</label>
                         <span>832<small> Skills</small></span>
                     </div>
                     <div class="p-stat highlighting">
-                        <label>IRONCLAD SYNC</label>
+                        <label>VERIFIED UPLOADS</label>
                         <span>412<small> Verified</small></span>
                     </div>
                     <div class="p-stat">
-                        <label>OPTIMIZATION</label>
-                        <span>λ = 15ms</span>
+                        <label>LATENCY (λ)</label>
+                        <span>15ms<small> Target</small></span>
                     </div>
                 </div>
 
                 <div class="hero-btns animate-in delay-3">
+                    <a href="https://pypi.org/project/claudforge/" class="btn btn-pypi" target="_blank">
+                        <img src="https://img.shields.io/pypi/v/claudforge?color=blue&label=PyPI&logo=pypi&logoColor=white" alt="PyPI version">
+                    </a>
                     <a href="https://github.com/VinuBalagopalAP/claudforge" class="btn btn-primary">Initialize Suite ⚒️</a>
-                    <a href="#logic-suite" class="btn btn-outline">Explore Logic</a>
                 </div>
-                <div class="hero-tagline animate-in delay-3">One Command. Zero Friction. v2.0 IRONCLAD Engine.</div>
+
+                <div class="terminal-loader animate-in delay-3">
+                    <div class="t-top">
+                        <div class="t-dots"><span></span><span></span><span></span></div>
+                        <span class="t-title">bash — installation</span>
+                    </div>
+                    <div class="t-body">
+                        <span class="t-pmp">$</span> pip install claudforge
+                    </div>
+                </div>
+
+                <div class="hero-tagline animate-in delay-3">One Command. Zero Friction. v2.0.0 IRONCLAD Engine.</div>
             </div>
         </div>
     </header>
@@ -337,21 +401,21 @@
             <h2 class="section-title">The Road to v2.0</h2>
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="t-date">v2.0 IRONCLAD</div>
+                    <div class="t-date">v2.0.0 IRONCLAD</div>
                     <div class="t-content">
                         <h3>Mathematical Scaling</h3>
-                        <p>Complete redesign for the 800+ skill mission. Rollback Engine, Real-time Web Analytics, and predictive batching.</p>
+                        <p>Complete redesign for the 100+ skill mission. Rollback Engine, Real-time Web Analytics, and predictive batching.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="t-date">v1.2 UNIFIED</div>
+                    <div class="t-date">v1.2.0 UNIFIED</div>
                     <div class="t-content">
                         <h3><a href="archive/v1/index.html" style="color: inherit; text-decoration: none;">Architectural Order ↗</a></h3>
                         <p>Transition to the Unified CLI ecosystem. `init`, `validate`, and `doctor` commands implemented.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="t-date">v1.0 ARCHETYPE</div>
+                    <div class="t-date">v1.0.0 ARCHETYPE</div>
                     <div class="t-content">
                         <h3><a href="archive/v1/index.html" style="color: inherit; text-decoration: none;">Initial Forge ↗</a></h3>
                         <p>First functional single-skill deployment prototypes.</p>
@@ -366,7 +430,7 @@
             <div class="foot-col main">
                 <div class="logo">
                     <img src="assets/favicon/logo.svg" alt="ClaudForge" width="24">
-                    <span>ClaudForge <small>v2.0</small></span>
+                    <span>ClaudForge</span>
                 </div>
                 <p>Engineered for technical excellence. The definitive standard for Claude skill automation at scale.</p>
             </div>
@@ -385,7 +449,7 @@
         </div>
         <div class="foot-bottom">
             <div class="container">
-                <p>© 2026 ClaudForge IRONCLAD • <a href="https://www.linkedin.com/in/vinubalagopalap/" target="_blank noopener" style="color: inherit;">Vinu Balagopal A P ↗</a>  </p> 
+                <p>© 2026 ClaudForge • <a href="https://www.linkedin.com/in/vinubalagopalap/" target="_blank noopener" style="color: inherit;">Vinu Balagopal A P ↗</a>  </p> 
                 <div class="foot-labels">
                     <span>R = 0.9997</span>
                     <span>λ = 15ms</span>
@@ -395,6 +459,22 @@
     </footer>
 
     <script>
+        // GH Stars Fetch
+        async function fetchStars() {
+            try {
+                const response = await fetch('https://api.github.com/repos/VinuBalagopalAP/claudforge');
+                const data = await response.json();
+                if (data.stargazers_count !== undefined) {
+                    document.getElementById('star-count').innerText = data.stargazers_count;
+                }
+            } catch (error) {
+                console.error('Error fetching stars:', error);
+                document.getElementById('star-count').innerText = '10+'; // Fallback
+            }
+        }
+        fetchStars();
+
+        // Reveal Observer
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('visible');

@@ -5,4 +5,4 @@ Allow: /
 Disallow: /_zips/
 Disallow: /__pycache__/
 
-Sitemap: https://claudforge.vercel.app/sitemap.xml
+Sitemap: https://claudforge.github.io/sitemap.xml
