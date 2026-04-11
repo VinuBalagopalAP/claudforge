@@ -7,6 +7,10 @@
     --text-dim: #8B949E;
     --border: rgba(255, 255, 255, 0.08);
     --glow: rgba(0, 212, 255, 0.1);
+    
+    /* FOUNDATIONS */
+    --section-gap: clamp(60px, 10vw, 120px);
+    --cont-pad: clamp(1.25rem, 5vw, 2rem);
 }
 
 * {
@@ -20,6 +24,7 @@ body {
     color: var(--text-main);
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
+    letter-spacing: -0.01em;
     overflow-x: hidden;
 }
 
@@ -30,7 +35,7 @@ h1, h2, h3, h4, .logo span {
 .container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 var(--cont-pad);
 }
 
 /* RECURSIVE GRID */
@@ -134,7 +139,7 @@ body::after {
 
 /* HERO SECTION */
 .hero {
-    padding: 200px 0 100px;
+    padding: calc(var(--section-gap) * 1.5) 0 var(--section-gap);
     text-align: center;
 }
 
@@ -152,10 +157,11 @@ body::after {
 }
 
 .hero h1 {
-    font-size: 4.5rem;
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
     line-height: 1.05;
     margin-bottom: 2rem;
     font-weight: 800;
+    letter-spacing: -0.03em;
 }
 
 .gradient-text {
@@ -165,10 +171,11 @@ body::after {
 }
 
 .hero p {
-    font-size: 1.35rem;
+    font-size: clamp(1rem, 3vw, 1.35rem);
     color: var(--text-dim);
     max-width: 800px;
     margin: 0 auto 4rem;
+    line-height: 1.5;
 }
 
 /* PRODIGIOUS METRICS */
@@ -187,15 +194,17 @@ body::after {
     display: block;
     font-size: 0.6rem;
     color: var(--text-dim);
-    letter-spacing: 3px;
+    letter-spacing: 0.15em;
     font-weight: 700;
     margin-bottom: 10px;
+    text-transform: uppercase;
 }
 
 .p-stat span {
     font-family: 'Outfit', sans-serif;
-    font-size: 3rem;
+    font-size: clamp(2rem, 6vw, 3rem);
     font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
 .p-stat span small {
@@ -259,19 +268,20 @@ body::after {
 
 /* MASTER SUITE CARDS */
 .master-suite {
-    padding: 120px 0;
+    padding: var(--section-gap) 0;
 }
 
 .section-title {
     text-align: center;
-    font-size: 2.8rem;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
     margin-bottom: 5rem;
     font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
 .feature-grid-3d {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
     gap: 2.5rem;
 }
 
@@ -331,12 +341,12 @@ body::after {
 
 /* TOOLBOX SECTION */
 .toolbox-section {
-    padding: 120px 0;
+    padding: var(--section-gap) 0;
 }
 
 .toolbox-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
     gap: 2.5rem;
 }
 
@@ -399,6 +409,19 @@ body::after {
     font-family: monospace;
     font-size: 0.7rem;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.o-label {
+    display: block;
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .o-line {
@@ -415,6 +438,22 @@ body::after {
 
 .o-green {
     color: #2ea043;
+}
+
+.pulse {
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 212, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
 }
 
 /* BLUEPRINT */
@@ -473,7 +512,7 @@ body::after {
 
 /* TIMELINE */
 .history-section {
-    padding: 120px 0;
+    padding: var(--section-gap) 0;
 }
 
 .timeline {
@@ -622,8 +661,38 @@ body::after {
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-    .hero h1 { font-size: 3rem; }
-    .hero p { font-size: 1.1rem; }
-    .prodigious-metrics { flex-direction: column; gap: 40px; }
     .nav-links { display: none; }
+    .prodigious-metrics { flex-direction: column; gap: 40px; }
+    .foot-grid { grid-template-columns: 1fr; gap: 50px; }
+}
+
+@media (max-width: 600px) {
+    .hero-btns { flex-direction: column; gap: 1rem; }
+    .btn { width: 100%; text-align: center; }
+    .prodigious-metrics { gap: 30px; }
+    
+    .suite-card { 
+        padding: 24px; 
+        display: grid; 
+        grid-template-columns: 45px 1fr; 
+        align-items: center; 
+        gap: 1.5rem; 
+    }
+    .s-math-icon.aligned { 
+        margin: 0; 
+        width: 45px; 
+        height: 45px; 
+        padding: 8px; 
+        border-radius: 12px;
+    }
+    .suite-card h4 { margin: 0; font-size: 1.1rem; }
+    .suite-card p { grid-column: 1 / span 2; font-size: 0.9rem; margin-top: 0.5rem; }
+
+    .blueprint-container { padding: 40px 20px; }
+}
+
+@media (max-width: 350px) {
+    .logo span { font-size: 1rem; }
+    .hero h1 { font-size: 2.2rem; }
+    .p-stat span { font-size: 1.8rem; }
 }
