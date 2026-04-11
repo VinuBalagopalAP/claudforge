@@ -7,17 +7,29 @@ name = "claudforge"
 version = "2.0.0"
 description = "The high-performance CLI suite for Claude.ai Skills automation."
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = {file = "LICENSE"}
 authors = [
-    {name = "Vinu Balagopal A P", email = "[vinubalagopalap@gmail.com]"}
+    {name = "Vinu Balagopal A P", email = "vinubalagopalap@gmail.com"}
 ]
-keywords = ["claude", "ai", "skills", "automation", "cli", "mcp"]
+keywords = ["claude", "claude-ai", "ai", "skills", "automation", "cli", "mcp", "playwright", "browser-automation"]
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Build Tools",
+    "Topic :: Utilities",
+    "Topic :: Internet :: WWW/HTTP :: Browsers",
 ]
 
 dependencies = [
@@ -33,14 +45,17 @@ dependencies = [
 dev = [
     "pytest>=7.0.0",
     "ruff>=0.1.0",
+    "twine>=5.0.0",
 ]
 
 [project.scripts]
 claudforge = "claudforge.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/VinuBalagopalAP/claudforge"
+Homepage = "https://claudforge.vercel.app"
+Repository = "https://github.com/VinuBalagopalAP/claudforge"
 Issues = "https://github.com/VinuBalagopalAP/claudforge/issues"
+Changelog = "https://github.com/VinuBalagopalAP/claudforge/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["claudforge"]
@@ -50,4 +65,12 @@ include = [
     "/claudforge",
     "README.md",
     "LICENSE",
+    "CHANGELOG.md",
 ]
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
