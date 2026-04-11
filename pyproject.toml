@@ -37,7 +37,7 @@ dependencies = [
     "rich>=13.0.0",
     "playwright>=1.41.0",
     "pyyaml>=6.0.0",
-    "streamlit>=1.30.0",
+    "streamlit>=1.50.0",
     "pandas>=2.0.0",
 ]
 
