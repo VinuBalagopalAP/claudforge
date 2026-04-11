@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 ## [v2.0.0] - 2026-04-11
 
 ### Added
+- **IRONCLAD Rebranding**: Officially promoted the v2.0 architecture as the **ClaudForge IRONCLAD Edition**.
+- **Pro Max UI/UX**: Completely overhauled the landing page with high-fidelity "blueprint" SVG icons and fluid typography foundations.
+- **Universal Responsiveness**: Engineered a mobile-first experience that scales down to 320px with custom "Ribbon" layouts for logic suites.
+- **Interactive Archive**: Connected the development roadmap to functional legacy archives with a "Return to v2.0" navigation system.
 - **Real-time Web Dashboard**: Streamlit-powered monitor (`claudforge dashboard`) with progress gauges, ETR calculations, and live activity logs.
 - **Rollback System**: **NEW**: Automatic timestamped snapshots for every successful upload; revert any skill to a prior version via `claudforge rollback`.
 - **Professional Packaging**: Full `pyproject.toml` support for `pip install` and global `claudforge` command access.
