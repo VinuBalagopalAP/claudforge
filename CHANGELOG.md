@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.0.1] - 2026-04-12
+
+### Added
+- **Social Preview Alignment**: Renamed `og-ironhide.png` to `og-image.png` and updated all social meta tags.
+- **Progressive SEO**: Integrated JSON-LD Schema.org (SoftwareApplication) and keyword-rich metadata.
+- **GitHub Live Metrics**: Added real-time star count fetching to the mobile navigation.
+
+### Changed
+- **Branding**: Standardized "ClaudForge" capitalization and unified versioning strings (`v2.0.0`, `v1.2.0`, `v1.0.0`).
+- **Hero UX**: Redesigned the PyPI button with a glassmorphic aesthetic and fixed mobile alignment.
+- **Infrastructure**: Pointed canonical and social URLs to `claudforge.vercel.app` for high-availability hosting.
+
+### Fixed
+- **Mobile Footer**: Centered all link groups and branding for better readability on small screens.
+- **Archive Navigation**: Corrected legacy banners and badge metadata in the v1.x archive.
+
 ## [v2.0.0] - 2026-04-11
 
 ### Added
