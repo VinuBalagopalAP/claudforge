@@ -7,7 +7,7 @@
 ### The high-performance CLI suite for Claude.ai Skills.
 **Package. Validate. Deploy. Any scale. From your terminal.**
 
-[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://python.org)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/VinuBalagopalAP/claudforge?style=social)](https://github.com/VinuBalagopalAP/claudforge)
 
@@ -27,7 +27,7 @@ Every Claude.ai power user knows this pain:
 5. Upload
 6. Repeat for every. single. skill.
 
-**ClaudForge fixes this.** One command. Any scale. Whether you have 10 skills or 832, it handles the logic, the auth, and the persistence so you don't have to.
+**ClaudForge fixes this.** One command. Any scale. Whether you have 10 skills or 100+, it handles the logic, the auth, and the persistence so you don't have to.
 
 ---
 
@@ -48,7 +48,7 @@ Every Claude.ai power user knows this pain:
 
 ## 🚀 Quick Start
 
-**Requirements:** Python 3.7+, Chrome browser
+**Requirements:** Python 3.8+, Chrome browser
 
 ```bash
 # 1. Setup
