@@ -9,6 +9,10 @@ venv/
 # Project specific
 _zips/
 *.zip
+.claudforge_history*
+.claudforge_session*
+.claudforge_debug/
+website/claudforge_data.json
 
 # OS
 .DS_Store
