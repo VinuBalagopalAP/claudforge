@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "claudforge"
-version = "2.0.0"
+version = "2.0.1"
 description = "The high-performance CLI suite for Claude.ai Skills automation."
 readme = "README.md"
 requires-python = ">=3.8"
