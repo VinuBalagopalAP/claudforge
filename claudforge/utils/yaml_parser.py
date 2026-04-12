@@ -29,7 +29,10 @@ def validate_skill_metadata(folder: Path) -> tuple[bool, str]:
         
         name = metadata.get("name", "")
         if "anthropic" in name.lower():
-            return False, "Skill name cannot contain the reserved word 'anthropic'. Please use 'AI' or 'Claude' instead."
+            return False, (
+                "Skill name cannot contain the reserved word 'anthropic'. "
+                "Please use 'AI' or 'Claude' instead."
+            )
             
         return True, ""
     except Exception as e:
@@ -61,7 +64,9 @@ def sanitize_skill_metadata(folder: Path, console = None):
     yaml_block = content[yaml_start:yaml_end+3]
     if "anthropic" in yaml_block.lower():
         if console:
-            console.print(f"   [yellow]🛠️  Renaming 'anthropic' -> 'assistant' in {folder.name}...[/yellow]")
+            console.print(
+                f"   [yellow]🛠️  Renaming 'anthropic' -> 'assistant' in {folder.name}...[/yellow]"
+            )
         
         # We do a replacement specifically in the YAML block to avoid messy content changes
         new_yaml = yaml_block.replace("anthropic", "assistant").replace("Anthropic", "Assistant")

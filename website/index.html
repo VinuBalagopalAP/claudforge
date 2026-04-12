@@ -85,6 +85,7 @@
                 <a href="#logic-suite">Logic</a>
                 <a href="#toolbox">Toolbox</a>
                 <a href="#history">Timeline</a>
+                <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank">GitHub</a>
             </div>
         </div>
     </nav>
@@ -291,10 +292,10 @@
                 <div class="toolbox-card glass">
                     <div class="t-header">
                         <div class="t-icon"><svg viewBox="0 0 100 100"><path d="M30,50 L70,50 M50,30 L50,70" stroke="var(--primary)" stroke-width="3" /></svg></div>
-                        <span class="t-cmd">claudforge init</span>
+                        <span class="t-cmd">claudforge init --name NAME</span>
                     </div>
                     <h4>Scaffolding</h4>
-                    <p>Scaffold new Claude skill templates with standardized metadata.</p>
+                    <p>Scaffold a new Claude skill folder with standardized templates.</p>
                     <div class="t-output">
                         <span class="o-label">Local Routine</span>
                         <span class="o-line">✅ Created skill scaffold in ./my-skill/</span>
@@ -307,7 +308,7 @@
                         <span class="t-cmd">claudforge validate</span>
                     </div>
                     <h4>Offline Linting</h4>
-                    <p>Verify SKILL.md structure before deployment.</p>
+                    <p>Check SKILL.md structure and reserved word compliance.</p>
                     <div class="t-output">
                         <span class="o-label">Linting Task</span>
                         <span class="o-line">🔍 Validating SKILL.md...</span>
@@ -319,8 +320,8 @@
                         <div class="t-icon"><svg viewBox="0 0 100 100"><path d="M10,50 L30,50 L40,20 L60,80 L70,50 L90,50" fill="none" stroke="var(--accent)" stroke-width="2" /></svg></div>
                         <span class="t-cmd">claudforge doctor</span>
                     </div>
-                    <h4>Diagnostics</h4>
-                    <p>Check health of Chrome and Playwright.</p>
+                    <h4>Health Check</h4>
+                    <p>Check environment health (Chrome, Playwright, Python).</p>
                     <div class="t-output">
                         <span class="o-label">System Diagnostics</span>
                         <span class="o-line">Python: <span class="o-green">Installed</span></span>
@@ -333,7 +334,7 @@
                         <span class="t-cmd">claudforge status</span>
                     </div>
                     <h4>Analytics</h4>
-                    <p>Audit batch progress and completion rates.</p>
+                    <p>Fast summary of batch progress (Local History vs Total).</p>
                     <div class="t-output">
                         <span class="o-label">Sync Metrics</span>
                         <span class="o-line">✅ history: 412 | ⏳ pending: 420</span>
@@ -347,7 +348,7 @@
                         <span class="t-cmd">claudforge list</span>
                     </div>
                     <h4>Inventory</h4>
-                    <p>Retrieve successfully recorded skill history.</p>
+                    <p>List every skill name recorded in the local history.</p>
                     <div class="t-output">
                         <span class="o-label">Inventory Scan</span>
                         <span class="o-line">1. skill-apollo [UPLOADED]</span>
@@ -360,7 +361,7 @@
                         <span class="t-cmd">claudforge upload</span>
                     </div>
                     <h4>Ship</h4>
-                    <p>Core deployment engine for massive batches.</p>
+                    <p>Deploy a skill or batch (auto-detects mode).</p>
                     <div class="t-output">
                         <span class="o-label">Deployment Stream</span>
                         <span class="o-line">🚀 Starting batch (limit=50)</span>
@@ -373,7 +374,7 @@
                         <span class="t-cmd">claudforge rollback</span>
                     </div>
                     <h4>Revert</h4>
-                    <p>Revert skills to previous archived states.</p>
+                    <p>Revert a skill to a previous version from the archive.</p>
                     <div class="t-output">
                         <span class="o-label">Time-Travel Restore</span>
                         <span class="o-line">? Select version to restore:</span>
@@ -386,7 +387,7 @@
                         <span class="t-cmd">claudforge dashboard</span>
                     </div>
                     <h4>Monitor</h4>
-                    <p>Launch the real-time Streamlit analytics UI.</p>
+                    <p>Launch the real-time web monitor dashboard (Streamlit).</p>
                     <div class="t-output">
                         <span class="o-label">Live Analytics</span>
                         <span class="o-line"><span class="pulse"></span> Monitoring session...</span>
@@ -394,6 +395,52 @@
                     </div>
                 </div>
                 <!-- NEW CARDS END -->
+            </div>
+        </div>
+    </section>
+    
+    <section id="reference" class="cli-reference animate-on-scroll">
+        <div class="container">
+            <h2 class="section-title">CLI Reference</h2>
+            
+            <div class="terminal-loader cli-usage">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title">bash — usage</span>
+                </div>
+                <div class="t-body">
+                    <code>Usage: <span class="highlight">claudforge</span> [command] [PATH] [options]</code>
+                </div>
+            </div>
+
+            <div class="options-container">
+                <h3 class="subsection-title">Global Options</h3>
+                <div class="options-grid">
+                    <div class="option-item">
+                        <div class="opt-tag">--limit N</div>
+                        <p>Strictly attempt N brand-new uploads (highly recommended for stabilizing daily quotas).</p>
+                    </div>
+                    <div class="option-item">
+                        <div class="opt-tag">--force, -f</div>
+                        <p>Ignore local history; re-verify every skill on the Cloud (bypasses cache).</p>
+                    </div>
+                    <div class="option-item">
+                        <div class="opt-tag">--profile NAME</div>
+                        <p>Use a persistent Chrome profile (preserves active sessions and cookies).</p>
+                    </div>
+                    <div class="option-item">
+                        <div class="opt-tag">--headless</div>
+                        <p>Run the deployment engine in background mode without a visible browser UI.</p>
+                    </div>
+                    <div class="option-item">
+                        <div class="opt-tag">--connect [PORT]</div>
+                        <p>Attach to a pre-opened Chrome instance (skips redundant login/2FA).</p>
+                    </div>
+                    <div class="option-item">
+                        <div class="opt-tag">--keep-zips</div>
+                        <p>Persist temporary skill bundles in _zips folder for manual auditing.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

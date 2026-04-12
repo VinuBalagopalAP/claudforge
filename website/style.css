@@ -9,7 +9,7 @@
     --glow: rgba(0, 212, 255, 0.1);
     
     /* FOUNDATIONS */
-    --section-gap: clamp(60px, 10vw, 120px);
+    --section-gap: clamp(40px, 8vw, 80px);
     --cont-pad: clamp(1.25rem, 5vw, 2rem);
 }
 
@@ -172,6 +172,7 @@ body::after {
 .gradient-text {
     background: linear-gradient(90deg, var(--primary), #ffffff);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -273,14 +274,18 @@ body::after {
 
 /* TERMINAL LOADER - PRO MAX */
 .terminal-loader {
-    max-width: 400px;
-    margin: 3rem auto 0;
+    width: 100%;
     background: #000;
     border: 1px solid var(--border);
     border-radius: 12px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.4);
     overflow: hidden;
     text-align: left;
+}
+
+.hero .terminal-loader {
+    max-width: 400px;
+    margin: 3rem auto 0;
 }
 
 .t-top {
@@ -838,6 +843,80 @@ body::after {
         box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
         border-color: rgba(0, 212, 255, 0.5);
     }
+}
+
+/* CLI REFERENCE SECTION */
+.cli-reference {
+    padding: var(--section-gap) 0;
+    background: rgba(var(--primary-rgb), 0.02);
+}
+
+.cli-usage {
+    margin: 2.5rem auto;
+    max-width: 680px;
+}
+
+.cli-usage .t-body {
+    padding: 1.5rem 2rem;
+}
+
+
+.cli-usage code {
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+.cli-usage .highlight {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.options-container {
+    margin-top: 2.5rem;
+}
+
+.subsection-title {
+    font-size: 1.2rem;
+    color: var(--text-main);
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.option-item {
+    background: rgba(var(--primary-rgb), 0.03);
+    border: 1px solid rgba(var(--primary-rgb), 0.05);
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.option-item:hover {
+    background: rgba(var(--primary-rgb), 0.05);
+    border-color: rgba(var(--primary-rgb), 0.3);
+    transform: translateY(-3px);
+}
+
+.opt-tag {
+    display: inline-block;
+    color: var(--primary);
+    font-family: monospace;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+}
+
+.option-item p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 /* RESPONSIVE */

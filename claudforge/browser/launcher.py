@@ -3,7 +3,12 @@ from rich.console import Console
 
 console = Console()
 
-def launch_browser(p, headless: bool = False, connect_port: int = None, profile_path: str = None) -> tuple[any, Page]:
+def launch_browser(
+    p, 
+    headless: bool = False, 
+    connect_port: int = None, 
+    profile_path: str = None
+) -> tuple[any, Page]:
     """Launch a fresh browser, a persistent session, or connect to an existing one."""
     import random
     
@@ -19,7 +24,9 @@ def launch_browser(p, headless: bool = False, connect_port: int = None, profile_
     ]
     
     if connect_port:
-        console.print(f"[bold cyan]🔗 Connecting to existing Chrome on port {connect_port}...[/bold cyan]")
+        console.print(
+            f"[bold cyan]🔗 Connecting to existing Chrome on port {connect_port}...[/bold cyan]"
+        )
         try:
             browser = p.chromium.connect_over_cdp(f"http://127.0.0.1:{connect_port}")
             # Existing sessions are already "stealthy" because they are real processes
@@ -28,7 +35,9 @@ def launch_browser(p, headless: bool = False, connect_port: int = None, profile_
                 for p_ in context.pages:
                     if "claude.ai" in p_.url:
                         page = p_
-                        console.print(f"[bold green]✅ Found existing Claude tab: '{page.title()}'[/bold green]")
+                        console.print(
+                            f"[bold green]✅ Found existing Claude tab: '{page.title()}'[/bold green]"
+                        )
                         break
                 if page: break
             
@@ -44,7 +53,9 @@ def launch_browser(p, headless: bool = False, connect_port: int = None, profile_
                 )
             raise RuntimeError(f"Failed to connect to Chrome: {e}")
     elif profile_path:
-        console.print(f"[bold cyan]🚀 Launching persistent Chrome session: {profile_path}[/bold cyan]")
+        console.print(
+            f"[bold cyan]🚀 Launching persistent Chrome session: {profile_path}[/bold cyan]"
+        )
         context = p.chromium.launch_persistent_context(
             profile_path,
             headless=headless,
@@ -73,16 +84,23 @@ def navigate_to_skills(page, console: Console):
 
     # Handle Login
     if "login" in page.url or "signin" in page.url:
-        console.print("\n[bold yellow]⚠️  Please log in manually in the browser window, then press Enter.[/bold yellow]")
+        console.print(
+            "\n[bold yellow]⚠️  Please log in manually in the browser window, then press Enter."
+            "[/bold yellow]"
+        )
         input("   [Press Enter once logged in] ")
         if TARGET not in page.url:
             page.goto(TARGET, wait_until="networkidle")
 
     # Handle Cloudflare
-    while "api/challenge_redirect" in page.url or "cloudflare" in page.content().lower() or "Just a moment" in page.title():
+    while ("api/challenge_redirect" in page.url 
+           or "cloudflare" in page.content().lower() 
+           or "Just a moment" in page.title()):
         console.print("\n[bold red]🛡️  Cloudflare challenge detected![/bold red]")
         console.print("   Please solve the challenge in the browser window.")
-        console.print("   The script will detect when you are through. (Or press Enter if page is ready)")
+        console.print(
+            "   The script will detect when you are through. (Or press Enter if page is ready)"
+        )
         try:
             # Wait for content or user to press enter
             page.wait_for_selector("button:has-text('Add skill')", timeout=15000)
@@ -102,7 +120,8 @@ def get_existing_skills(page: Page) -> list[str]:
         page.wait_for_timeout(2000)
         
         # 1. Primary: Look for elements in the flex list
-        elements = page.query_selector_all("div.flex.flex-col > div.flex.items-center.justify-between")
+        sel = "div.flex.flex-col > div.flex.items-center.justify-between"
+        elements = page.query_selector_all(sel)
         for el in elements:
             text = el.inner_text().split('\n')[0]
             if text and text not in ["Add skill", "Settings", "Skills"]:
