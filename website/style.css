@@ -9,7 +9,7 @@
     --glow: rgba(0, 212, 255, 0.1);
     
     /* FOUNDATIONS */
-    --section-gap: clamp(60px, 10vw, 120px);
+    --section-gap: clamp(40px, 8vw, 80px);
     --cont-pad: clamp(1.25rem, 5vw, 2rem);
 }
 
@@ -172,6 +172,7 @@ body::after {
 .gradient-text {
     background: linear-gradient(90deg, var(--primary), #ffffff);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -273,14 +274,18 @@ body::after {
 
 /* TERMINAL LOADER - PRO MAX */
 .terminal-loader {
-    max-width: 400px;
-    margin: 3rem auto 0;
+    width: 100%;
     background: #000;
     border: 1px solid var(--border);
     border-radius: 12px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.4);
     overflow: hidden;
     text-align: left;
+}
+
+.hero .terminal-loader {
+    max-width: 400px;
+    margin: 3rem auto 0;
 }
 
 .t-top {
@@ -847,35 +852,14 @@ body::after {
 }
 
 .cli-usage {
-    margin: 3rem auto;
-    max-width: 800px;
-    padding: 2rem;
-    border-radius: 12px;
-    font-family: monospace;
+    margin: 2.5rem auto;
+    max-width: 680px;
 }
 
-.cli-terminal-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(var(--primary-rgb), 0.1);
-    padding-bottom: 1rem;
-    color: var(--text-dim);
-    font-size: 0.8rem;
+.cli-usage .t-body {
+    padding: 1.5rem 2rem;
 }
 
-.t-dots {
-    display: flex;
-    gap: 6px;
-}
-
-.t-dots span {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-}
 
 .cli-usage code {
     font-size: 1.1rem;
@@ -888,7 +872,7 @@ body::after {
 }
 
 .options-container {
-    margin-top: 4rem;
+    margin-top: 2.5rem;
 }
 
 .subsection-title {
