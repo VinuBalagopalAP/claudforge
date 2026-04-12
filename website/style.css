@@ -736,9 +736,18 @@ body::after {
     opacity: 0.4;
 }
 
-/* GitHub Stars Button (Mobile) */
+/* GitHub Stars Button (Mobile) - Unified Container */
 .mobile-github-stars {
     display: none;
+    flex-direction: column;
+    align-items: flex-end;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.stars-upper {
+    display: flex;
     align-items: center;
     gap: 8px;
     background: rgba(var(--primary-rgb), 0.1);
@@ -748,12 +757,11 @@ body::after {
     color: var(--primary);
     font-size: 0.8rem;
     font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 }
 
-.mobile-github-stars:hover {
+.mobile-github-stars:hover .stars-upper {
     background: rgba(var(--primary-rgb), 0.2);
     border-color: var(--primary);
     transform: translateY(-1px);
@@ -761,6 +769,69 @@ body::after {
 
 .mobile-github-stars svg {
     color: var(--primary);
+}
+
+.hanging-board {
+    font-size: 0.6rem;
+    font-family: monospace;
+    color: var(--primary);
+    background: rgba(0, 212, 255, 0.08);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    /* Adding a slightly brighter top border to act as the mounting rail */
+    border-top: 1px solid rgba(0, 212, 255, 0.4);
+    padding: 3px 12px;
+    margin-top: 15px; /* Increased margin for the peaked strings */
+    border-radius: 0 0 8px 8px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    /* Combined animations: swing and glow/pulse */
+    animation: 
+        hang-swing 4s ease-in-out infinite alternate,
+        board-pulse 2s ease-in-out infinite alternate;
+    transform-origin: 50% -15px; /* Pivot from the top point where strings meet */
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.1);
+    position: relative;
+    white-space: nowrap;
+}
+
+/* Peak Strings (meeting at a single point) */
+.hanging-board::before,
+.hanging-board::after {
+    content: '';
+    position: absolute;
+    top: -15px; /* Meet 15px above the board */
+    height: 18px; /* Slightly longer than the gap to reach corners */
+    width: 1px;
+    background: linear-gradient(to bottom, var(--primary), rgba(0, 212, 255, 0.3));
+    box-shadow: 0 0 8px var(--primary);
+    transform-origin: top center;
+}
+
+.hanging-board::before {
+    left: 50%;
+    transform: rotate(35deg); /* Angle to reach left edge */
+}
+
+.hanging-board::after {
+    left: 50%;
+    transform: rotate(-35deg); /* Angle to reach right edge */
+}
+
+@keyframes hang-swing {
+    0% { transform: rotate(-3deg); }
+    100% { transform: rotate(3deg); }
+}
+
+@keyframes board-pulse {
+    0% { 
+        box-shadow: 0 4px 10px rgba(0, 212, 255, 0.1);
+        border-color: rgba(0, 212, 255, 0.2);
+    }
+    100% { 
+        box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+        border-color: rgba(0, 212, 255, 0.5);
+    }
 }
 
 /* RESPONSIVE */
