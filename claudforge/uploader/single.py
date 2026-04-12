@@ -4,30 +4,32 @@ from pathlib import Path
 from playwright.sync_api import Page, TimeoutError as PWTimeout
 from rich.console import Console
 
+
 def human_delay(min_s: float = 0.2, max_s: float = 0.5):
     """Wait for a random duration to mimic human thinking time."""
     time.sleep(random.uniform(min_s, max_s))
+
 
 def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: bool = False) -> str:
     """
     Automated upload with optimized human-mimicry delays and self-healing retries.
     Returns: 'SUCCESS', 'DUPLICATE', or 'FAILED'
     """
-    
+
     # ── 1. Navigation Check ────────────────────────────────────────────────
     if "customize/skills" not in page.url:
         page.goto("https://claude.ai/customize/skills", wait_until="domcontentloaded")
         human_delay(0.5, 1.0)
 
     # ── 2. The "Self-Healing" Retry Loop ───────────────────────────────────
-    for attempt in range(3): # Try 3 times before giving up
+    for attempt in range(3):  # Try 3 times before giving up
         try:
             # ── Click 'Add skill' ─────────────────
             plus_btn = page.get_by_role("button", name="Add skill")
             if not plus_btn.is_visible():
                 sel = 'button[aria-label*="Add"], button:has-text("+")'
                 plus_btn = page.locator(sel).first
-            
+
             plus_btn.wait_for(state="visible", timeout=5000)
             human_delay(0.2, 0.4)
             plus_btn.click(delay=random.randint(30, 80))
@@ -45,14 +47,14 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
             upload_item.wait_for(state="visible", timeout=3000)
             human_delay(0.2, 0.5)
             upload_item.click(delay=random.randint(30, 80))
-            
+
             # If we reach here, we successfully opened the modal
             break
 
         except Exception:
             if attempt == 0:
                 # TRY 1 FAILED: "Safety Click" - click a safe corner to clear overlays
-                page.mouse.click(10, 10) 
+                page.mouse.click(10, 10)
                 human_delay(0.5, 1.0)
                 continue
             elif attempt == 1:
@@ -69,7 +71,7 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
                 console.print("   [cyan]ACTION:[/cyan] In the browser, please manually click:")
                 console.print("   [white]1. '+ Add skill'[/white]")
                 console.print("   [white]2. 'Upload a skill'[/white]")
-                
+
                 try:
                     page.wait_for_selector("text=Drag and drop or click to upload", timeout=60000)
                     console.print("   [green]✨ Modal detected! Resuming...[/green]")
@@ -82,16 +84,16 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
         file_input = page.get_by_role("dialog", name="Upload skill").locator('input[type="file"]')
         file_input.wait_for(state="attached", timeout=5000)
         human_delay(0.5, 1.0)
-        
+
         file_input.set_input_files(str(zip_path))
         console.print(f"   [green]✨ {zip_path.name[:20]}... injected.[/green]", end="")
 
         # ── 4. Verification Loop ──────────────────────────────────────────────
-        for _ in range(60): # ~30s poll
+        for _ in range(60):  # ~30s poll
             # 1. Check for SUCCESS
             if page.locator("text=Uploaded, .lucide-check-circle").count() > 0:
                 return "SUCCESS"
-            
+
             # 2. Check for ERROR toasts (Fast Failure)
             error_toast = page.locator("text=Error, .lucide-alert-circle")
             if error_toast.is_visible():
@@ -107,7 +109,7 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
                         console.print("\n[cyan]   ♻️  Confirming Replace...[/cyan]")
                         replace_modal.get_by_role("button", name="Replace").click(timeout=3000)
                         page.wait_for_timeout(1000)
-                        auto_replace = False 
+                        auto_replace = False
                         continue
                     else:
                         # Attempt to click cancel, but don't crash if it detaches
@@ -118,7 +120,7 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
             except Exception:
                 # DOM flickered or element detached, just let the loop try again in 0.5s
                 pass
-            
+
             # 4. Check if dialog GONE (Implied success if no error)
             skill_dialog = page.get_by_role("dialog", name="Upload skill")
             if not skill_dialog.is_visible():
@@ -126,10 +128,10 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
                 # Final double-check for success toast
                 if page.locator("text=Uploaded, .lucide-check-circle").count() > 0:
                     return "SUCCESS"
-                return "SUCCESS" # Closed normally
-                
+                return "SUCCESS"  # Closed normally
+
             time.sleep(0.5)
-            
+
         return "FAILED"
 
     except Exception as e:

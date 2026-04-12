@@ -1,17 +1,15 @@
-from playwright.sync_api import sync_playwright, Browser, Page
+from playwright.sync_api import Page
 from rich.console import Console
 
 console = Console()
 
+
 def launch_browser(
-    p, 
-    headless: bool = False, 
-    connect_port: int = None, 
-    profile_path: str = None
+    p, headless: bool = False, connect_port: int = None, profile_path: str = None
 ) -> tuple[any, Page]:
     """Launch a fresh browser, a persistent session, or connect to an existing one."""
     import random
-    
+
     # Randomize viewport slightly to avoid "bot signatures"
     width = random.randint(1280, 1920)
     height = random.randint(720, 1080)
@@ -22,7 +20,7 @@ def launch_browser(
         "--disable-infobars",
         f"--window-size={width},{height}",
     ]
-    
+
     if connect_port:
         console.print(
             f"[bold cyan]🔗 Connecting to existing Chrome on port {connect_port}...[/bold cyan]"
@@ -39,8 +37,9 @@ def launch_browser(
                             f"[bold green]✅ Found existing Claude tab: '{page.title()}'[/bold green]"
                         )
                         break
-                if page: break
-            
+                if page:
+                    break
+
             if not page:
                 page = browser.contexts[0].new_page()
             return browser, page
@@ -49,7 +48,7 @@ def launch_browser(
                 raise RuntimeError(
                     "Protocol Error: Your Chrome version is incompatible with direct CDP connection.\n"
                     "FIX: Close Chrome and run with the --profile flag instead:\n"
-                    "claudforge upload --batch ... --profile \"/tmp/claudforge_debug\""
+                    'claudforge upload --batch ... --profile "/tmp/claudforge_debug"'
                 )
             raise RuntimeError(f"Failed to connect to Chrome: {e}")
     elif profile_path:
@@ -62,7 +61,7 @@ def launch_browser(
             channel="chrome",
             args=stealth_args,
             no_viewport=True,
-            viewport={"width": width, "height": height}
+            viewport={"width": width, "height": height},
         )
         page = context.pages[0] if context.pages else context.new_page()
         return context, page
@@ -73,10 +72,11 @@ def launch_browser(
         page = context.new_page()
         return browser, page
 
+
 def navigate_to_skills(page, console: Console):
     """Navigate to the skills page and handle auth/Cloudflare."""
     TARGET = "https://claude.ai/customize/skills"
-    
+
     try:
         page.goto(TARGET, wait_until="domcontentloaded", timeout=30000)
     except Exception:
@@ -93,9 +93,11 @@ def navigate_to_skills(page, console: Console):
             page.goto(TARGET, wait_until="networkidle")
 
     # Handle Cloudflare
-    while ("api/challenge_redirect" in page.url 
-           or "cloudflare" in page.content().lower() 
-           or "Just a moment" in page.title()):
+    while (
+        "api/challenge_redirect" in page.url
+        or "cloudflare" in page.content().lower()
+        or "Just a moment" in page.title()
+    ):
         console.print("\n[bold red]🛡️  Cloudflare challenge detected![/bold red]")
         console.print("   Please solve the challenge in the browser window.")
         console.print(
@@ -111,22 +113,23 @@ def navigate_to_skills(page, console: Console):
                 page.goto(TARGET, wait_until="domcontentloaded")
             break
 
+
 def get_existing_skills(page: Page) -> list[str]:
     """Extract names of already uploaded skills from the settings page."""
     try:
-        # Claude lists skills in a list-like structure. 
+        # Claude lists skills in a list-like structure.
         skills = []
         # Wait a bit for the list to render
         page.wait_for_timeout(2000)
-        
+
         # 1. Primary: Look for elements in the flex list
         sel = "div.flex.flex-col > div.flex.items-center.justify-between"
         elements = page.query_selector_all(sel)
         for el in elements:
-            text = el.inner_text().split('\n')[0]
+            text = el.inner_text().split("\n")[0]
             if text and text not in ["Add skill", "Settings", "Skills"]:
                 skills.append(text.strip())
-        
+
         # 2. Fallback: Search all H3s (often used for skill titles)
         if not skills:
             elements = page.query_selector_all("h3")
@@ -134,7 +137,7 @@ def get_existing_skills(page: Page) -> list[str]:
                 t = el.inner_text().strip()
                 if t and t not in ["Add skill", "Settings", "Skills", "Customize Clause"]:
                     skills.append(t)
-        
+
         # 3. Last Resort: Any text near an 'Edit' button
         if not skills:
             elements = page.query_selector_all("button:has-text('Edit')")
@@ -142,9 +145,10 @@ def get_existing_skills(page: Page) -> list[str]:
                 # Find the text in the same row/container
                 parent = el.evaluate_handle("node => node.closest('div.flex')")
                 if parent:
-                    t = parent.as_element().inner_text().split('\n')[0]
-                    if t: skills.append(t.strip())
+                    t = parent.as_element().inner_text().split("\n")[0]
+                    if t:
+                        skills.append(t.strip())
 
-        return list(set([s for s in skills if s])) # Cleanup and deduplicate
+        return list(set([s for s in skills if s]))  # Cleanup and deduplicate
     except Exception:
         return []

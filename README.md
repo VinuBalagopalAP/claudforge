@@ -66,6 +66,10 @@ claudforge upload ./my_skills --limit 30 --profile "claude_user"
 ---
 
 ## 📖 CLI Reference
+ 
+> [!TIP]
+> **View the Interactive Guide**: For a detailed view of all flags and examples, visit the [**Official CLI Reference ↗**](https://claudforge.vercel.app#reference).
+ 
 
 ```
 Usage: claudforge [command] [PATH] [options]
@@ -134,6 +138,7 @@ claudforge/
 | ✅ Done | Professional PyPI Packaging |
 | ✅ Done | Real-time Web Monitor (Streamlit) |
 | ✅ Done | `claudforge rollback` System |
+| ✅ Done | **v2.0.1**: Industrial-grade CI stability & Python 3.14 support |
 
 ---
 
