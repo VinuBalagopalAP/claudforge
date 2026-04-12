@@ -950,7 +950,24 @@ body::after {
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+    .glass-nav { height: 60px; }
+    .nav-flex { padding: 0 1rem; }
+    .logo { gap: 8px; }
+    .logo span { font-size: 1rem; }
+    .badge-v { padding: 1px 6px; font-size: 0.6rem; }
+    
+    .nav-stars-assembly {
+        transform: scale(0.85);
+        transform-origin: right center;
+    }
+
+    .hero { 
+        padding-top: 100px; 
+    }
+    
+    .hero-badge { margin-bottom: 2rem; }
+
     .hero-btns { 
         flex-direction: column; 
         gap: 1.2rem; 
@@ -985,7 +1002,11 @@ body::after {
 }
 
 @media (max-width: 350px) {
-    .logo span { font-size: 1rem; }
+    :root {
+        --section-gap: 30px;
+        --cont-pad: 1rem;
+    }
+    .logo span { font-size: 0.9rem; }
     .hero h1 { font-size: 2.2rem; }
     .p-stat span { font-size: 1.8rem; }
 }
