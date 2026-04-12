@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - **GitHub Live Metrics**: Added real-time star count fetching to the primary navigation.
 - **CLI Reference**: Injected a formal, interactive command and options guide into the production website.
 - **Python 3.14 Support**: Official compatibility verified for **Python 3.14.4** (released April 2026).
+- **Proactive CI**: Added automated linting checks for the `dev` branch in GitHub Actions.
 
 ### Changed
 - **Unified Interactivity**: Redesigned the "Stars" button and "Hanging Board" into a single, cohesive clickable unit for better UX.
@@ -19,11 +20,12 @@ All notable changes to this project will be documented in this file.
 - **Infrastructure**: Pointed canonical and social URLs to `claudforge.vercel.app` for high-availability hosting.
 - **Navigation Layout**: Optimized desktop nav to anchor Logo (Left), Links (Center), and Sign (Right).
 - **UI Density**: Tightened global section spacing (120px -> 80px) and scaled technical components for a higher-performance feel.
+- **Global Formatting**: Applied `ruff format` across 11 core files for unified architectural styling.
 
 ### Fixed
 - **Mobile Footer**: Centered all link groups and branding for better readability on small screens.
 - **Archive Navigation**: Corrected legacy banners and badge metadata in the v1.x archive.
-- **CI/CD Stability**: Refactored codebase to resolve Ruff linting failures (enforced 100-character line limits).
+- **CI/CD Stability**: Refactored codebase to resolve multiple Ruff linting failure types (E701, F401, E402).
 - **CLI Documentation Sync**: Aligned website reference with actual CLI flags (`--connect`, `--keep-zips`, `--name`).
 
 ## [v2.0.0] - 2026-04-11
