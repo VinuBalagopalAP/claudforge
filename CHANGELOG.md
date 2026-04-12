@@ -5,14 +5,17 @@ All notable changes to this project will be documented in this file.
 ## [v2.0.1] - 2026-04-12
 
 ### Added
-- **Social Preview Alignment**: Renamed `og-ironhide.png` to `og-image.png` and updated all social meta tags.
+- **Universal Navigation**: Unified the GitHub Stars "Hanging Sign" assembly across all viewports (Mobile, Tablet, Desktop).
+- **Physical Sign Physics**: Implemented a peaked "V" rope design with a single-point pivot and swinging animation.
+- **Atmospheric Glow**: Added a pulsing board glow and glowing power-cable visuals to the navigation assembly.
 - **Progressive SEO**: Integrated JSON-LD Schema.org (SoftwareApplication) and keyword-rich metadata.
-- **GitHub Live Metrics**: Added real-time star count fetching to the mobile navigation.
+- **GitHub Live Metrics**: Added real-time star count fetching to the primary navigation.
 
 ### Changed
+- **Unified Interactivity**: Redesigned the "Stars" button and "Hanging Board" into a single, cohesive clickable unit for better UX.
 - **Branding**: Standardized "ClaudForge" capitalization and unified versioning strings (`v2.0.0`, `v1.2.0`, `v1.0.0`).
-- **Hero UX**: Redesigned the PyPI button with a glassmorphic aesthetic and fixed mobile alignment.
 - **Infrastructure**: Pointed canonical and social URLs to `claudforge.vercel.app` for high-availability hosting.
+- **Navigation Layout**: Optimized desktop nav to anchor Logo (Left), Links (Center), and Sign (Right).
 
 ### Fixed
 - **Mobile Footer**: Centered all link groups and branding for better readability on small screens.
