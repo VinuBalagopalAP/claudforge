@@ -100,14 +100,19 @@ body::after {
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--cont-pad);
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
     font-size: 1.2rem;
+    flex: 1; /* Anchors logo to left */
 }
 
 .badge-v {
@@ -118,23 +123,23 @@ body::after {
     vertical-align: middle;
 }
 
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 2; /* Centers the links */
+}
+
 .nav-links a {
     color: var(--text-dim);
     text-decoration: none;
-    margin-left: 2.5rem;
+    margin: 0 1.2rem;
     font-size: 0.85rem;
     transition: color 0.3s;
 }
 
 .nav-links a:hover {
     color: var(--primary);
-}
-
-.github-btn {
-    border: 1px solid var(--primary);
-    padding: 8px 20px;
-    border-radius: 6px;
-    color: var(--primary) !important;
 }
 
 /* HERO SECTION */
@@ -736,14 +741,15 @@ body::after {
     opacity: 0.4;
 }
 
-/* GitHub Stars Button (Mobile) - Unified Container */
-.mobile-github-stars {
-    display: none;
+/* GitHub Stars assembly - Unified Container */
+.nav-stars-assembly {
+    display: flex;
     flex-direction: column;
     align-items: flex-end;
     text-decoration: none;
     position: relative;
     transition: all 0.3s ease;
+    flex: 1; /* Anchors sign to right */
 }
 
 .stars-upper {
@@ -761,7 +767,7 @@ body::after {
     transition: all 0.3s ease;
 }
 
-.mobile-github-stars:hover .stars-upper {
+.nav-stars-assembly:hover .stars-upper {
     background: rgba(var(--primary-rgb), 0.2);
     border-color: var(--primary);
     transform: translateY(-1px);
@@ -835,9 +841,12 @@ body::after {
 }
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .nav-links { display: none; }
-    .mobile-github-stars { display: flex; }
+}
+
+@media (max-width: 768px) {
+    .nav-stars-assembly { flex: 0; } /* Let it fit naturally on mobile */
     
     .prodigious-metrics { flex-direction: column; gap: 40px; }
     
