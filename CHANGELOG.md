@@ -26,6 +26,7 @@ All notable changes to this project will be documented in this file.
 - **Mobile Footer**: Centered all link groups and branding for better readability on small screens.
 - **Archive Navigation**: Corrected legacy banners and badge metadata in the v1.x archive.
 - **CI/CD Stability**: Refactored codebase to resolve multiple Ruff linting failure types (E701, F401, E402).
+- **Mobile UI Optimization**: Refined header and hero spacing for mobile/tablet viewports (< 700px) to prevent layout collisions.
 - **CLI Documentation Sync**: Aligned website reference with actual CLI flags (`--connect`, `--keep-zips`, `--name`).
 
 ## [v2.0.0] - 2026-04-11
