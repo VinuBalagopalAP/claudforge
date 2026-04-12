@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - **Progressive SEO**: Integrated JSON-LD Schema.org (SoftwareApplication) and keyword-rich metadata.
 - **GitHub Live Metrics**: Added real-time star count fetching to the primary navigation.
 - **CLI Reference**: Injected a formal, interactive command and options guide into the production website.
+- **Python 3.14 Support**: Official compatibility verified for **Python 3.14.4** (released April 2026).
 
 ### Changed
 - **Unified Interactivity**: Redesigned the "Stars" button and "Hanging Board" into a single, cohesive clickable unit for better UX.

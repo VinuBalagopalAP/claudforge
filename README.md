@@ -49,7 +49,7 @@ Every Claude.ai power user knows this pain:
 
 ## 🚀 Quick Start
 
-**Requirements:** Python 3.8+, Chrome browser
+**Requirements:** Python 3.8 - 3.14, Chrome browser
 
 ```bash
 # 1. Setup
