@@ -25,7 +25,8 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
             # ── Click 'Add skill' ─────────────────
             plus_btn = page.get_by_role("button", name="Add skill")
             if not plus_btn.is_visible():
-                plus_btn = page.locator('button[aria-label*="Add"], button:has-text("+")').first
+                sel = 'button[aria-label*="Add"], button:has-text("+")'
+                plus_btn = page.locator(sel).first
             
             plus_btn.wait_for(state="visible", timeout=5000)
             human_delay(0.2, 0.4)
@@ -56,7 +57,9 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
                 continue
             elif attempt == 1:
                 # TRY 2 FAILED: "Smart Reload" - refresh the page state
-                console.print(f"   [dim]🔄 Automation stuttered. Reloading page and retrying...[/dim]")
+                console.print(
+                    "   [dim]🔄 Automation stuttered. Reloading page and retrying...[/dim]"
+                )
                 page.reload(wait_until="domcontentloaded")
                 human_delay(1.0, 2.0)
                 continue
@@ -117,7 +120,8 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
                 pass
             
             # 4. Check if dialog GONE (Implied success if no error)
-            if not page.get_by_role("dialog", name="Upload skill").is_visible():
+            skill_dialog = page.get_by_role("dialog", name="Upload skill")
+            if not skill_dialog.is_visible():
                 page.wait_for_timeout(500)
                 # Final double-check for success toast
                 if page.locator("text=Uploaded, .lucide-check-circle").count() > 0:

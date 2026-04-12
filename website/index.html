@@ -291,7 +291,7 @@
                 <div class="toolbox-card glass">
                     <div class="t-header">
                         <div class="t-icon"><svg viewBox="0 0 100 100"><path d="M30,50 L70,50 M50,30 L50,70" stroke="var(--primary)" stroke-width="3" /></svg></div>
-                        <span class="t-cmd">claudforge init</span>
+                        <span class="t-cmd">claudforge init --name NAME</span>
                     </div>
                     <h4>Scaffolding</h4>
                     <p>Scaffold a new Claude skill folder with standardized templates.</p>
@@ -428,6 +428,14 @@
                     <div class="option-item">
                         <div class="opt-tag">--headless</div>
                         <p>Run the deployment engine in background mode without a visible browser UI.</p>
+                    </div>
+                    <div class="option-item">
+                        <div class="opt-tag">--connect [PORT]</div>
+                        <p>Attach to a pre-opened Chrome instance (skips redundant login/2FA).</p>
+                    </div>
+                    <div class="option-item">
+                        <div class="opt-tag">--keep-zips</div>
+                        <p>Persist temporary skill bundles in _zips folder for manual auditing.</p>
                     </div>
                 </div>
             </div>

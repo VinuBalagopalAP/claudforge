@@ -91,11 +91,21 @@ def run_app():
                 current_session_done = len(data["results"])
                 limit = data["limit"] or total
                 
-                global_progress = ((history + current_session_done) / total) * 100 if total > 0 else 0
+                global_progress = (
+                    ((history + current_session_done) / total) * 100 if total > 0 else 0
+                )
                 session_progress = (current_session_done / limit) * 100 if limit > 0 else 0
                 
-                col1.metric("Global Progress", f"{global_progress:.1f}%", f"{history + current_session_done}/{total}")
-                col2.metric("Current Session", f"{session_progress:.1f}%", f"{current_session_done}/{limit}")
+                col1.metric(
+                    "Global Progress", 
+                    f"{global_progress:.1f}%", 
+                    f"{history + current_session_done}/{total}"
+                )
+                col2.metric(
+                    "Current Session", 
+                    f"{session_progress:.1f}%", 
+                    f"{current_session_done}/{limit}"
+                )
                 
                 # ETR Calculation
                 elapsed = time.time() - data["session_start"]
@@ -115,8 +125,13 @@ def run_app():
                     st.markdown(f"""
                         <div class="status-card">
                             <h3 style='margin:0'>🚀 Now Uploading</h3>
-                            <p style='font-size: 24px; color: #00d4ff; margin-top:10px;'>{data["current_skill"]}</p>
-                            <p style='font-size: 14px; opacity: 0.7;'>Processing skill {data["current_index"]} of session limit {limit}</p>
+                            <p style='font-size: 24px; color: #00d4ff; margin-top:10px;'>
+                                {data["current_skill"]}
+                            </p>
+                            <p style='font-size: 14px; opacity: 0.7;'>
+                                Processing skill {data["current_index"]} 
+                                of session limit {limit}
+                            </p>
                         </div>
                     """, unsafe_allow_html=True)
                 elif data["status"] == "FINISHED":

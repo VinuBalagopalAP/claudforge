@@ -11,7 +11,11 @@ from rich.prompt import Prompt
 from rich.table import Table
 
 from claudforge.utils.zipper import zip_folder, cleanup_zips
-from claudforge.utils.yaml_parser import validate_skill_metadata, get_skill_metadata, sanitize_skill_metadata
+from claudforge.utils.yaml_parser import (
+    validate_skill_metadata, 
+    get_skill_metadata, 
+    sanitize_skill_metadata
+)
 from claudforge.utils.history import load_history, save_history
 from claudforge.browser.launcher import get_existing_skills
 from claudforge.uploader.single import upload_skill
@@ -80,7 +84,13 @@ def export_web_data(batch_dir: Path, history: Set[str]):
 
 class SessionTracker:
     """Manages real-time session data for the web dashboard."""
-    def __init__(self, batch_dir: Path, total_folders: int, history_count: int, limit: Optional[int]):
+    def __init__(
+        self, 
+        batch_dir: Path, 
+        total_folders: int, 
+        history_count: int, 
+        limit: Optional[int]
+    ):
         self.path = batch_dir / ".claudforge_session.json"
         self.data = {
             "project_name": batch_dir.name,
@@ -125,12 +135,17 @@ def run_batch_upload(
     force: bool = False
 ):
     """Scan a directory for skill folders and upload them sequentially with detailed reporting."""
-    skill_folders = sorted([d for d in batch_dir.iterdir() if d.is_dir() and not d.name.startswith(('.', '_'))])
+    skill_folders = sorted([
+        d for d in batch_dir.iterdir() 
+        if d.is_dir() and not d.name.startswith(('.', '_'))
+    ])
     
     # ── PHASE 0: Pre-Batch Sanitization ────────────────────────────────────
     # User threshold: limit or total folders > 9
     if (limit and limit > 9) or len(skill_folders) > 9:
-        console.print("[dim]🔍 Performing Pre-Batch Sanity Check (scanning for reserved words)...[/dim]")
+        console.print(
+            "[dim]🔍 Performing Pre-Batch Sanity Check (scanning for reserved words)...[/dim]"
+        )
         for folder in skill_folders:
             sanitize_skill_metadata(folder, console)
 
@@ -195,7 +210,9 @@ def run_batch_upload(
                     results.append((folder.name, "⏭️ Deferring", "Detected during upload"))
                     tracker.add_result(folder.name, "⏭️ Deferring", "Detected during upload")
                 else:
-                    status_fmt = "✅ Success" if status == "SUCCESS" else ("❌ Failed" if status == "FAILED" else status)
+                    status_fmt = "✅ Success" if status == "SUCCESS" else (
+                        "❌ Failed" if status == "FAILED" else status
+                    )
                     results.append((name, status_fmt, details))
                     tracker.add_result(name, status_fmt, details)
                     if status == "SUCCESS":
@@ -212,12 +229,15 @@ def run_batch_upload(
                 to_ask_unique.append(f)
                 seen.add(f.name)
 
-        console.print(f"\n[bold yellow]📋 {len(to_ask_unique)} skills already exist on Claude.ai:[/bold yellow]")
+        console.print(
+            f"\n[bold yellow]📋 {len(to_ask_unique)} skills already exist on Claude.ai:[/bold yellow]"
+        )
         for i, f in enumerate(to_ask_unique, 1):
             console.print(f"   [bold cyan]{i}.[/bold cyan] {f.name}")
         
         selection_str = Prompt.ask(
-            "\n[bold green]Select numbers to replace[/bold green] (e.g. '1,3,5', 'all', or hit Enter to skip)",
+            "\n[bold green]Select numbers to replace[/bold green] "
+            "(e.g. '1,3,5', 'all', or hit Enter to skip)",
             default=""
         )
         
@@ -236,8 +256,12 @@ def run_batch_upload(
                     folder = to_ask_unique[idx]
                     progress.update(update_task, description=f"[yellow]Replacing {folder.name}...")
                     
-                    name, status, details = _process_skill(page, folder, zip_dir, keep_zips, console, force_replace=True)
-                    status_fmt = "✅ Success" if status == "SUCCESS" else ("❌ Failed" if status == "FAILED" else status)
+                    name, status, details = _process_skill(
+                        page, folder, zip_dir, keep_zips, console, force_replace=True
+                    )
+                    status_fmt = "✅ Success" if status == "SUCCESS" else (
+                        "❌ Failed" if status == "FAILED" else status
+                    )
                     
                     # Update previous "Deferring" row if exists
                     found_prev = False
@@ -256,11 +280,11 @@ def run_batch_upload(
                         uploaded_this_session.add(folder.name)
                     progress.advance(update_task)
             
-            # ALSO: Mark NOT-selected duplicates as "Acknowledged" (add to history) 
-            # so they don't keep appearing in every batch.
-            for i, folder in enumerate(to_ask_unique):
-                if i not in indices:
-                    uploaded_this_session.add(folder.name)
+    # Mark NOT-selected duplicates as "Acknowledged" (add to history) 
+    # so they don't keep appearing in every batch.
+    for i, folder in enumerate(to_ask_unique):
+        if i not in indices:
+            uploaded_this_session.add(folder.name)
         else:
             # User hit Enter (skipped all): Mark ALL as Acknowledged
             for folder in to_ask_unique:
@@ -276,10 +300,18 @@ def run_batch_upload(
 
     # 5. Summary Table (Responsive Layout)
     if not results:
-        console.print("\n[green]✅ Everything is already up to date! (All skills found in history or on cloud).[/green]")
+        console.print(
+            "\n[green]✅ Everything is already up to date! "
+            "(All skills found in history or on cloud).[/green]"
+        )
         return
 
-    table = Table(title="Batch Upload Summary", show_header=True, header_style="bold magenta", box=None)
+    table = Table(
+        title="Batch Upload Summary", 
+        show_header=True, 
+        header_style="bold magenta", 
+        box=None
+    )
     # Using ratios for alignment, but removed expand=True to prevent frame breakage on resize
     table.add_column("Skill", style="cyan", ratio=4, no_wrap=True)
     table.add_column("Status", justify="center", ratio=2)
@@ -293,7 +325,14 @@ def run_batch_upload(
     
     console.print("\n", table)
 
-def _process_skill(page, folder: Path, zip_dir: Path, keep_zips: bool, console: Console, force_replace: bool = False):
+def _process_skill(
+    page, 
+    folder: Path, 
+    zip_dir: Path, 
+    keep_zips: bool, 
+    console: Console, 
+    force_replace: bool = False
+):
     """Internal helper to zip and upload a single folder."""
     # MEASURE ONLY THE ACTUAL UPLOAD TIME
     start_time = time.time()

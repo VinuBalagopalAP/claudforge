@@ -20,13 +20,23 @@ console = Console()
 
 @app.command()
 def upload(
-    path: Path = typer.Argument(..., help="Path to a skill folder or batch directory", metavar="PATH"),
+    path: Path = typer.Argument(
+        ..., 
+        help="Path to a skill folder or batch directory", 
+        metavar="PATH"
+    ),
     limit: Optional[int] = typer.Option(None, "--limit", help="Max skills to upload in batch mode"),
     headless: bool = typer.Option(False, "--headless", help="Run browser in headless mode"),
-    connect: Optional[int] = typer.Option(None, "--connect", help="Connect to existing Chrome on port", show_default=False),
-    profile: Optional[str] = typer.Option(None, "--profile", help="Path to a persistent Chrome profile/data directory"),
+    connect: Optional[int] = typer.Option(
+        None, "--connect", help="Connect to existing Chrome on port", show_default=False
+    ),
+    profile: Optional[str] = typer.Option(
+        None, "--profile", help="Path to a persistent Chrome profile/data directory"
+    ),
     keep_zips: bool = typer.Option(False, "--keep-zips", help="Keep generated zip files"),
-    force: bool = typer.Option(False, "--force", "-f", help="Ignore local history and force re-check/re-upload"),
+    force: bool = typer.Option(
+        False, "--force", "-f", help="Ignore local history and force re-check/re-upload"
+    ),
 ):
     """Deploy a skill or a batch of skills to Claude.ai."""
     target = path.expanduser().resolve()
@@ -39,7 +49,9 @@ def upload(
     
     with sync_playwright() as p:
         try:
-            browser, page = launch_browser(p, headless=headless, connect_port=connect, profile_path=profile)
+            browser, page = launch_browser(
+                p, headless=headless, connect_port=connect, profile_path=profile
+            )
             navigate_to_skills(page, console)
 
             if is_single:
@@ -111,7 +123,9 @@ def validate(
     folder = path.expanduser().resolve()
     ok, err = validate_skill_metadata(folder)
     if ok:
-        console.print(f"[bold green]✅ '{folder.name}' is valid and ready for upload.[/bold green]")
+        console.print(
+            f"[bold green]✅ '{folder.name}' is valid and ready for upload.[/bold green]"
+        )
     else:
         console.print(f"[bold red]❌ Validation failed for '{folder.name}': {err}[/bold red]")
 
@@ -197,7 +211,9 @@ def dashboard(path: Path = typer.Argument(..., help="Path to the batch directory
     
     try:
         # Run streamlit as a module
-        subprocess.run([sys.executable, "-m", "streamlit", "run", str(dashboard_path), "--", str(batch_dir)])
+        subprocess.run([
+            sys.executable, "-m", "streamlit", "run", str(dashboard_path), "--", str(batch_dir)
+        ])
     except KeyboardInterrupt:
         console.print("\n[yellow]Dashboard stopped.[/yellow]")
 
@@ -228,12 +244,17 @@ def rollback(
         
     console.print("\n", table)
     
-    choice = IntPrompt.ask("\n[bold green]Select version to restore[/bold green]", choices=[str(i) for i in range(1, len(snapshots)+1)])
+    choice = IntPrompt.ask(
+        "\n[bold green]Select version to restore[/bold green]", 
+        choices=[str(i) for i in range(1, len(snapshots) + 1)]
+    )
     selected_ts, selected_file = snapshots[choice - 1]
     
     zip_path = get_snapshot_zip(batch_dir, skill, selected_file)
     
-    console.print(f"\n[bold yellow]🕒 Preparing rollback to version {selected_ts}...[/bold yellow]")
+    console.print(
+        f"\n[bold yellow]🕒 Preparing rollback to version {selected_ts}...[/bold yellow]"
+    )
     
     with sync_playwright() as p:
         try:
@@ -242,7 +263,10 @@ def rollback(
             navigate_to_skills(page, console)
             
             if upload_skill(page, zip_path, console, auto_replace=True):
-                console.print(f"\n[bold green]✅ Successfully rolled back '{skill}' to {selected_ts}![/bold green]")
+                console.print(
+                    f"\n[bold green]✅ Successfully rolled back '{skill}' to {selected_ts}!"
+                    "[/bold green]"
+                )
             else:
                 console.print(f"\n[bold red]❌ Rollback upload failed.[/bold red]")
             
