@@ -353,6 +353,81 @@ body::after {
     box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
 }
 
+/* STRATEGIC NECESSITY - WHY CLAUDFORGE */
+.why-section {
+    padding: var(--section-gap) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 2.5rem;
+}
+
+.why-card {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid var(--border);
+    padding: 3.5rem 2.5rem;
+    border-radius: 24px;
+    transition: all 0.4s ease;
+    border-top: 2px solid transparent;
+}
+
+.why-card:hover {
+    border-color: var(--primary);
+    background: rgba(0, 212, 255, 0.02);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.why-card .w-label {
+    display: block;
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: var(--primary);
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+    opacity: 0.6;
+}
+
+.why-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.25;
+    font-family: 'Outfit', sans-serif;
+}
+
+.why-card p {
+    color: var(--text-dim);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.why-card .metric {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.why-card .metric .m-val {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.why-card .metric .m-label {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
 /* MASTER SUITE CARDS */
 .master-suite {
     padding: var(--section-gap) 0;

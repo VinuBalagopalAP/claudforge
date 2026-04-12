@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - **CLI Reference**: Injected a formal, interactive command and options guide into the production website.
 - **Python 3.14 Support**: Official compatibility verified for **Python 3.14.4** (released April 2026).
 - **Proactive CI**: Added automated linting checks for the `dev` branch in GitHub Actions.
+- **Strategic Necessity**: Added a four-pillar "Why claudforge" section to the landing page, showcasing Time ROI, Resilience, Persistence, and Autonomy.
 
 ### Changed
 - **Unified Interactivity**: Redesigned the "Stars" button and "Hanging Board" into a single, cohesive clickable unit for better UX.
