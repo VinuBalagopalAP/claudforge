@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v2.0.1] - 2026-04-12
+## [v2.0.2] - 2026-04-12
 
 ### Added
 - **Universal Navigation**: Unified the GitHub Stars "Hanging Sign" assembly across all viewports (Mobile, Tablet, Desktop).

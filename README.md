@@ -138,7 +138,7 @@ claudforge/
 | ✅ Done | Professional PyPI Packaging |
 | ✅ Done | Real-time Web Monitor (Streamlit) |
 | ✅ Done | `claudforge rollback` System |
-| ✅ Done | **v2.0.1**: Industrial-grade CI stability & Python 3.14 support |
+| ✅ Done | **v2.0.2**: Industrial-grade CI stability & Python 3.14 support |
 
 ---
 
