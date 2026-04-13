@@ -4,9 +4,11 @@ from rich.console import Console
 console = Console()
 
 
+from claudforge.utils.browser_profiles import is_profile_locked
+
 def launch_browser(
     p, headless: bool = False, connect_port: int = None, profile_path: str = None
-) -> tuple[any, Page]:
+) -> tuple:
     """Launch a fresh browser, a persistent session, or connect to an existing one."""
     import random
 
@@ -55,6 +57,12 @@ def launch_browser(
         console.print(
             f"[bold cyan]🚀 Launching persistent Chrome session: {profile_path}[/bold cyan]"
         )
+        if is_profile_locked(profile_path):
+            console.print(f"\n[bold red]⚠️  Profile Locked:[/bold red] {profile_path}")
+            console.print("   Chrome appears to be using this profile already.")
+            console.print("   [yellow]Please close Chrome or choose a different profile to continue.[/yellow]\n")
+            raise RuntimeError("Browser profile is already in use.")
+
         context = p.chromium.launch_persistent_context(
             profile_path,
             headless=headless,

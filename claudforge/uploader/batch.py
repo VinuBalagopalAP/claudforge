@@ -143,13 +143,11 @@ def run_batch_upload(
     )
 
     # ── PHASE 0: Pre-Batch Sanitization ────────────────────────────────────
-    # User threshold: limit or total folders > 9
-    if (limit and limit > 9) or len(skill_folders) > 9:
-        console.print(
-            "[dim]🔍 Performing Pre-Batch Sanity Check (scanning for reserved words)...[/dim]"
-        )
-        for folder in skill_folders:
-            sanitize_skill_metadata(folder, console)
+    console.print(
+        "[dim]🔍 Performing Pre-Batch Sanity Check (scanning for reserved words and YAML syntax)...[/dim]"
+    )
+    for folder in skill_folders:
+        sanitize_skill_metadata(folder, console)
 
     # ── PHASE 1: Predictive Queue Selection ─────────────────────────────────
     history = load_history(batch_dir) if not force else set()

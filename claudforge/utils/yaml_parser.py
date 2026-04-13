@@ -23,7 +23,11 @@ def validate_skill_metadata(folder: Path) -> tuple[bool, str]:
 
     try:
         # Extract YAML block
-        yaml_content = content[3 : content.find("---", 3)]
+        idx = content.find("---", 3)
+        if idx == -1:
+             return False, "Missing closing '---' for YAML block"
+             
+        yaml_content = content[3 : idx]
         metadata = yaml.safe_load(yaml_content)
 
         if not metadata or "name" not in metadata or "description" not in metadata:
@@ -42,18 +46,33 @@ def validate_skill_metadata(folder: Path) -> tuple[bool, str]:
 
 
 def get_skill_metadata(folder: Path) -> dict:
-    """Extract metadata from SKILL.md."""
+    """Extract metadata from SKILL.md with internal safety."""
     skill_md = get_skill_md_path(folder)
     if not skill_md:
         return {}
 
-    content = skill_md.read_text().strip()
-    yaml_content = content[3 : content.find("---", 3)]
-    return yaml.safe_load(yaml_content)
+    try:
+        content = skill_md.read_text().strip()
+        idx = content.find("---", 3)
+        if idx == -1:
+            return {}
+        yaml_content = content[3 : idx]
+        return yaml.safe_load(yaml_content) or {}
+    except Exception:
+        # If parsing fails here, we fall back to a simple regex to at least get the name
+        # this prevents the entire batch from crashing
+        try:
+            content = skill_md.read_text()
+            name_match = re.search(r"name:\s*(.*)", content)
+            if name_match:
+                return {"name": name_match.group(1).strip().strip('"').strip("'")}
+        except Exception:
+            pass
+        return {}
 
 
 def sanitize_skill_metadata(folder: Path, console=None):
-    """Automatically replace 'anthropic' with 'assistant' in SKILL.md."""
+    """Automatically fix common YAML issues and replace reserved words."""
     skill_md = get_skill_md_path(folder)
     if not skill_md:
         return
@@ -66,14 +85,36 @@ def sanitize_skill_metadata(folder: Path, console=None):
         return
 
     yaml_block = content[yaml_start : yaml_end + 3]
+    changed = False
+
+    # 1. Reserved word replacement
     if "anthropic" in yaml_block.lower():
         if console:
             console.print(
                 f"   [yellow]🛠️  Renaming 'anthropic' -> 'assistant' in {folder.name}...[/yellow]"
             )
+        yaml_block = yaml_block.replace("anthropic", "assistant").replace("Anthropic", "Assistant")
+        changed = True
 
-        # We do a replacement specifically in the YAML block to avoid messy content changes
-        new_yaml = yaml_block.replace("anthropic", "assistant").replace("Anthropic", "Assistant")
-        new_content = content[:yaml_start] + new_yaml + content[yaml_end + 3 :]
+    # 2. Fix unquoted values containing colons (common YAML pitfall)
+    # We look for keys (name, description) followed by values that contain colons but aren't quoted
+    import re
 
+    for key in ["name", "description"]:
+        pattern = rf"({key}:\s+)([^\n\"'].*?:.*)"
+        match = re.search(pattern, yaml_block)
+        if match:
+            prefix = match.group(1)
+            value = match.group(2).strip()
+            if console:
+                console.print(
+                    f"   [yellow]🛠️  Quoting {key} in {folder.name} to fix YAML structure...[/yellow]"
+                )
+            # Escape any internal double quotes and wrap in quotes
+            safe_value = value.replace('"', '\\"')
+            yaml_block = yaml_block.replace(match.group(0), f'{prefix}"{safe_value}"')
+            changed = True
+
+    if changed:
+        new_content = content[:yaml_start] + yaml_block + content[yaml_end + 3 :]
         skill_md.write_text(new_content)

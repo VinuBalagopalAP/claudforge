@@ -7,16 +7,60 @@ from playwright.sync_api import sync_playwright
 
 from claudforge.browser.launcher import launch_browser, navigate_to_skills
 from claudforge.utils.zipper import zip_folder, cleanup_zips
-from claudforge.utils.yaml_parser import validate_skill_metadata
+from claudforge.utils.yaml_parser import validate_skill_metadata, sanitize_skill_metadata
 from claudforge.utils.history import load_history
 from claudforge.uploader.single import upload_skill
 from claudforge.uploader.batch import run_batch_upload, export_web_data
+from claudforge.utils.config import get_config_key, set_config_key
+from claudforge.utils.browser_profiles import get_system_profiles
+from rich.prompt import Prompt, Confirm
 
 app = typer.Typer(
     help="ClaudForge ⚒️ - The missing CLI for Claude.ai Skills.",
     add_completion=False,
 )
 console = Console()
+
+
+def handle_profile_selection(console: Console) -> Optional[str]:
+    """Interactively select a Chrome profile with persistence."""
+    last_profile_path = get_config_key("last_profile_path")
+    profiles = get_system_profiles()
+
+    # 1. Check for last used profile
+    if last_profile_path:
+        last_name = next(
+            (p["name"] for p in profiles if p["path"] == last_profile_path), "Last Profile"
+        )
+        if Confirm.ask(
+            f"\n[bold green]Continue with your last profile '{last_name}'?[/bold green]",
+            default=True,
+        ):
+            return last_profile_path
+
+    # 2. Show discovery list if no last profile or user declined
+    if profiles:
+        console.print("\n[bold cyan]📋 Discovered Chrome Profiles:[/bold cyan]")
+        for i, p in enumerate(profiles, 1):
+            role_hint = " (Default)" if p["folder"] == "Default" else ""
+            console.print(
+                f"   [bold cyan]{i}.[/bold cyan] {p['name']}{role_hint} [dim]({p['folder']})[/dim]"
+            )
+        console.print(f"   [bold cyan]{len(profiles)+1}.[/bold cyan] ✨ Launch Fresh Profile (Ephemeral)")
+
+        choice = Prompt.ask(
+            "\n[bold green]Select profile number[/bold green]",
+            choices=[str(i) for i in range(1, len(profiles) + 2)],
+            default=str(len(profiles) + 1),
+        )
+
+        selected_idx = int(choice) - 1
+        if selected_idx < len(profiles):
+            selected_path = profiles[selected_idx]["path"]
+            set_config_key("last_profile_path", selected_path)
+            return selected_path
+
+    return None
 
 
 @app.command()
@@ -43,6 +87,13 @@ def upload(
         console.print(f"[red]Error: Path '{target}' does not exist.[/red]")
         raise typer.Exit(1)
 
+    # PRE-FLIGHT PROFILE SELECTION
+    if not profile:
+        profile = handle_profile_selection(console)
+        # Handle string path expansion if returned from config
+        if profile:
+            profile = str(Path(profile).expanduser().resolve())
+
     # AUTO-DETECT MODE
     is_single = (target / "SKILL.md").exists() or (target / "skill.md").exists()
 
@@ -54,6 +105,7 @@ def upload(
             navigate_to_skills(page, console)
 
             if is_single:
+                sanitize_skill_metadata(target, console)
                 ok, err = validate_skill_metadata(target)
                 if not ok:
                     console.print(f"[red]Validation Error: {err}[/red]")

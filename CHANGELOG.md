@@ -2,7 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v2.0.2] - 2026-04-12
+## [v2.1.1] IRONCLAD - 2026-04-13
+
+### Added
+- **Smart Profile Discovery**: Automatic detection of system Chrome profiles across macOS, Windows, and Linux. No more manual path entries.
+- **Identity Persistence**: The tool now remembers your last used profile and asks to reuse it.
+- **Lock Protection**: Proactive detection of locked profiles to prevent browser launch crashes.
+
+## [v2.1.0] IRONCLAD - 2026-04-12
+
+### Added
+- **Self-Healing YAML**: Integrated an intelligent auto-repair system that detects and fixes malformed YAML (like unquoted colons in descriptions) before deployment.
+- **Proactive Validation**: Standardized the Pre-Batch Sanity Check to run for **all** uploads (Single or Batch), ensuring 100% metadata compliance.
+
+### Fixed
+- **Parsing Robustness**: Resolved a fatal `mapping values are not allowed here` error that occurred when skill descriptions contained colons.
+- **Error Transparency**: Enhanced YAML parser to report the specific file path when a syntax error is detected in `SKILL.md`.
+
+## [v2.0.2] IRONCLAD - 2026-04-12
 
 ### Added
 - **Universal Navigation**: Unified the GitHub Stars "Hanging Sign" assembly across all viewports (Mobile, Tablet, Desktop).
@@ -11,6 +28,12 @@ All notable changes to this project will be documented in this file.
 - **Progressive SEO**: Integrated JSON-LD Schema.org (SoftwareApplication) and keyword-rich metadata.
 - **GitHub Live Metrics**: Added real-time star count fetching to the primary navigation.
 - **CLI Reference**: Injected a formal, interactive command and options guide into the production website.
+
+## [v2.0.1] IRONCLAD - 2026-04-12
+
+### Added
+- **Production Stability**: Finalized core engine resilience for high-volume skill deployment.
+- **CI/CD Stabilization**: Resolved multiple linting and test failure types for cleaner releases.
 - **Python 3.14 Support**: Official compatibility verified for **Python 3.14.4** (released April 2026).
 - **Proactive CI**: Added automated linting checks for the `dev` branch in GitHub Actions.
 - **Strategic Necessity**: Added a four-pillar "Why claudforge" section to the landing page, showcasing Time ROI, Resilience, Persistence, and Autonomy.
@@ -30,7 +53,7 @@ All notable changes to this project will be documented in this file.
 - **Mobile UI Optimization**: Refined header and hero spacing for mobile/tablet viewports (< 700px) to prevent layout collisions.
 - **CLI Documentation Sync**: Aligned website reference with actual CLI flags (`--connect`, `--keep-zips`, `--name`).
 
-## [v2.0.0] - 2026-04-11
+## [v2.0.0] IRONCLAD - 2026-04-11
 
 ### Added
 - **IRONCLAD Rebranding**: Officially promoted the v2.0 architecture as the **ClaudForge IRONCLAD Edition**.

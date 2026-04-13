@@ -8,7 +8,7 @@
 **Package. Validate. Deploy. Any scale. From your terminal.**
 
 [![PyPI version](https://img.shields.io/pypi/v/claudforge)](https://pypi.org/project/claudforge/)
-[![Python](https://img.shields.io/pypi/pyversions/claudforge)](https://pypi.org/project/claudforge/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-yellow.svg)](https://pypi.org/project/claudforge/)
 [![License](https://img.shields.io/pypi/l/claudforge)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/VinuBalagopalAP/claudforge?style=social)](https://github.com/VinuBalagopalAP/claudforge)
 
@@ -38,12 +38,13 @@ Every Claude.ai power user knows this pain:
 |---------|-------------|
 | 🕵️ **Stealth Automation** | Human-mimicry delays, randomized viewports, and physical click simulation. |
 | 🛡️ **Self-Healing** | "Flicker-Proof" logic with auto-retries and smart success polling. |
-| 🕒 **Rollback System** | **NEW**: Automatically backup skills on every upload; revert versions with one command. |
+| 🕒 **Rollback System** | Automatically backup skills on every upload; revert versions with one command. |
 | 📦 **Predictive Batching** | `--limit` fulfillment that refills the queue from pending items automatically. |
 | 📋 **Cloud Inventory** | Scans your Claude.ai account instantly to prevent redundant uploads. |
 | 🛠️ **Auto-Sanitize** | Scans for reserved words (like `anthropic`) and fixes them automatically. |
 | 📊 **Progress Dashboard** | `status`, `list`, and `dashboard` commands for real-time visibility. |
 | 🖥️ **Live Monitor** | A dedicated Streamlit Web UI to track long-running batches with ETR gauges. |
+| 🆔 **Smart Profiles** | **NEW**: Automatically discovers your Chrome profiles and remembers your selection. |
 
 ---
 
@@ -60,7 +61,8 @@ playwright install chromium
 claudforge dashboard ./my_skills
 
 # 3. Deploy (Smart detection: folder or batch)
-claudforge upload ./my_skills --limit 30 --profile "claude_user"
+claudforge upload ./my_skills --limit 30
+# (The tool will now interactively ask you to pick from your system Chrome profiles!)
 ```
 
 ---
@@ -87,7 +89,8 @@ Commands:
 Options:
   --limit N           Strictly attempt N brand-new uploads
   --force, -f         Ignore local history; re-verify everything on Cloud
-  --profile NAME      Use a persistent Chrome profile (keeps you logged in)
+  --profile NAME      Use a persistent profile (manual path or name)
+  --select-profile    Force interactive selection of system Chrome profiles
   --headless          Run in headless mode
 ```
 
@@ -138,7 +141,8 @@ claudforge/
 | ✅ Done | Professional PyPI Packaging |
 | ✅ Done | Real-time Web Monitor (Streamlit) |
 | ✅ Done | `claudforge rollback` System |
-| ✅ Done | **v2.0.2**: Industrial-grade CI stability & Python 3.14 support |
+| ✅ Done | **v2.0.2 IRONCLAD Engine**: CI stability & Python 3.14 support |
+| ✅ Done | **v2.1.1 IRONCLAD Engine**: Smart Profile Discovery & Persistence |
 
 ---
 
