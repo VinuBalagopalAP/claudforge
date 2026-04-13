@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.3.0] IRONCLAD - 2026-04-13
+
+### Added
+- **Engine Intelligence**: Integrated a proactive PyPI update checker into `doctor` and `upload` flows.
+- **Dashboard Observability**: Real-time engine log streaming successfully integrated into the Streamlit dashboard tracker.
+- **Industrial Quality Gates**: Integrated `Ruff` and `MyPy` for strict static analysis and type safety.
+- **Extended CI Verification**: GitHub Actions now enforces linting and type checking on every contribution.
+
 ## [v2.2.0] IRONCLAD - 2026-04-13
 
 ### Added

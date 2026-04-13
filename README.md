@@ -147,6 +147,7 @@ claudforge/
 | ✅ Done | **v2.0.2 IRONCLAD Engine**: CI stability & Python 3.14 support |
 | ✅ Done | **v2.1.1 IRONCLAD Engine**: Smart Profile Discovery & Persistence |
 | ✅ Done | **v2.2.0 IRONCLAD Engine**: Structured Logging, Security (0700) & CI |
+| ✅ Done | **v2.3.0 IRONCLAD Engine**: Static Analysis (MyPy/Ruff) & Log Streaming |
 
 ---
 
