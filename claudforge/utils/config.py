@@ -8,9 +8,14 @@ CONFIG_FILE = CONFIG_DIR / "config.json"
 
 
 def _ensure_config_exists():
-    """Ensure the config directory and file exist."""
+    """Ensure the config directory and file exist with restricted permissions."""
     if not CONFIG_DIR.exists():
         CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+        # Enforce 0700 permissions on the global config directory
+        try:
+            os.chmod(CONFIG_DIR, 0o700)
+        except OSError:
+            pass
     if not CONFIG_FILE.exists():
         with open(CONFIG_FILE, "w") as f:
             json.dump({}, f)

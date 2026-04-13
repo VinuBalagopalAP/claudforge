@@ -1,10 +1,18 @@
 from playwright.sync_api import Page
 from rich.console import Console
-
-console = Console()
+from claudforge.utils.logger import logger
 
 
 from claudforge.utils.browser_profiles import is_profile_locked
+import socket
+
+def is_port_open(host: str, port: int) -> bool:
+    """Check if a port is open and responding."""
+    try:
+        with socket.create_connection((host, port), timeout=0.5):
+            return True
+    except (ConnectionRefusedError, socket.timeout):
+        return False
 
 def launch_browser(
     p, headless: bool = False, connect_port: int = None, profile_path: str = None
@@ -24,9 +32,7 @@ def launch_browser(
     ]
 
     if connect_port:
-        console.print(
-            f"[bold cyan]🔗 Connecting to existing Chrome on port {connect_port}...[/bold cyan]"
-        )
+        logger.info(f"🔗 Connecting to existing Chrome on port {connect_port}...")
         try:
             browser = p.chromium.connect_over_cdp(f"http://127.0.0.1:{connect_port}")
             # Existing sessions are already "stealthy" because they are real processes
@@ -35,9 +41,7 @@ def launch_browser(
                 for p_ in context.pages:
                     if "claude.ai" in p_.url:
                         page = p_
-                        console.print(
-                            f"[bold green]✅ Found existing Claude tab: '{page.title()}'[/bold green]"
-                        )
+                        logger.info(f"✅ Found existing Claude tab: '{page.title()}'")
                         break
                 if page:
                     break
@@ -54,13 +58,32 @@ def launch_browser(
                 )
             raise RuntimeError(f"Failed to connect to Chrome: {e}")
     elif profile_path:
-        console.print(
-            f"[bold cyan]🚀 Launching persistent Chrome session: {profile_path}[/bold cyan]"
-        )
+        logger.info(f"🚀 Launching persistent Chrome session: [bold cyan]{profile_path}[/bold cyan]")
         if is_profile_locked(profile_path):
-            console.print(f"\n[bold red]⚠️  Profile Locked:[/bold red] {profile_path}")
-            console.print("   Chrome appears to be using this profile already.")
-            console.print("   [yellow]Please close Chrome or choose a different profile to continue.[/yellow]\n")
+            logger.info("ℹ️  Profile is locked. Attempting to discover active debugging session...")
+            # Try the standard port 9222
+            if is_port_open("127.0.0.1", 9222):
+                logger.info("🔗 [bold green]Active session discovered on port 9222![/bold green]")
+                try:
+                    browser = p.chromium.connect_over_cdp("http://127.0.0.1:9222")
+                    # Reuse connection logic
+                    page = None
+                    for context in browser.contexts:
+                        for p_ in context.pages:
+                            if "claude.ai" in p_.url:
+                                page = p_
+                                logger.info(f"✅ Found existing Claude tab: '{page.title()}'")
+                                break
+                        if page: break
+                    if not page:
+                        page = browser.contexts[0].new_page()
+                    return browser, page
+                except Exception as e:
+                    logger.debug(f"Connection attempt to 9222 failed: {e}")
+
+            logger.warning(f"⚠️  [bold yellow]Profile Locked:[/bold yellow] {profile_path}")
+            logger.info("Chrome is using this profile and no debugging port is active.")
+            logger.info("Please close Chrome or start with --remote-debugging-port=9222")
             raise RuntimeError("Browser profile is already in use.")
 
         context = p.chromium.launch_persistent_context(
@@ -92,10 +115,7 @@ def navigate_to_skills(page, console: Console):
 
     # Handle Login
     if "login" in page.url or "signin" in page.url:
-        console.print(
-            "\n[bold yellow]⚠️  Please log in manually in the browser window, then press Enter."
-            "[/bold yellow]"
-        )
+        logger.warning("⚠️  Please log in manually in the browser window, then press Enter.")
         input("   [Press Enter once logged in] ")
         if TARGET not in page.url:
             page.goto(TARGET, wait_until="networkidle")
@@ -106,11 +126,9 @@ def navigate_to_skills(page, console: Console):
         or "cloudflare" in page.content().lower()
         or "Just a moment" in page.title()
     ):
-        console.print("\n[bold red]🛡️  Cloudflare challenge detected![/bold red]")
-        console.print("   Please solve the challenge in the browser window.")
-        console.print(
-            "   The script will detect when you are through. (Or press Enter if page is ready)"
-        )
+        logger.warning("🛡️  Cloudflare challenge detected!")
+        logger.info("   Please solve the challenge in the browser window.")
+        logger.info("   The script will detect when you are through. (Or press Enter if page is ready)")
         try:
             # Wait for content or user to press enter
             page.wait_for_selector("button:has-text('Add skill')", timeout=15000)

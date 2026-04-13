@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.2.0] IRONCLAD - 2026-04-13
+
+### Added
+- **Structured Engine Logging**: Migrated from ad-hoc prints to a production-grade Python `logging` system with `RichHandler`.
+- **Persistent Log Files**: Internal engine logs are now saved to `~/.claudforge/logs/claudforge.log` for troubleshooting.
+- **Industrial Test Coverage**: Added comprehensive unit tests for YAML metadata repair and browser profile discovery.
+- **CI/CD Automation**: Integrated GitHub Actions to automatically run the full test suite on push/PR for Python 3.8+.
+- **Security Hardening**: Enforced `0700` restricted permissions on the global config directory to protect identity persistence data.
+- **Enhanced Doctor**: `claudforge doctor` now checks for Chrome binary health, system permissions, and Playwright driver status.
+- **Library Pruning**: Added the `prune` command to securely clear engine logs and temporary packaged assets.
+
 ## [v2.1.1] IRONCLAD - 2026-04-13
 
 ### Added

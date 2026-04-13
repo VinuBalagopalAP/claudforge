@@ -4,7 +4,7 @@ import re
 import json
 from pathlib import Path
 from typing import Optional, Set
-from rich.console import Console
+from claudforge.utils.logger import logger, console
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
 from rich.prompt import Prompt
 from rich.table import Table
@@ -92,6 +92,7 @@ class SessionTracker:
     def __init__(
         self, batch_dir: Path, total_folders: int, history_count: int, limit: Optional[int]
     ):
+        from claudforge.utils.logger import LOG_FILE
         self.path = batch_dir / ".claudforge_session.json"
         self.data = {
             "project_name": batch_dir.name,
@@ -103,6 +104,7 @@ class SessionTracker:
             "current_index": 0,
             "results": [],
             "status": "RUNNING",
+            "log_file": str(LOG_FILE),
         }
         self._update()
 
@@ -134,7 +136,6 @@ def run_batch_upload(
     zip_dir: Path,
     limit: Optional[int] = None,
     keep_zips: bool = False,
-    console: Console = Console(),
     force: bool = False,
 ):
     """Scan a directory for skill folders and upload them sequentially with detailed reporting."""
@@ -143,17 +144,15 @@ def run_batch_upload(
     )
 
     # ── PHASE 0: Pre-Batch Sanitization ────────────────────────────────────
-    console.print(
-        "[dim]🔍 Performing Pre-Batch Sanity Check (scanning for reserved words and YAML syntax)...[/dim]"
-    )
+    logger.info("🔍 Performing Pre-Batch Sanity Check (scanning for reserved words and YAML syntax)...")
     for folder in skill_folders:
         sanitize_skill_metadata(folder, console)
 
     # ── PHASE 1: Predictive Queue Selection ─────────────────────────────────
     history = load_history(batch_dir) if not force else set()
-    console.print("[dim]🔍 Checking cloud inventory and local history...[/dim]")
+    logger.info("🔍 Checking cloud inventory and local history...")
     if force:
-        console.print("[yellow]   (Force enabled: ignoring local history)[/yellow]")
+        logger.warning("   (Force enabled: ignoring local history)")
     cloud_skills = get_existing_skills(page)
 
     to_upload = []
@@ -180,7 +179,7 @@ def run_batch_upload(
             to_upload.append(folder)
 
     if not to_upload and not to_ask:
-        console.print("[green]✅ Everything is already up to date![/green]")
+        logger.info("✅ Everything is already up to date!")
         return
 
     # Initialize Session Tracker for Dashboard
@@ -233,9 +232,7 @@ def run_batch_upload(
                 to_ask_unique.append(f)
                 seen.add(f.name)
 
-        console.print(
-            f"\n[bold yellow]📋 {len(to_ask_unique)} skills already exist on Claude.ai:[/bold yellow]"
-        )
+        logger.info(f"📋 [bold yellow]{len(to_ask_unique)} skills already exist on Claude.ai:[/bold yellow]")
         for i, f in enumerate(to_ask_unique, 1):
             console.print(f"   [bold cyan]{i}.[/bold cyan] {f.name}")
 
@@ -308,10 +305,7 @@ def run_batch_upload(
 
     # 5. Summary Table (Responsive Layout)
     if not results:
-        console.print(
-            "\n[green]✅ Everything is already up to date! "
-            "(All skills found in history or on cloud).[/green]"
-        )
+        logger.info("✅ Everything is already up to date! (All skills found in history or on cloud).")
         return
 
     table = Table(
@@ -338,7 +332,7 @@ def _process_skill(
     folder: Path,
     zip_dir: Path,
     keep_zips: bool,
-    console: Console,
+    console=None,
     force_replace: bool = False,
 ):
     """Internal helper to zip and upload a single folder."""

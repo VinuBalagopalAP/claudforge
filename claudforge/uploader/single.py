@@ -2,7 +2,7 @@ import time
 import random
 from pathlib import Path
 from playwright.sync_api import Page, TimeoutError as PWTimeout
-from rich.console import Console
+from claudforge.utils.logger import logger
 
 
 def human_delay(min_s: float = 0.2, max_s: float = 0.5):
@@ -10,7 +10,7 @@ def human_delay(min_s: float = 0.2, max_s: float = 0.5):
     time.sleep(random.uniform(min_s, max_s))
 
 
-def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: bool = False) -> str:
+def upload_skill(page: Page, zip_path: Path, console=None, auto_replace: bool = False) -> str:
     """
     Automated upload with optimized human-mimicry delays and self-healing retries.
     Returns: 'SUCCESS', 'DUPLICATE', or 'FAILED'
@@ -59,22 +59,20 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
                 continue
             elif attempt == 1:
                 # TRY 2 FAILED: "Smart Reload" - refresh the page state
-                console.print(
-                    "   [dim]🔄 Automation stuttered. Reloading page and retrying...[/dim]"
-                )
+                logger.debug("   🔄 Automation stuttered. Reloading page and retrying...")
                 page.reload(wait_until="domcontentloaded")
                 human_delay(1.0, 2.0)
                 continue
             else:
                 # TRY 3 FAILED: Manual Fallback
-                console.print("\n[bold yellow]⚠️  Advanced Automation Blocked[/bold yellow]")
-                console.print("   [cyan]ACTION:[/cyan] In the browser, please manually click:")
-                console.print("   [white]1. '+ Add skill'[/white]")
-                console.print("   [white]2. 'Upload a skill'[/white]")
+                logger.warning("⚠️  Advanced Automation Blocked")
+                logger.info("   [cyan]ACTION:[/cyan] In the browser, please manually click:")
+                logger.info("   [white]1. '+ Add skill'[/white]")
+                logger.info("   [white]2. 'Upload a skill'[/white]")
 
                 try:
                     page.wait_for_selector("text=Drag and drop or click to upload", timeout=60000)
-                    console.print("   [green]✨ Modal detected! Resuming...[/green]")
+                    logger.info("   ✨ Modal detected! Resuming...")
                 except PWTimeout:
                     return "FAILED"
 
@@ -86,7 +84,7 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
         human_delay(0.5, 1.0)
 
         file_input.set_input_files(str(zip_path))
-        console.print(f"   [green]✨ {zip_path.name[:20]}... injected.[/green]", end="")
+        logger.debug(f"   ✨ {zip_path.name[:20]}... injected.")
 
         # ── 4. Verification Loop ──────────────────────────────────────────────
         for _ in range(60):  # ~30s poll
@@ -98,7 +96,7 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
             error_toast = page.locator("text=Error, .lucide-alert-circle")
             if error_toast.is_visible():
                 details = error_toast.inner_text()
-                console.print(f" [red]❌ Claude Error: {details[:30]}...[/red]", end="")
+                logger.error(f" [red]❌ Claude Error: {details[:30]}...[/red]")
                 return "FAILED"
 
             # 3. Check for REPLACE modal
@@ -106,7 +104,7 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
                 replace_modal = page.locator("div[role='dialog']:has-text('Replace')")
                 if replace_modal.is_visible():
                     if auto_replace:
-                        console.print("\n[cyan]   ♻️  Confirming Replace...[/cyan]")
+                        logger.info("   ♻️  Confirming Replace...")
                         replace_modal.get_by_role("button", name="Replace").click(timeout=3000)
                         page.wait_for_timeout(1000)
                         auto_replace = False
@@ -135,5 +133,5 @@ def upload_skill(page: Page, zip_path: Path, console: Console, auto_replace: boo
         return "FAILED"
 
     except Exception as e:
-        console.print(f" [red]❌ Error:[/red] {e}")
+        logger.error(f" ❌ Error: {e}")
         return "FAILED"

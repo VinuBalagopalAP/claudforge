@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "claudforge"
-version = "2.1.1"
+version = "2.2.0"
 description = "The high-performance CLI suite for Claude.ai Skills automation."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -45,7 +45,10 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
+    "pytest-mock>=3.10.0",
     "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "types-PyYAML>=6.0.0",
     "twine>=5.0.0",
 ]
 

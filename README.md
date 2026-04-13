@@ -44,7 +44,9 @@ Every Claude.ai power user knows this pain:
 | 🛠️ **Auto-Sanitize** | Scans for reserved words (like `anthropic`) and fixes them automatically. |
 | 📊 **Progress Dashboard** | `status`, `list`, and `dashboard` commands for real-time visibility. |
 | 🖥️ **Live Monitor** | A dedicated Streamlit Web UI to track long-running batches with ETR gauges. |
-| 🆔 **Smart Profiles** | **NEW**: Automatically discovers your Chrome profiles and remembers your selection. |
+| 🆔 **Smart Profiles** | Automatically discovers your Chrome profiles and remembers your selection. |
+| 🧪 **Industrial Core** | Structured logging, enhanced security (0700), and automated CI verification. |
+| 🧹 **Library Pruning** | **NEW**: `prune` command to clear engine logs and temporary packaged assets. |
 
 ---
 
@@ -85,6 +87,7 @@ Commands:
   validate [PATH]   Check SKILL.md structure and reserved word compliance
   init              Scaffold a new Claude skill folder
   doctor            Check environment health (Chrome, Playwright, Python)
+  prune [PATH]      Cleanup temporary files, logs, and packaged assets
 
 Options:
   --limit N           Strictly attempt N brand-new uploads
@@ -143,6 +146,7 @@ claudforge/
 | ✅ Done | `claudforge rollback` System |
 | ✅ Done | **v2.0.2 IRONCLAD Engine**: CI stability & Python 3.14 support |
 | ✅ Done | **v2.1.1 IRONCLAD Engine**: Smart Profile Discovery & Persistence |
+| ✅ Done | **v2.2.0 IRONCLAD Engine**: Structured Logging, Security (0700) & CI |
 
 ---
 

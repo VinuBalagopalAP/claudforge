@@ -3,7 +3,7 @@
 ## Engine Name
 **IRONCLAD** — This is the permanent engine codename. Do NOT rename, replace,
 or paraphrase this in any file. It is a proper noun and brand identifier,
-not a descriptive adjective.
+not a descriptive adjective. It is ALWAYS spelled as **ClaudForge** (CamelCase).
 
 ## Version Format
 `vX.Y.Z IRONCLAD Engine` — The word "IRONCLAD" always follows the version number

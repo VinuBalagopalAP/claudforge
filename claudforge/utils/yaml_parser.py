@@ -1,5 +1,7 @@
 from pathlib import Path
 import yaml
+import re
+from claudforge.utils.logger import logger
 
 
 def get_skill_md_path(folder: Path) -> Path:
@@ -89,10 +91,7 @@ def sanitize_skill_metadata(folder: Path, console=None):
 
     # 1. Reserved word replacement
     if "anthropic" in yaml_block.lower():
-        if console:
-            console.print(
-                f"   [yellow]🛠️  Renaming 'anthropic' -> 'assistant' in {folder.name}...[/yellow]"
-            )
+        logger.info(f"   [yellow]🛠️  Renaming 'anthropic' -> 'assistant' in {folder.name}...[/yellow]")
         yaml_block = yaml_block.replace("anthropic", "assistant").replace("Anthropic", "Assistant")
         changed = True
 
@@ -106,10 +105,7 @@ def sanitize_skill_metadata(folder: Path, console=None):
         if match:
             prefix = match.group(1)
             value = match.group(2).strip()
-            if console:
-                console.print(
-                    f"   [yellow]🛠️  Quoting {key} in {folder.name} to fix YAML structure...[/yellow]"
-                )
+            logger.info(f"   [yellow]🛠️  Quoting {key} in {folder.name} to fix YAML structure...[/yellow]")
             # Escape any internal double quotes and wrap in quotes
             safe_value = value.replace('"', '\\"')
             yaml_block = yaml_block.replace(match.group(0), f'{prefix}"{safe_value}"')
