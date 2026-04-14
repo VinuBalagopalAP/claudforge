@@ -72,7 +72,7 @@ claudforge upload ./my_skills --limit 30
 ## 📖 CLI Reference
  
 > [!TIP]
-> **View the Interactive Guide**: For a detailed view of all flags and examples, visit the [**Official CLI Reference ↗**](https://claudforge.vercel.app#reference).
+> **View the Interactive Guide**: For a detailed view of all flags and examples, visit the [**Official CLI Reference ↗**](https://claudforge.vercel.app/docs.html).
  
 
 ```

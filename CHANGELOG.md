@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.4.0] IRONCLAD - 2026-04-14
+
+### Added
+- **Suite-Wide Modular Scale**: Completely purged legacy fluid spacing variables, transitioning the entire `style.css` architecture to a mathematically rigid, `8px`-based UUPM modular scale.
+- **Architectural UI Synchronization**: Standardized the mega `.premium-footer` infrastructure globally across all pages (`index.html`, `docs.html`, `changelog.html`) using automated flexbox locking mechanisms.
+- **Side-Panel Mobile Routing**: Deprecated the destructive full-screen `100vh` mobile overlay. Mobile navigation now spawns strictly beneath the glass navbar as a smooth slide-out `300px` fixed panel.
+- **Hanging Sign Restoration**: Re-engineered and restored the brand-critical "⭐ THE FORGE" dynamic swinging sign utilizing isolated absolute positioning to preserve strict 3-column navbar symmetry.
+
 ## [v2.3.0] IRONCLAD - 2026-04-13
 
 ### Added
@@ -9,6 +17,10 @@ All notable changes to this project will be documented in this file.
 - **Dashboard Observability**: Real-time engine log streaming successfully integrated into the Streamlit dashboard tracker.
 - **Industrial Quality Gates**: Integrated `Ruff` and `MyPy` for strict static analysis and type safety.
 - **Extended CI Verification**: GitHub Actions now enforces linting and type checking on every contribution.
+
+### Fixed
+- **Flawless Geometric Timelines**: Hardened the visual timeline history components. Stripped unstable `-4.5px` floating subpixels and replaced them with integer logic over a shared `5px` center axis, radically improving anti-aliased sharpness.
+- **Pill Badge Redesign**: Redesigned all version tags across the site to feature an intense high-visibility red, `20px` radius, perfect pill shape geometry.
 
 ## [v2.2.0] IRONCLAD - 2026-04-13
 
