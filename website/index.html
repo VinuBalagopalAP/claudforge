@@ -66,26 +66,39 @@
     <div class="math-grid"></div>
     <div class="glow-orb" id="orb-1"></div>
 
+    <input type="checkbox" id="menu-check">
     <nav class="glass-nav">
         <div class="container nav-flex">
-            <div class="logo">
-                <img src="assets/favicon/logo.svg" alt="ClaudForge" width="32">
-                <span>ClaudForge <span class="badge-v">v2.3.0</span></span>
-            </div>
-            
-            <a href="https://github.com/VinuBalagopalAP/claudforge" class="nav-stars-assembly" id="gh-stars-sign">
-                <div class="stars-upper">
-                    <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>
-                    <span id="star-count">...</span> Stars
+            <div class="nav-col-left">
+                <div class="logo">
+                    <img src="assets/favicon/logo.svg" alt="ClaudForge" width="32">
+                    <span>ClaudForge <span class="badge-v">v2.3.0</span></span>
                 </div>
-                <div class="hanging-board">⭐ THE FORGE</div>
-            </a>
-            
-            <div class="nav-links">
-                <a href="#logic-suite">Logic</a>
-                <a href="#toolbox">Toolbox</a>
-                <a href="#history">Timeline</a>
-                <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank">GitHub</a>
+            </div>
+
+            <div class="nav-col-center">
+                <div class="nav-stars-assembly" id="gh-stars-sign">
+                    <div class="stars-upper">
+                        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>
+                        <span id="star-count">...</span> Stars
+                    </div>
+                    <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank" class="hanging-board">⭐ THE FORGE</a>
+                </div>
+            </div>
+
+            <div class="nav-col-right">
+                <div class="nav-links">
+                    <a href="index.html" class="active">Logic</a>
+                    <a href="docs.html">Toolbox</a>
+                    <a href="changelog.html">Chronicle</a>
+                    <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank">GitHub</a>
+                </div>
+                
+                <label for="menu-check" class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
             </div>
         </div>
     </nav>
@@ -497,46 +510,19 @@
 
     <section id="history" class="history-section animate-on-scroll">
         <div class="container">
-            <h2 class="section-title">Engine Evolution Timeline</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="t-date">v2.3.0 IRONCLAD</div>
-                    <div class="t-content">
-                        <h3>Professional Maturity</h3>
-                        <p>Integrated update checker, real-time log streaming for the dashboard, and enforced CI quality gates (Ruff/MyPy).</p>
-                    </div>
+            <h2 class="section-title">Latest Milestone</h2>
+            <div class="suite-card glass active-milestone">
+                <div class="t-date">v2.3.0 IRONCLAD</div>
+                <h3>Professional Maturity</h3>
+                <p> ClaudForge has reached its most stable operational state yet. Featuring a proactive update checker, real-time log streaming, and enforced CI quality gates. </p>
+                <div style="margin-top: 2rem;">
+                    <a href="changelog.html" class="btn btn-outline">View Full Engine Chronicle ⚒️</a>
                 </div>
-
-                <div class="timeline-item">
-                    <div class="t-date">v2.2.0 IRONCLAD</div>
-                    <div class="t-content">
-                        <h3>Industrial Evolution</h3>
-                        <p>Structured logging, restricted config permissions (0700), and automated CI/CD verification.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="t-date">v2.1.1 IRONCLAD</div>
-                    <div class="t-content">
-                        <h3>Identity Persistence</h3>
-                        <p>Universal Chrome profile discovery and persistent memory. One-click access to your actual browser sessions.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="t-date">v2.1.0 IRONCLAD</div>
-                    <div class="t-content">
-                        <h3>Self-Correction Core</h3>
-                        <p>Intelligent YAML auto-repair and proactive metadata sanitization. Universal reliability for 100+ skill batches.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="t-date">v2.0.2 IRONCLAD</div>
-                    <div class="t-content">
-                        <h3>Mathematical Scaling</h3>
-                        <p>Complete redesign for the 100+ skill mission. Rollback Engine, Real-time Web Analytics, and predictive batching.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
+            </div>
+        </div>
+    </section>
+    <div class="timeline">
+        <div class="timeline-item">
                     <div class="t-date">v1.2.0 UNIFIED</div>
                     <div class="t-content">
                         <h3><a href="archive/v1/index.html" style="color: inherit; text-decoration: none;">Architectural Order ↗</a></h3>
@@ -551,7 +537,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
     </section>
 
     <footer class="premium-footer">

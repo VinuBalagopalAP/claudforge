@@ -25,3 +25,6 @@ node_modules/
 dist/
 build/
 .playwright/
+
+#ignore_website_screenshots_folder
+website_screenshots/

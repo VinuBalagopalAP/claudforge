@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operational Manual — ClaudForge Guide</title>
+    <meta name="description" content="Official documentation for ClaudForge IRONCLAD engine. Command reference, SKILL.md syntax, and deployment best practices.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <style>
+        .blueprint-card {
+            background: rgba(0, 212, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 4rem;
+        }
+        .tag-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-dim);
+        }
+        .tag.required { color: var(--accent); border-color: rgba(255, 75, 75, 0.3); }
+        .tag.optional { color: var(--primary); border-color: rgba(0, 212, 255, 0.3); }
+        
+        .schematic {
+            width: 100%;
+            height: 120px;
+            margin: 2rem 0;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="ironclad-theme">
+    <div class="math-grid"></div>
+    <div class="glow-orb" id="orb-2"></div>
+
+    <input type="checkbox" id="menu-check">
+    <nav class="glass-nav">
+        <div class="container nav-flex">
+            <div class="nav-col-left">
+                <div class="logo">
+                    <img src="assets/favicon/logo.svg" alt="ClaudForge" width="32">
+                    <span>Operational <span class="badge-v">Manual</span></span>
+                </div>
+            </div>
+
+            <div class="nav-col-center">
+                <div class="nav-stars-assembly" id="gh-stars-sign">
+                    <div class="stars-upper">
+                        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>
+                        <span id="star-count">...</span> Stars
+                    </div>
+                    <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank" class="hanging-board">⭐ THE FORGE</a>
+                </div>
+            </div>
+
+            <div class="nav-col-right">
+                <div class="nav-links">
+                    <a href="index.html">Logic</a>
+                    <a href="docs.html" class="active">Toolbox</a>
+                    <a href="changelog.html">Chronicle</a>
+                    <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank">GitHub</a>
+                </div>
+                
+                <label for="menu-check" class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero" style="padding-top: 150px;">
+        <div class="container">
+            <div class="hero-badge animate-in visible">ENGINEERING DOCUMENTATION</div>
+            <h1 class="animate-in visible">Command <br><span class="gradient-text">Reference.</span></h1>
+            <p class="animate-in visible delay-1">The definitive technical guide for the IRONCLAD suite logic.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- UPLOAD SECTION -->
+        <section id="cmd-upload" class="blueprint-card">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: UPLOAD</span>
+                <span class="tag optional">FLAGS: --limit, --profile, --headless</span>
+            </div>
+            <h3>Deployment Logic (upload)</h3>
+            <p>The primary execution engine. Recursively scans for skill folders, patches metadata, and fulfills batch queues.</p>
+            
+            <div class="schematic">
+                <svg viewBox="0 0 600 100" style="width: 100%; max-width: 500px;">
+                    <rect x="20" y="35" width="80" height="30" rx="4" fill="none" stroke="var(--primary)" stroke-dasharray="4"/>
+                    <text x="35" y="55" fill="var(--primary)" font-size="10" font-family="monospace">LOCAL_FS</text>
+                    <path d="M100 50 L150 50" stroke="var(--primary)" marker-end="url(#arrow)"/>
+                    <rect x="150" y="30" width="100" height="40" rx="6" fill="var(--primary)" opacity="0.1" stroke="var(--primary)"/>
+                    <text x="165" y="55" fill="#fff" font-size="10" font-family="monospace">IRONCLAD_CORE</text>
+                    <path d="M250 50 L300 50" stroke="var(--primary)" marker-end="url(#arrow)"/>
+                    <circle cx="330" cy="50" r="20" fill="none" stroke="var(--primary)"/>
+                    <text x="315" y="54" fill="var(--primary)" font-size="8" font-family="monospace">VALIDATE</text>
+                    <path d="M360 50 L410 50" stroke="var(--primary)" marker-end="url(#arrow)"/>
+                    <rect x="410" y="35" width="90" height="30" rx="4" fill="none" stroke="var(--primary)" stroke-dasharray="4"/>
+                    <text x="425" y="55" fill="var(--primary)" font-size="10" font-family="monospace">CLAUDE_AI</text>
+                    
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                          <path d="M0,0 L0,6 L9,3 z" fill="var(--primary)" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">execution — upload</span></div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge upload ./skills --limit 10 --profile "Dev"
+                </div>
+            </div>
+        </section>
+
+        <!-- DOCTOR SECTION -->
+        <section id="cmd-doctor" class="blueprint-card">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: DOCTOR</span>
+                <span class="tag optional">SYSTEM_AUDIT</span>
+            </div>
+            <h3>Health & Verification (doctor)</h3>
+            <p>Performs a multi-layer ecosystem audit. Verifies Chrome binaries, Playwright drivers, and config security (0700).</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">execution — doctor</span></div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge doctor
+                </div>
+            </div>
+        </section>
+
+        <!-- PRUNE SECTION -->
+        <section id="cmd-prune" class="blueprint-card">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: PRUNE</span>
+                <span class="tag optional">MAINTENANCE</span>
+            </div>
+            <h3>Library Hygiene (prune)</h3>
+            <p>Cleans up temporary zipped assets and clears engine log history to maintain sub-millisecond local efficiency.</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">execution — prune</span></div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge prune
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILL.MD SYNTAX GUIDE -->
+        <section id="skill-syntax" class="blueprint-card" style="border-left: 5px solid var(--primary);">
+            <h3>SKILL.md Configuration</h3>
+            <p>Every skill folder must contain a <code>SKILL.md</code> file with the following YAML frontmatter:</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">editor — SKILL.md</span></div>
+                <div class="t-body">
+                    <code style="color: var(--text-dim);">
+                        ---<br>
+                        name: "My Powerful Skill"<br>
+                        description: "A detailed explanation of AI behavior"<br>
+                        version: "1.0.0"<br>
+                        ---<br><br>
+                        # Skill Content starts here...
+                    </code>
+                </div>
+            </div>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-dim);">
+                💡 **Pro Tip**: ClaudForge automatically escapes complex characters and fixes malformed YAML during deployment.
+            </p>
+        </section>
+    </main>
+
+    <footer class="foot-bottom">
+        <div class="container">
+            <p>&copy; 2026 ClaudForge. Developed by Vinu Balagopal AP.</p>
+            <div class="foot-labels">
+                <span>MANUAL_REV: 2.3.0</span>
+                <span>STATUS: OPERATIONAL</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
