@@ -57,7 +57,7 @@
             <div class="nav-col-left">
                 <div class="logo">
                     <img src="assets/favicon/logo.svg" alt="ClaudForge" width="32">
-                    <span>Operational <span class="badge-v">Manual</span></span>
+                    <span>Operational <span class="badge-v">v2.5.0</span></span>
                 </div>
             </div>
 
@@ -101,7 +101,7 @@
 
     <main class="container">
         <!-- UPLOAD SECTION -->
-        <section id="cmd-upload" class="blueprint-card">
+        <section id="cmd-upload" class="blueprint-card animate-on-scroll">
             <div class="tag-row">
                 <span class="tag required">COMMAND: UPLOAD</span>
                 <span class="tag optional">FLAGS: --limit, --profile, --headless</span>
@@ -139,8 +139,104 @@
             </div>
         </section>
 
+        <!-- INIT SECTION -->
+        <section id="cmd-init" class="blueprint-card animate-on-scroll">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: INIT</span>
+                <span class="tag optional">SCAFFOLDING</span>
+            </div>
+            <h3>Project Scaffolding (init)</h3>
+            <p>Generates a standardized Claude skill folder structure with a pre-configured <code>SKILL.md</code> manifest and recursive safety ignores.</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">execution — init</span></div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge init --name "Agent_Protocol"
+                </div>
+            </div>
+        </section>
+
+        <!-- VALIDATE SECTION -->
+        <section id="cmd-validate" class="blueprint-card animate-on-scroll">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: VALIDATE</span>
+                <span class="tag optional">OFFLINE_LINT</span>
+            </div>
+            <h3>Metadata Auditing (validate)</h3>
+            <p>Performs deep structural analysis on your <code>SKILL.md</code> files. Checks for reserved words (Anthropic quarantine) and YAML syntax compliance.</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">execution — validate</span></div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge validate ./my-skill
+                </div>
+            </div>
+        </section>
+
+        <!-- INIT SECTION -->
+        <section id="cmd-init" class="blueprint-card animate-on-scroll">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: INIT</span>
+                <span class="tag optional">SCAFFOLDING</span>
+            </div>
+            <h3>Project Scaffolding (init)</h3>
+            <p>Generates a standardized Claude skill folder structure with a pre-configured <code>SKILL.md</code> manifest and recursive safety ignores.</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">execution — init</span></div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge init --name "Agent_Protocol"
+                </div>
+            </div>
+        </section>
+
+        <!-- STATUS SECTION -->
+        <section id="cmd-status" class="blueprint-card animate-on-scroll">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: STATUS</span>
+                <span class="tag optional">ANALYTICS</span>
+            </div>
+            <h3>Progress Metrics (status)</h3>
+            <p>Provides a high-speed summary of batch completion ratios relative to local history versus total source folder depth.</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">execution — status</span></div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge status ./batch_alpha
+                </div>
+            </div>
+        </section>
+
+        <!-- LIST SECTION -->
+        <section id="cmd-list" class="blueprint-card animate-on-scroll">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: LIST</span>
+                <span class="tag optional">INVENTORY</span>
+            </div>
+            <h3>Inventory Scanning (list)</h3>
+            <p>Extracts and displays every skill identity recorded in the persistent local history array for quick auditing.</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">execution — list</span></div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge list
+                </div>
+            </div>
+        </section>
+
+        <!-- VALIDATE SECTION -->
+        <section id="cmd-validate" class="blueprint-card animate-on-scroll">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: VALIDATE</span>
+                <span class="tag optional">OFFLINE_LINT</span>
+            </div>
+            <h3>Metadata Auditing (validate)</h3>
+            <p>Performs deep structural analysis on your <code>SKILL.md</code> files. Checks for reserved words (Anthropic quarantine) and YAML syntax compliance.</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">execution — validate</span></div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge validate ./my-skill
+                </div>
+            </div>
+        </section>
+
         <!-- DOCTOR SECTION -->
-        <section id="cmd-doctor" class="blueprint-card">
+        <section id="cmd-doctor" class="blueprint-card animate-on-scroll">
             <div class="tag-row">
                 <span class="tag required">COMMAND: DOCTOR</span>
                 <span class="tag optional">SYSTEM_AUDIT</span>
@@ -156,7 +252,7 @@
         </section>
 
         <!-- PRUNE SECTION -->
-        <section id="cmd-prune" class="blueprint-card">
+        <section id="cmd-prune" class="blueprint-card animate-on-scroll">
             <div class="tag-row">
                 <span class="tag required">COMMAND: PRUNE</span>
                 <span class="tag optional">MAINTENANCE</span>
@@ -170,8 +266,40 @@
                 </div>
             </div>
         </section>
+
+        <!-- ROLLBACK SECTION -->
+        <section id="cmd-rollback" class="blueprint-card animate-on-scroll">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: ROLLBACK</span>
+                <span class="tag optional">VERSIONING</span>
+            </div>
+            <h3>Time-Travel Revert (rollback)</h3>
+            <p>Reverts a specific remote skill to a previous version derived from the automated local snapshot archive.</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">execution — rollback</span></div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge rollback ./my-skill
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD SECTION -->
+        <section id="cmd-dashboard" class="blueprint-card animate-on-scroll">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: DASHBOARD</span>
+                <span class="tag optional">MONITORING</span>
+            </div>
+            <h3>Real-Time Monitor (dashboard)</h3>
+            <p>Launches a Streamlit-powered visual dashboard for live log streaming and ETR tracking of long-running batches.</p>
+            <div class="terminal-loader" style="border-color: var(--primary);">
+                <div class="t-top"><span class="t-title">logic — streamlit</span></div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge dashboard ./skills
+                </div>
+            </div>
+        </section>
         <!-- UNINSTALL SECTION -->
-        <section id="cmd-uninstall" class="blueprint-card">
+        <section id="cmd-uninstall" class="blueprint-card animate-on-scroll">
             <div class="tag-row">
                 <span class="tag required" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">COMMAND: UNINSTALL</span>
                 <span class="tag optional" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">TEARDOWN</span>
@@ -187,7 +315,7 @@
         </section>
 
         <!-- UNINSTALL-ALL SECTION -->
-        <section id="cmd-uninstall-all" class="blueprint-card">
+        <section id="cmd-uninstall-all" class="blueprint-card animate-on-scroll">
             <div class="tag-row">
                 <span class="tag required" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">COMMAND: UNINSTALL-ALL</span>
                 <span class="tag optional" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">GLOBAL_PURGE</span>
@@ -203,7 +331,7 @@
         </section>
 
         <!-- SKILL.MD SYNTAX GUIDE -->
-        <section id="skill-syntax" class="blueprint-card" style="border-left: 5px solid var(--primary);">
+        <section id="skill-syntax" class="blueprint-card animate-on-scroll" style="border-left: 5px solid var(--primary);">
             <h3>SKILL.md Configuration</h3>
             <p>Every skill folder must contain a <code>SKILL.md</code> file with the following YAML frontmatter:</p>
             <div class="terminal-loader">
@@ -220,7 +348,7 @@
                 </div>
             </div>
             <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-dim);">
-                💡 **Pro Tip**: ClaudForge automatically escapes complex characters and fixes malformed YAML during deployment.
+                💡 <b>Pro Tip:</b> ClaudForge automatically escapes complex characters and fixes malformed YAML during deployment.
             </p>
         </section>
     </main>
@@ -251,7 +379,7 @@
             <div class="container">
                 <p>© 2026 ClaudForge • <a href="https://www.linkedin.com/in/vinubalagopalap/" target="_blank noopener" style="color: inherit;">Vinu Balagopal A P ↗</a>  </p> 
                 <div class="foot-labels">
-                    <span>v2.3.0</span>
+                    <span>v2.5.0</span>
                     <span>STATUS: OPERATIONAL</span>
                 </div>
             </div>
