@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
 import yaml
 import re
 from claudforge.utils.logger import logger
@@ -13,7 +13,7 @@ def get_skill_md_path(folder: Path) -> Optional[Path]:
     return None
 
 
-def validate_skill_metadata(folder: Path) -> tuple[bool, str]:
+def validate_skill_metadata(folder: Path) -> Tuple[bool, str]:
     """Check if SKILL.md exists and has valid YAML metadata."""
     skill_md = get_skill_md_path(folder)
 

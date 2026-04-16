@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List
 from playwright.sync_api import Page, ElementHandle
 from rich.console import Console
 from claudforge.utils.logger import logger, console
@@ -140,7 +140,7 @@ def navigate_to_skills(page, console: Console):
             break
 
 
-def get_existing_skills(page: Page) -> list[str]:
+def get_existing_skills(page: Page) -> List[str]:
     """Extract names of already uploaded skills from the settings page."""
     try:
         # Claude lists skills in a list-like structure.
