@@ -145,8 +145,8 @@ def upload(
 def uninstall(
     name: str = typer.Argument(..., help="The exact name of the skill to uninstall"),
     headless: bool = typer.Option(False, "--headless", help="Run browser in background"),
-    connect: int = typer.Option(None, "--connect", help="Port to connect to existing Chrome instance"),
-    profile: str = typer.Option(None, "--profile", help="Path to continuous Chrome profile")
+    connect: Optional[int] = typer.Option(None, "--connect", help="Port to connect to existing Chrome instance"),
+    profile: Optional[str] = typer.Option(None, "--profile", help="Path to continuous Chrome profile")
 ):
     """Find a particular skill uploaded and uninstall it."""
     if not profile:
@@ -168,8 +168,8 @@ def uninstall(
 @app.command("uninstall-all")
 def uninstall_all(
     headless: bool = typer.Option(False, "--headless", help="Run browser in background"),
-    connect: int = typer.Option(None, "--connect", help="Port to connect to existing Chrome instance"),
-    profile: str = typer.Option(None, "--profile", help="Path to continuous Chrome profile")
+    connect: Optional[int] = typer.Option(None, "--connect", help="Port to connect to existing Chrome instance"),
+    profile: Optional[str] = typer.Option(None, "--profile", help="Path to continuous Chrome profile")
 ):
     """Find all the skills uploaded and uninstall them except Anthropic origin."""
     if not profile:

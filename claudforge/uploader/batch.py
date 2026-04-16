@@ -3,7 +3,7 @@ import time
 import re
 import json
 from pathlib import Path
-from typing import Optional, Set
+from typing import Optional, Set, List, Dict, Any
 from claudforge.utils.logger import logger, console
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
 from rich.prompt import Prompt
@@ -40,7 +40,7 @@ def parse_selection(input_str: str, max_val: int) -> Set[int]:
     if input_str == "all":
         return set(range(max_val))
 
-    selected = set()
+    selected: Set[int] = set()
     parts = re.split(r"[,\s]+", input_str)
     for part in parts:
         if "-" in part:
@@ -62,7 +62,7 @@ def export_web_data(batch_dir: Path, history: Set[str]):
     """Export the current skill state to a JSON file for the True UI website."""
     all_folders = [f for f in batch_dir.iterdir() if f.is_dir() and (f / "SKILL.md").exists()]
 
-    data = {
+    data: Dict[str, Any] = {
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "total": len(all_folders),
         "uploaded_count": len([f for f in all_folders if f.name in history]),
@@ -94,7 +94,7 @@ class SessionTracker:
     ):
         from claudforge.utils.logger import LOG_FILE
         self.path = batch_dir / ".claudforge_session.json"
-        self.data = {
+        self.data: Dict[str, Any] = {
             "project_name": batch_dir.name,
             "total_folders": total_folders,
             "history_count": history_count,
@@ -131,11 +131,12 @@ class SessionTracker:
 
 
 def run_batch_upload(
-    page,
+    page: Page,
     batch_dir: Path,
     zip_dir: Path,
     limit: Optional[int] = None,
     keep_zips: bool = False,
+    console: Console = console,
     force: bool = False,
 ):
     """Scan a directory for skill folders and upload them sequentially with detailed reporting."""
@@ -155,8 +156,8 @@ def run_batch_upload(
         logger.warning("   (Force enabled: ignoring local history)")
     cloud_skills = get_existing_skills(page)
 
-    to_upload = []
-    to_ask = []  # Skills that exist on cloud but NOT in local history
+    to_upload: List[Path] = []
+    to_ask: List[Path] = []  # Skills that exist on cloud but NOT in local history
 
     for folder in skill_folders:
         # Check folder name in history

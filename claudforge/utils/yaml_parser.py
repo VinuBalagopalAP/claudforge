@@ -1,10 +1,7 @@
-from pathlib import Path
-import yaml
-import re
-from claudforge.utils.logger import logger
+from typing import Optional
 
 
-def get_skill_md_path(folder: Path) -> Path:
+def get_skill_md_path(folder: Path) -> Optional[Path]:
     """Find the SKILL.md or skill.skill file."""
     for p in folder.iterdir():
         if p.name.lower() in ("skill.md", "skill.skill"):

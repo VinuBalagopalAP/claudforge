@@ -1,4 +1,5 @@
-from playwright.sync_api import Page
+from typing import Optional, List, Dict, Tuple
+from playwright.sync_api import Page, ElementHandle
 from rich.console import Console
 from claudforge.utils.logger import logger, console
 from claudforge.utils.browser_profiles import is_profile_locked
@@ -13,8 +14,8 @@ def is_port_open(host: str, port: int) -> bool:
         return False
 
 def launch_browser(
-    p, headless: bool = False, connect_port: int = None, profile_path: str = None
-) -> tuple:
+    p, headless: bool = False, connect_port: Optional[int] = None, profile_path: Optional[str] = None
+) -> Tuple:
     """Launch a fresh browser, a persistent session, or connect to an existing one."""
     import random
 
@@ -169,8 +170,9 @@ def get_existing_skills(page: Page) -> list[str]:
             for el in elements:
                 # Find the text in the same row/container
                 parent = el.evaluate_handle("node => node.closest('div.flex')")
-                if parent:
-                    t = parent.as_element().inner_text().split("\n")[0]
+                parent_el: Optional[ElementHandle] = parent.as_element()
+                if parent_el:
+                    t = parent_el.inner_text().split("\n")[0]
                     if t:
                         skills.append(t.strip())
 
