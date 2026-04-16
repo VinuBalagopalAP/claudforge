@@ -17,15 +17,16 @@ First off, thank you for considering contributing to ClaudForge! It's people lik
 1. Fork the repo and create your branch from `main`.
 2. Ensure your code follows PEP 8.
 3. If you've added code that should be tested, add tests.
-4. Update the documentation if necessary.
-5. Open a PR!
+4. **Automated Verification**: All PRs must pass the existing GitHub Actions test suite (linter + unit tests) before they can be merged.
+5. Update the documentation if necessary.
+6. Open a PR!
 
 ## Development Setup
 
 ```bash
 git clone https://github.com/VinuBalagopalAP/claudforge.git
 cd claudforge
-pip install -r requirements.txt
+pip install -e ".[dev]"
 playwright install chrome
 ```
 

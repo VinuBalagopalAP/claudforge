@@ -8,7 +8,7 @@
 **Package. Validate. Deploy. Any scale. From your terminal.**
 
 [![PyPI version](https://img.shields.io/pypi/v/claudforge)](https://pypi.org/project/claudforge/)
-[![Python](https://img.shields.io/pypi/pyversions/claudforge)](https://pypi.org/project/claudforge/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-yellow.svg)](https://pypi.org/project/claudforge/)
 [![License](https://img.shields.io/pypi/l/claudforge)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/VinuBalagopalAP/claudforge?style=social)](https://github.com/VinuBalagopalAP/claudforge)
 
@@ -38,12 +38,17 @@ Every Claude.ai power user knows this pain:
 |---------|-------------|
 | 🕵️ **Stealth Automation** | Human-mimicry delays, randomized viewports, and physical click simulation. |
 | 🛡️ **Self-Healing** | "Flicker-Proof" logic with auto-retries and smart success polling. |
-| 🕒 **Rollback System** | **NEW**: Automatically backup skills on every upload; revert versions with one command. |
+| 🕒 **Rollback System** | Automatically backup skills on every upload; revert versions with one command. |
 | 📦 **Predictive Batching** | `--limit` fulfillment that refills the queue from pending items automatically. |
 | 📋 **Cloud Inventory** | Scans your Claude.ai account instantly to prevent redundant uploads. |
 | 🛠️ **Auto-Sanitize** | Scans for reserved words (like `anthropic`) and fixes them automatically. |
 | 📊 **Progress Dashboard** | `status`, `list`, and `dashboard` commands for real-time visibility. |
 | 🖥️ **Live Monitor** | A dedicated Streamlit Web UI to track long-running batches with ETR gauges. |
+| 🆔 **Smart Profiles** | Automatically discovers your Chrome profiles and remembers your selection. |
+| 🧪 **Industrial Core** | Structured logging, enhanced security (0700), and automated CI verification. |
+| 🧹 **Library Pruning** | `prune` command to clear engine logs and temporary packaged assets. |
+| 🗑️ **Sweep & Purge**   | **NEW**: `uninstall` and `uninstall-all` tools to safely clear active remote testing skills with Anthropic Quarantine. |
+| 📐 Engineering Manual | **NEW**: Coordinate-based Technical Blueprint documentation with 3D physics and engine logic flow auditing. |
 
 ---
 
@@ -56,11 +61,12 @@ Every Claude.ai power user knows this pain:
 pip install claudforge
 playwright install chromium
 
-# 2. Launch the Live Monitor (optional)
-claudforge dashboard ./my_skills
+# 2. Launch the High-Fidelity Docs (Interactive)
+# visit https://claudforge.vercel.app/docs.html
 
 # 3. Deploy (Smart detection: folder or batch)
-claudforge upload ./my_skills --limit 30 --profile "claude_user"
+claudforge upload ./my_skills --limit 30
+# (The tool will now interactively ask you to pick from your system Chrome profiles!)
 ```
 
 ---
@@ -68,27 +74,33 @@ claudforge upload ./my_skills --limit 30 --profile "claude_user"
 ## 📖 CLI Reference
  
 > [!TIP]
-> **View the Interactive Guide**: For a detailed view of all flags and examples, visit the [**Official CLI Reference ↗**](https://claudforge.vercel.app#reference).
+> **View the Interactive Guide**: For a detailed view of all flags and examples, visit the [**Official Technical Blueprint 📐**](https://claudforge.vercel.app/docs.html).
  
 
 ```
 Usage: claudforge [command] [PATH] [options]
 
 Commands:
-  upload [PATH]     Deploy a skill or batch (auto-detects mode)
-  rollback [PATH]   Revert a skill to a previous version from the archive
-  dashboard [PATH]  Launch the real-time web monitor (Streamlit)
-  status [PATH]     Fast summary of batch progress (Local History vs Total)
-  list [PATH]       List every skill name recorded in the local history
-  validate [PATH]   Check SKILL.md structure and reserved word compliance
-  init              Scaffold a new Claude skill folder
-  doctor            Check environment health (Chrome, Playwright, Python)
+  upload [PATH]       Deploy a skill or batch (auto-detects mode)
+  uninstall [NAME]    Find a particular skill uploaded and uninstall it
+  uninstall-all       Find all custom non-Anthropic skills uploaded and uninstall them
+  rollback [PATH]     Revert a skill to a previous version from the archive
+  dashboard [PATH]    Launch the real-time web monitor (Streamlit)
+  status [PATH]       Fast summary of batch progress (Local History vs Total)
+  list [PATH]         List every skill name recorded in the local history
+  validate [PATH]     Check SKILL.md structure and reserved word compliance
+  init                Scaffold a new Claude skill folder
+  doctor              Check environment health (Chrome, Playwright, Python)
+  prune [PATH]        Cleanup temporary files, logs, and packaged assets
 
 Options:
   --limit N           Strictly attempt N brand-new uploads
   --force, -f         Ignore local history; re-verify everything on Cloud
-  --profile NAME      Use a persistent Chrome profile (keeps you logged in)
+  --profile NAME      Use a persistent profile (manual path or name)
+  --select-profile    Force interactive selection of system Chrome profiles
   --headless          Run in headless mode
+  --connect PORT      Attach to a pre-opened Chrome instance (skips repetitive login)
+  --keep-zips         Persist temporary skill bundles in _zips folder for auditing
 ```
 
 ---
@@ -104,6 +116,9 @@ Options:
 **Solo Power User**
 > You maintain 15 custom skills. Instead of zipping and clicking for 20 minutes, you run `claudforge upload ./my-skills` and it finishes in seconds.
 
+**The QA Tester / Core Developer**
+> You generate dozens of skills during local execution runs. Instead of keeping a bloated library, you execute `claudforge uninstall-all` at the end of the shift to purge local test skills while keeping your official Anthropic tools perfectly intact.
+
 ---
 
 ## 🏗 Architecture
@@ -112,7 +127,8 @@ Options:
 claudforge/
 ├── uploader/
 │   ├── single.py            # Flicker-proof upload logic & success polling
-│   └── batch.py             # Predictive queueing & pre-batch sanitization
+│   ├── batch.py             # Predictive queueing & pre-batch sanitization
+│   └── uninstaller.py       # Teardown logic & Anthropic quarantine parsing
 ├── browser/
 │   └── launcher.py          # Stealth Chrome launcher & Inventory scraping
 ├── utils/
@@ -138,7 +154,12 @@ claudforge/
 | ✅ Done | Professional PyPI Packaging |
 | ✅ Done | Real-time Web Monitor (Streamlit) |
 | ✅ Done | `claudforge rollback` System |
-| ✅ Done | **v2.0.2**: Industrial-grade CI stability & Python 3.14 support |
+| ✅ Done | **v2.0.2 IRONCLAD Engine**: CI stability & Python 3.14 support |
+| ✅ Done | **v2.1.1 IRONCLAD Engine**: Smart Profile Discovery & Persistence |
+| ✅ Done | **v2.2.0 IRONCLAD Engine**: Structured Logging, Security (0700) & CI |
+| ✅ Done | **v2.3.0 IRONCLAD Engine**: Static Analysis (MyPy/Ruff) & Log Streaming |
+| ✅ Done | **v2.4.0 IRONCLAD Engine**: Modular UI Architecture & Modular Scale |
+| ✅ Done | **v2.5.1 IRONCLAD Engine**: Teardown Loops & Technical Blueprint Overhaul |
 
 ---
 

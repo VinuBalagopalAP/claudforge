@@ -1,5 +1,6 @@
 import typer
 from pathlib import Path
+import shutil
 from typing import Optional
 from rich.console import Console
 from rich.table import Table
@@ -7,16 +8,63 @@ from playwright.sync_api import sync_playwright
 
 from claudforge.browser.launcher import launch_browser, navigate_to_skills
 from claudforge.utils.zipper import zip_folder, cleanup_zips
-from claudforge.utils.yaml_parser import validate_skill_metadata
+from claudforge.utils.yaml_parser import validate_skill_metadata, sanitize_skill_metadata
 from claudforge.utils.history import load_history
 from claudforge.uploader.single import upload_skill
 from claudforge.uploader.batch import run_batch_upload, export_web_data
+from claudforge.uploader.uninstaller import run_uninstall_loop
+from claudforge.utils.config import get_config_key, set_config_key
+from claudforge.utils.browser_profiles import get_system_profiles
+from claudforge.utils.updater import check_for_updates
+from rich.prompt import Prompt, Confirm
+
+from claudforge.utils.logger import logger, console
 
 app = typer.Typer(
-    help="ClaudForge ⚒️ - The missing CLI for Claude.ai Skills.",
-    add_completion=False,
+    help="ClaudForge ⚒️ - v2.5.1 IRONCLAD Engine. The missing CLI for Claude.ai Skills.",
+    add_completion=True,
 )
-console = Console()
+
+
+def handle_profile_selection(console: Console) -> Optional[str]:
+    """Interactively select a Chrome profile with persistence."""
+    last_profile_path = get_config_key("last_profile_path")
+    profiles = get_system_profiles()
+
+    # 1. Check for last used profile
+    if last_profile_path:
+        last_name = next(
+            (p["name"] for p in profiles if p["path"] == last_profile_path), "Last Profile"
+        )
+        if Confirm.ask(
+            f"\n[bold green]Continue with your last profile '{last_name}'?[/bold green]",
+            default=True,
+        ):
+            return last_profile_path
+
+    # 2. Show discovery list if no last profile or user declined
+    if profiles:
+        logger.info("📋 Discovered Chrome Profiles:")
+        for i, p in enumerate(profiles, 1):
+            role_hint = " (Default)" if p["folder"] == "Default" else ""
+            console.print(
+                f"   [bold cyan]{i}.[/bold cyan] {p['name']}{role_hint} [dim]({p['folder']})[/dim]"
+            )
+        console.print(f"   [bold cyan]{len(profiles)+1}.[/bold cyan] ✨ Launch Fresh Profile (Ephemeral)")
+
+        choice = Prompt.ask(
+            "\n[bold green]Select profile number[/bold green]",
+            choices=[str(i) for i in range(1, len(profiles) + 2)],
+            default=str(len(profiles) + 1),
+        )
+
+        selected_idx = int(choice) - 1
+        if selected_idx < len(profiles):
+            selected_path = profiles[selected_idx]["path"]
+            set_config_key("last_profile_path", selected_path)
+            return selected_path
+
+    return None
 
 
 @app.command()
@@ -38,10 +86,18 @@ def upload(
     ),
 ):
     """Deploy a skill or a batch of skills to Claude.ai."""
+    check_for_updates("2.3.0")
     target = path.expanduser().resolve()
     if not target.exists():
         console.print(f"[red]Error: Path '{target}' does not exist.[/red]")
         raise typer.Exit(1)
+
+    # PRE-FLIGHT PROFILE SELECTION
+    if not profile:
+        profile = handle_profile_selection(console)
+        # Handle string path expansion if returned from config
+        if profile:
+            profile = str(Path(profile).expanduser().resolve())
 
     # AUTO-DETECT MODE
     is_single = (target / "SKILL.md").exists() or (target / "skill.md").exists()
@@ -54,6 +110,7 @@ def upload(
             navigate_to_skills(page, console)
 
             if is_single:
+                sanitize_skill_metadata(target, console)
                 ok, err = validate_skill_metadata(target)
                 if not ok:
                     console.print(f"[red]Validation Error: {err}[/red]")
@@ -63,11 +120,11 @@ def upload(
                 zip_dir.mkdir(exist_ok=True)
                 zp = zip_folder(target, zip_dir)
 
-                console.print(f"⬆️  Uploading [cyan]{target.name}[/cyan] ...", end="")
+                logger.info(f"⬆️  Uploading [cyan]{target.name}[/cyan] ...")
                 if upload_skill(page, zp, console, auto_replace=force):
-                    console.print(" [bold green]✅ Success[/bold green]")
+                    logger.info(" [bold green]✅ Success[/bold green]")
                 else:
-                    console.print(" [bold red]❌ Failed[/bold red]")
+                    logger.error(" [error]❌ Failed[/error]")
 
                 if not keep_zips:
                     cleanup_zips(zip_dir)
@@ -79,6 +136,53 @@ def upload(
                 if not keep_zips:
                     cleanup_zips(zip_dir)
 
+            browser.close()
+        except Exception as e:
+            console.print(f"[bold red]Fatal Error:[/bold red] {e}")
+            raise typer.Exit(1)
+
+@app.command()
+def uninstall(
+    name: str = typer.Argument(..., help="The exact name of the skill to uninstall"),
+    headless: bool = typer.Option(False, "--headless", help="Run browser in background"),
+    connect: Optional[int] = typer.Option(None, "--connect", help="Port to connect to existing Chrome instance"),
+    profile: Optional[str] = typer.Option(None, "--profile", help="Path to continuous Chrome profile")
+):
+    """Find a particular skill uploaded and uninstall it."""
+    if not profile:
+        profile = handle_profile_selection(console)
+        if profile:
+            profile = str(Path(profile).expanduser().resolve())
+            
+    with sync_playwright() as p:
+        try:
+            browser, page = launch_browser(
+                p, headless=headless, connect_port=connect, profile_path=profile
+            )
+            run_uninstall_loop(page, target_name=name, console=console)
+            browser.close()
+        except Exception as e:
+            console.print(f"[bold red]Fatal Error:[/bold red] {e}")
+            raise typer.Exit(1)
+
+@app.command("uninstall-all")
+def uninstall_all(
+    headless: bool = typer.Option(False, "--headless", help="Run browser in background"),
+    connect: Optional[int] = typer.Option(None, "--connect", help="Port to connect to existing Chrome instance"),
+    profile: Optional[str] = typer.Option(None, "--profile", help="Path to continuous Chrome profile")
+):
+    """Find all the skills uploaded and uninstall them except Anthropic origin."""
+    if not profile:
+        profile = handle_profile_selection(console)
+        if profile:
+            profile = str(Path(profile).expanduser().resolve())
+            
+    with sync_playwright() as p:
+        try:
+            browser, page = launch_browser(
+                p, headless=headless, connect_port=connect, profile_path=profile
+            )
+            run_uninstall_loop(page, target_name=None, console=console)
             browser.close()
         except Exception as e:
             console.print(f"[bold red]Fatal Error:[/bold red] {e}")
@@ -153,19 +257,44 @@ Describe your skill here.
 @app.command()
 def doctor():
     """Check environment health (Chrome, Playwright, Python)."""
+    check_for_updates("2.3.0")
     import sys
+    import platform
 
-    console.print(f"Python Version: [cyan]{sys.version.split()[0]}[/cyan]")
+    logger.info(f"Python Version: [cyan]{sys.version.split()[0]}[/cyan]")
+    logger.info(f"OS Platform: [cyan]{platform.system()} ({platform.release()})[/cyan]")
 
+    # Check Playwright package
     import importlib.util
-
     if importlib.util.find_spec("playwright"):
-        console.print("Playwright: [green]Installed[/green]")
+        logger.info("Playwright Package: [green]Installed[/green]")
     else:
-        console.print("Playwright: [red]Not Found[/red]")
+        logger.error("Playwright Package: [red]Not Found[/red]")
+
+    # Check Playwright Browsers
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            # Check if chromium is available
+            browser_path = p.chromium.executable_path
+            if Path(browser_path).exists():
+                logger.info(f"Chromium Binary: [green]Found[/green] [dim]({browser_path})[/dim]")
+            else:
+                logger.error("Chromium Binary: [red]Missing[/red]")
+    except Exception as e:
+        logger.error(f"Playwright Driver: [red]Error ({e})[/red]")
+
+    # Check Config Security
+    from claudforge.utils.config import CONFIG_DIR
+    if CONFIG_DIR.exists():
+        mode = oct(CONFIG_DIR.stat().st_mode & 0o777)
+        if mode == '0o700':
+            logger.info("Config Security: [green]Ironclad (0700)[/green]")
+        else:
+            logger.warning(f"Config Security: [yellow]Loose ({mode})[/yellow]")
 
     console.print("\n[dim]To fix environment issues, run:[/dim]")
-    console.print("[cyan]pip install -r requirements.txt && playwright install chrome[/cyan]")
+    console.print("[cyan]pip install -r requirements.txt && playwright install chromium[/cyan]")
 
 
 @app.command(name="list")
@@ -275,6 +404,40 @@ def rollback(
             browser.close()
         except Exception as e:
             console.print(f"[bold red]Fatal Error during rollback:[/bold red] {e}")
+
+
+@app.command()
+def prune(
+    path: Optional[Path] = typer.Argument(
+        None, help="Optional: Path to a batch/project directory to clean _zips", metavar="PATH"
+    ),
+    logs: bool = typer.Option(True, "--logs/--no-logs", help="Clear the engine log files"),
+):
+    """Cleanup temporary files, logs, and packaged assets."""
+    from claudforge.utils.logger import LOG_DIR
+
+    if logs:
+        if LOG_DIR.exists():
+            count = 0
+            for f in LOG_DIR.iterdir():
+                if f.is_file():
+                    f.unlink()
+                    count += 1
+            logger.info(f"🧹 Cleared [bold cyan]{count}[/bold cyan] engine log files.")
+        else:
+            logger.info("ℹ️  No engine logs found to clear.")
+
+    if path:
+        target = path.expanduser().resolve()
+        zip_dir = target / "_zips" if target.is_dir() else None
+        
+        if zip_dir and zip_dir.exists():
+            shutil.rmtree(zip_dir)
+            logger.info(f"🧹 Removed packaged assets in [bold cyan]{target.name}/_zips[/bold cyan]")
+        else:
+            logger.info(f"ℹ️  No packaged assets found in [dim]{target}[/dim]")
+
+    logger.info("[bold green]✅ Prune complete.[/bold green]")
 
 
 def main():

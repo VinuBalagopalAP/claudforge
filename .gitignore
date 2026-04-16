@@ -1,27 +1,66 @@
-# Python
+# --- Python ---
 __pycache__/
 *.py[cod]
 *$py.class
-venv/
-.venv/
-.env
+*.so
+.python-version
+.ipynb_checkpoints
 
-# Project specific
+# --- Environments ---
+.env
+.venv/
+venv/
+env/
+ENV/
+
+# --- Testing & Quality ---
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.hypothesis/
+.coverage
+htmlcov/
+.tox/
+
+# --- Distribution & Packaging ---
+dist/
+build/
+*.egg-info/
+egg-info/
+lib/
+lib64/
+sdist/
+var/
+wheels/
+share/python-wheels/
+
+# --- Project Specific ---
 _zips/
 *.zip
 .claudforge_history*
 .claudforge_session*
 .claudforge_debug/
 website/claudforge_data.json
+website_screenshots/
 
-# OS
+# --- OS ---
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Browser / IDE
+# --- IDEs & Browsers ---
 .vscode/
 .idea/
+*.swp
+*.swo
+.project
+.pydevproject
+.settings/
 node_modules/
-dist/
-build/
 .playwright/
+.npm
+.eslintcache

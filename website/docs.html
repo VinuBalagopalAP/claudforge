@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operational Manual — ClaudForge Guide</title>
+    <meta name="description" content="Official documentation for ClaudForge IRONCLAD engine. Command reference, SKILL.md syntax, and deployment best practices.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <style>
+        .schematic {
+            width: 100%;
+            height: 120px;
+            margin: 2rem 0;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed var(--border);
+        }
+    </style>
+</head>
+<body class="ironclad-theme">
+    <div class="math-grid"></div>
+    <div class="glow-orb" id="orb-2"></div>
+
+    <input type="checkbox" id="menu-check">
+    <nav class="glass-nav">
+        <div class="container nav-flex">
+            <div class="nav-col-left">
+                <div class="logo">
+                    <img src="assets/favicon/logo.svg" alt="ClaudForge" width="32">
+                    <span>Operational <span class="badge-v">v2.5.1</span></span>
+                </div>
+            </div>
+
+            <div class="nav-col-center">
+                <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank" class="nav-stars-assembly" id="gh-stars-sign" style="color: var(--text-dim);">
+                    <div class="stars-upper">
+                        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>
+                        <span id="star-count">...</span> Stars
+                    </div>
+                    <div class="hanging-board">⭐ THE FORGE</div>
+                </a>
+            </div>
+
+            <div class="nav-col-right">
+                <div class="nav-links">
+                    <a href="index.html">Logic</a>
+                    <a href="docs.html" class="active">Toolbox</a>
+                    <a href="changelog.html">Chronicle</a>
+                    <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank">GitHub</a>
+                    <div class="mobile-nav-version">
+                        <span>v2.5.1</span>
+                    </div>
+                </div>
+                
+                <label for="menu-check" class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero hero-compact" style="padding-top: 150px;">
+        <div class="container">
+            <div class="hero-badge animate-in visible">ENGINEERING DOCUMENTATION</div>
+            <h1 class="animate-in visible">Command <br><span class="gradient-text">Reference.</span></h1>
+            <p class="animate-in visible delay-1">The definitive technical guide for the IRONCLAD suite logic.</p>
+        </div>
+    </header>
+
+
+
+    <main class="container">
+        <!-- UPLOAD SECTION -->
+        <section id="cmd-upload" class="blueprint-card animate-on-scroll" data-coord="A-1 // LVL_0">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: UPLOAD</span>
+                <span class="tag optional">FLAGS: --limit, --profile, --headless</span>
+            </div>
+            <h3>Deployment Logic (upload)</h3>
+            <p>The primary execution engine. Recursively scans for skill folders, patches metadata, and fulfills batch queues.</p>
+            
+            <div class="schematic">
+                <svg viewBox="0 0 600 100" style="width: 100%; max-width: 500px;">
+                    <rect x="20" y="35" width="80" height="30" rx="4" fill="none" stroke="var(--primary)" stroke-dasharray="4"/>
+                    <text x="35" y="55" fill="var(--primary)" font-size="10" font-family="monospace">LOCAL_FS</text>
+                    <path d="M100 50 L150 50" stroke="var(--primary)" marker-end="url(#arrow)"/>
+                    <rect x="150" y="30" width="100" height="40" rx="6" fill="var(--primary)" opacity="0.1" stroke="var(--primary)"/>
+                    <text x="165" y="55" fill="#fff" font-size="10" font-family="monospace">IRONCLAD_CORE</text>
+                    <path d="M250 50 L300 50" stroke="var(--primary)" marker-end="url(#arrow)"/>
+                    <rect x="300" y="35" width="60" height="30" rx="15" fill="none" stroke="var(--primary)"/>
+                    <text x="310" y="54" fill="var(--primary)" font-size="8" font-family="monospace">VALIDATE</text>
+                    <path d="M360 50 L410 50" stroke="var(--primary)" marker-end="url(#arrow)"/>
+                    <rect x="410" y="35" width="90" height="30" rx="4" fill="none" stroke="var(--primary)" stroke-dasharray="4"/>
+                    <text x="425" y="55" fill="var(--primary)" font-size="10" font-family="monospace">CLAUDE_AI</text>
+                    
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                          <path d="M0,0 L0,6 L9,3 z" fill="var(--primary)" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-top: -1.5rem; margin-bottom: 2rem;">
+                <b>LOGIC FLOW:</b> The combination of <code>COMMAND: UPLOAD</code> and <code>FLAGS</code> triggers the engine to initialize the persistent browser context and process the batch queue through the <code>VALIDATE</code> gate.
+            </p>
+
+            <div class="terminal-loader" style="border-color: var(--primary);">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title">execution — upload</span>
+                    <div class="t-copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy</span>
+                    </div>
+                </div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge upload ./skills --limit 10 --profile "Dev"
+                </div>
+            </div>
+        </section>
+
+        <!-- INIT SECTION -->
+        <section id="cmd-init" class="blueprint-card animate-on-scroll" data-coord="A-2 // LVL_0">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: INIT</span>
+                <span class="tag optional">SCAFFOLDING</span>
+            </div>
+            <h3>Project Scaffolding (init)</h3>
+            <p>Generates a standardized Claude skill folder structure with a pre-configured <code>SKILL.md</code> manifest and recursive safety ignores.</p>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 2rem;">
+                <b>LOGIC FLOW:</b> <code>SCAFFOLDING</code> logic ensures that every new skill follows the rigid directory hierarchy required for the <code>UPLOAD</code> engine to parse it flawlessly.
+            </p>
+            <div class="terminal-loader" style="border-color: var(--primary);">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title">execution — init</span>
+                    <div class="t-copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy</span>
+                    </div>
+                </div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge init --name "Agent_Protocol"
+                </div>
+            </div>
+        </section>
+
+        <!-- STATUS SECTION -->
+        <section id="cmd-status" class="blueprint-card animate-on-scroll" data-coord="B-1 // LVL_1">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: STATUS</span>
+                <span class="tag optional">ANALYTICS</span>
+            </div>
+            <h3>Progress Metrics (status)</h3>
+            <p>Provides a high-speed summary of batch completion ratios relative to local history versus total source folder depth.</p>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 2rem;">
+                <b>LOGIC FLOW:</b> <code>ANALYTICS</code> mapping compares the <code>.claudforge/history.json</code> array with the current filesystem state to calculate real-time deployment ETAs.
+            </p>
+            <div class="terminal-loader" style="border-color: var(--primary);">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title">execution — status</span>
+                    <div class="t-copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy</span>
+                    </div>
+                </div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge status ./batch_alpha
+                </div>
+            </div>
+        </section>
+
+        <!-- LIST SECTION -->
+        <section id="cmd-list" class="blueprint-card animate-on-scroll" data-coord="B-2 // LVL_1">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: LIST</span>
+                <span class="tag optional">INVENTORY</span>
+            </div>
+            <h3>Inventory Scanning (list)</h3>
+            <p>Extracts and displays every skill identity recorded in the persistent local history array for quick auditing.</p>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 2rem;">
+                <b>LOGIC FLOW:</b> <code>INVENTORY</code> logic executes a read-only stream of the global manifest, grouping skills by their <code>SKILL.md</code> version tags.
+            </p>
+            <div class="terminal-loader" style="border-color: var(--primary);">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title">execution — list</span>
+                    <div class="t-copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy</span>
+                    </div>
+                </div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge list
+                </div>
+            </div>
+        </section>
+
+        <!-- VALIDATE SECTION -->
+        <section id="cmd-validate" class="blueprint-card animate-on-scroll" data-coord="C-1 // LVL_2">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: VALIDATE</span>
+                <span class="tag optional">OFFLINE_LINT</span>
+            </div>
+            <h3>Metadata Auditing (validate)</h3>
+            <p>Performs deep structural analysis on your <code>SKILL.md</code> files. Checks for reserved words (Anthropic quarantine) and YAML syntax compliance.</p>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 2rem;">
+                <b>LOGIC FLOW:</b> <code>OFFLINE_LINT</code> runs a regex-based quarantine scanner before the browser ever launches, preventing account flags for invalid skill payloads.
+            </p>
+            <div class="terminal-loader" style="border-color: var(--primary);">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title">execution — validate</span>
+                    <div class="t-copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy</span>
+                    </div>
+                </div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge validate ./my-skill
+                </div>
+            </div>
+        </section>
+
+        <!-- DOCTOR SECTION -->
+        <section id="cmd-doctor" class="blueprint-card animate-on-scroll" data-coord="C-2 // LVL_2">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: DOCTOR</span>
+                <span class="tag optional">SYSTEM_AUDIT</span>
+            </div>
+            <h3>Health & Verification (doctor)</h3>
+            <p>Performs a multi-layer ecosystem audit. Verifies Chrome binaries, Playwright drivers, and config security (0700).</p>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 2rem;">
+                <b>LOGIC FLOW:</b> <code>SYSTEM_AUDIT</code> systematically polls the local environment variables and Playwright driver status to ensure the <code>IRONCLAD</code> engine has full system-level clearance.
+            </p>
+            
+            <div class="schematic">
+                <svg viewBox="0 0 400 60" style="width: 100%; max-width: 400px;">
+                    <circle cx="50" cy="30" r="15" fill="none" stroke="var(--primary)" stroke-width="2"/>
+                    <path d="M50 15 L50 45 M35 30 L65 30" stroke="var(--primary)" stroke-width="2"/>
+                    <rect x="100" y="25" width="200" height="10" rx="2" fill="var(--border)"/>
+                    <rect x="100" y="25" width="160" height="10" rx="2" fill="var(--primary)" opacity="0.6"/>
+                    <text x="310" y="34" fill="var(--primary)" font-size="10" font-family="monospace">80% SECURE</text>
+                </svg>
+            </div>
+
+            <div class="terminal-loader" style="border-color: var(--primary);">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title">execution — doctor</span>
+                    <div class="t-copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy</span>
+                    </div>
+                </div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge doctor
+                </div>
+            </div>
+        </section>
+
+        <!-- PRUNE SECTION -->
+        <section id="cmd-prune" class="blueprint-card animate-on-scroll" data-coord="D-1 // LVL_3">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: PRUNE</span>
+                <span class="tag optional">MAINTENANCE</span>
+            </div>
+            <h3>Library Hygiene (prune)</h3>
+            <p>Cleans up temporary zipped assets and clears engine log history to maintain sub-millisecond local efficiency.</p>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 2rem;">
+                <b>LOGIC FLOW:</b> <code>MAINTENANCE</code> routines target the transient <code>pkg/</code> folders and <code>.claudforge/logs</code>, preventing cache bloat during high-volume rotations.
+            </p>
+            <div class="terminal-loader" style="border-color: var(--primary);">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title">execution — prune</span>
+                    <div class="t-copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy</span>
+                    </div>
+                </div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge prune
+                </div>
+            </div>
+        </section>
+
+        <!-- ROLLBACK SECTION -->
+        <section id="cmd-rollback" class="blueprint-card animate-on-scroll" data-coord="D-2 // LVL_3">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: ROLLBACK</span>
+                <span class="tag optional">VERSIONING</span>
+            </div>
+            <h3>Time-Travel Revert (rollback)</h3>
+            <p>Reverts a specific remote skill to a previous version derived from the automated local snapshot archive.</p>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 2rem;">
+                <b>LOGIC FLOW:</b> <code>VERSIONING</code> logic leverages the local <code>shadow/</code> directory to find the last known-good package state and force-reinjects it into the target profile.
+            </p>
+            <div class="terminal-loader" style="border-color: var(--primary);">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title">execution — rollback</span>
+                    <div class="t-copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy</span>
+                    </div>
+                </div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge rollback ./my-skill
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD SECTION -->
+        <section id="cmd-dashboard" class="blueprint-card animate-on-scroll" data-coord="E-1 // LVL_4">
+            <div class="tag-row">
+                <span class="tag required">COMMAND: DASHBOARD</span>
+                <span class="tag optional">MONITORING</span>
+            </div>
+            <h3>Real-Time Monitor (dashboard)</h3>
+            <p>Launches a Streamlit-powered visual dashboard for live log streaming and ETR tracking of long-running batches.</p>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 2rem;">
+                <b>LOGIC FLOW:</b> <code>MONITORING</code> triggers a secondary Python thread that serves the <code>Rich</code> log output as a visual dataframe for cross-device observability.
+            </p>
+            <div class="terminal-loader" style="border-color: var(--primary);">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title">logic — streamlit</span>
+                    <div class="t-copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy</span>
+                    </div>
+                </div>
+                <div class="t-body">
+                    <span class="t-pmp">$</span> claudforge dashboard ./skills
+                </div>
+            </div>
+        </section>
+        <!-- UNINSTALL SECTION -->
+        <section id="cmd-uninstall" class="blueprint-card animate-on-scroll" data-coord="X-1 // TEARDOWN">
+            <div class="tag-row">
+                <span class="tag required" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">COMMAND: UNINSTALL</span>
+                <span class="tag optional" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">TEARDOWN</span>
+            </div>
+            <h3>Target Destruction (uninstall)</h3>
+            <p>Runs a highly targeted Playwright script to locate a precise skill and instantly process its destruction sequence.</p>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 2rem;">
+                <b>LOGIC FLOW:</b> <code>TEARDOWN</code> logic bypasses traditional GUI menus, utilizing CSS selector hunting to locate and purge the specific skill UID with millisecond precision.
+            </p>
+            <div class="terminal-loader" style="border-color: var(--accent);">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title" style="color: var(--accent);">execution — uninstall</span>
+                    <div class="t-copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy</span>
+                    </div>
+                </div>
+                <div class="t-body">
+                    <span class="t-pmp" style="color: var(--accent);">$</span> claudforge uninstall "skill-apollo"
+                </div>
+            </div>
+        </section>
+
+        <!-- UNINSTALL-ALL SECTION -->
+        <section id="cmd-uninstall-all" class="blueprint-card animate-on-scroll" data-coord="X-2 // TEARDOWN">
+            <div class="tag-row">
+                <span class="tag required" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">COMMAND: UNINSTALL-ALL</span>
+                <span class="tag optional" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">GLOBAL_PURGE</span>
+            </div>
+            <h3>Global Wipe Protocol (uninstall-all)</h3>
+            <p>Loops dynamically through the current workspace, mass-deleting all uploaded custom skills while actively scanning for and quarantining Anthropic-origin skills.</p>
+            <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 2rem;">
+                <b>LOGIC FLOW:</b> <code>GLOBAL_PURGE</code> combines workspace walking with the <code>Anthropic Quarantine</code> engine to ensure only user-created content is targeted for deletion.
+            </p>
+            <div class="terminal-loader" style="border-color: var(--accent);">
+                <div class="t-top">
+                    <div class="t-dots"><span></span><span></span><span></span></div>
+                    <span class="t-title" style="color: var(--accent);">execution — mass-purge</span>
+                    <div class="t-copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>Copy</span>
+                    </div>
+                </div>
+                <div class="t-body">
+                    <span class="t-pmp" style="color: var(--accent);">$</span> claudforge uninstall-all
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILL.MD SYNTAX GUIDE -->
+        <section id="skill-syntax" class="blueprint-card animate-on-scroll" style="border-left: 5px solid var(--primary);" data-coord="S-1 // SCHEMA">
+            <h3>SKILL.md Configuration</h3>
+            <p>Every skill folder must contain a <code>SKILL.md</code> file with the following YAML frontmatter:</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title">editor — SKILL.md</span></div>
+                <div class="t-body">
+                    <code style="color: var(--text-dim);">
+                        ---<br>
+                        name: "My Powerful Skill"<br>
+                        description: "A detailed explanation of AI behavior"<br>
+                        version: "1.0.0"<br>
+                        ---<br><br>
+                        # Skill Content starts here...
+                    </code>
+                </div>
+            </div>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-dim);">
+                💡 <b>Pro Tip:</b> ClaudForge automatically escapes complex characters and fixes malformed YAML during deployment.
+            </p>
+        </section>
+    </main>
+
+    <footer class="premium-footer">
+        <div class="container foot-grid">
+            <div class="foot-col main">
+                <div class="logo" style="margin-bottom: 20px;">
+                    <img src="assets/favicon/logo.svg" alt="ClaudForge" width="32">
+                    <span>ClaudForge</span>
+                </div>
+                <p>Engineered for technical excellence. The definitive standard for Claude skill automation at scale.</p>
+            </div>
+            <div class="foot-col">
+                <h5>Product</h5>
+                <a href="index.html">Logic Suite</a>
+                <a href="docs.html">Toolbox</a>
+                <a href="changelog.html">Changelog</a>
+            </div>
+            <div class="foot-col">
+                <h5>Source</h5>
+                <a href="https://github.com/VinuBalagopalAP/claudforge">GitHub Repo</a>
+                <a href="https://github.com/VinuBalagopalAP/claudforge/issues">Issues</a>
+                <a href="https://github.com/VinuBalagopalAP/claudforge/blob/main/LICENSE">MIT License</a>
+            </div>
+        </div>
+        <div class="foot-bottom">
+            <div class="container">
+                <p>© 2026 ClaudForge • <a href="https://www.linkedin.com/in/vinubalagopalap/" target="_blank noopener" style="color: inherit;">Vinu Balagopal A P ↗</a>  </p> 
+                <div class="foot-labels">
+                    <span>v2.5.0</span>
+                    <span>STATUS: OPERATIONAL</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

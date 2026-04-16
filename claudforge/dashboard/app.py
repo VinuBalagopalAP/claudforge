@@ -145,7 +145,21 @@ def run_app():
                     st.subheader("Recent Activity")
                     df = pd.DataFrame(data["results"], columns=["Skill", "Status", "Details"])
                     # Reverse to show newest at top
-                    st.dataframe(df.iloc[::-1], width="stretch", hide_index=True)
+                    st.dataframe(df.iloc[::-1], use_container_width=True, hide_index=True)
+
+                # 4. LIVE ENGINE LOGS
+                if "log_file" in data:
+                    st.subheader("🛠 Live Engine Logs")
+                    log_path = Path(data["log_file"])
+                    if log_path.exists():
+                        try:
+                            with open(log_path, "r") as f:
+                                # Get last 20 lines
+                                lines = f.readlines()
+                                tail = "".join(lines[-20:])
+                                st.code(tail, language="text", wrap_lines=True)
+                        except Exception:
+                            st.warning("Could not read engine logs.")
 
         time.sleep(1)
 
