@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
 - **Optical Fading Grids**: Re-architected the `index.html` Global Options block. Stripped the chunky 2D cards in favor of a sleek, borderless radial-gradient gap-mask, creating beautiful Apple-style fading intersection lines exactly matching the modern CLI spec.
 - **Documentation Parity**: Complete holistic audit of `index.html`, `docs.html`, and `README.md` to perfectly sync deeply-nested engine tools (`prune`, `--keep-zips`, `--connect`) across the full Frontend and markdown web.
 
+### Changed
+- **Repository Hygiene**: Completely refactored `.gitignore` to industry-standard Python specifications, including robust coverage for testing caches and IDE-specific artifacts.
+- **Developer Setup**: Modernized `CONTRIBUTING.md` to favor the editable install pattern (`pip install -e .[dev]`) for significantly faster backend iteration.
+- **Security Matrix**: Synchronized `SECURITY.md` to officially extend support to the current `v2.4.x` and `v2.5.x` release families.
+
 ## [v2.4.0] IRONCLAD - 2026-04-14
 
 ### Added

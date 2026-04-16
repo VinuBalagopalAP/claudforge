@@ -26,7 +26,7 @@ First off, thank you for considering contributing to ClaudForge! It's people lik
 ```bash
 git clone https://github.com/VinuBalagopalAP/claudforge.git
 cd claudforge
-pip install -r requirements.txt
+pip install -e ".[dev]"
 playwright install chrome
 ```
 
