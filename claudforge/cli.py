@@ -13,6 +13,7 @@ from claudforge.utils.yaml_parser import validate_skill_metadata, sanitize_skill
 from claudforge.utils.history import load_history
 from claudforge.uploader.single import upload_skill
 from claudforge.uploader.batch import run_batch_upload, export_web_data
+from claudforge.uploader.uninstaller import run_uninstall_loop
 from claudforge.utils.config import get_config_key, set_config_key
 from claudforge.utils.browser_profiles import get_system_profiles
 from claudforge.utils.updater import check_for_updates
@@ -21,7 +22,7 @@ from rich.prompt import Prompt, Confirm
 from claudforge.utils.logger import logger, console
 
 app = typer.Typer(
-    help="ClaudForge ⚒️ - v2.3.0 IRONCLAD Engine. The missing CLI for Claude.ai Skills.",
+    help="ClaudForge ⚒️ - v2.5.0 IRONCLAD Engine. The missing CLI for Claude.ai Skills.",
     add_completion=True,
 )
 
@@ -136,6 +137,53 @@ def upload(
                 if not keep_zips:
                     cleanup_zips(zip_dir)
 
+            browser.close()
+        except Exception as e:
+            console.print(f"[bold red]Fatal Error:[/bold red] {e}")
+            raise typer.Exit(1)
+
+@app.command()
+def uninstall(
+    name: str = typer.Argument(..., help="The exact name of the skill to uninstall"),
+    headless: bool = typer.Option(False, "--headless", help="Run browser in background"),
+    connect: int = typer.Option(None, "--connect", help="Port to connect to existing Chrome instance"),
+    profile: str = typer.Option(None, "--profile", help="Path to continuous Chrome profile")
+):
+    """Find a particular skill uploaded and uninstall it."""
+    if not profile:
+        profile = handle_profile_selection(console)
+        if profile:
+            profile = str(Path(profile).expanduser().resolve())
+            
+    with sync_playwright() as p:
+        try:
+            browser, page = launch_browser(
+                p, headless=headless, connect_port=connect, profile_path=profile
+            )
+            run_uninstall_loop(page, target_name=name, console=console)
+            browser.close()
+        except Exception as e:
+            console.print(f"[bold red]Fatal Error:[/bold red] {e}")
+            raise typer.Exit(1)
+
+@app.command("uninstall-all")
+def uninstall_all(
+    headless: bool = typer.Option(False, "--headless", help="Run browser in background"),
+    connect: int = typer.Option(None, "--connect", help="Port to connect to existing Chrome instance"),
+    profile: str = typer.Option(None, "--profile", help="Path to continuous Chrome profile")
+):
+    """Find all the skills uploaded and uninstall them except Anthropic origin."""
+    if not profile:
+        profile = handle_profile_selection(console)
+        if profile:
+            profile = str(Path(profile).expanduser().resolve())
+            
+    with sync_playwright() as p:
+        try:
+            browser, page = launch_browser(
+                p, headless=headless, connect_port=connect, profile_path=profile
+            )
+            run_uninstall_loop(page, target_name=None, console=console)
             browser.close()
         except Exception as e:
             console.print(f"[bold red]Fatal Error:[/bold red] {e}")

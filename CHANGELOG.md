@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.5.0] IRONCLAD - 2026-04-16
+
+### Added
+- **Teardown Engine**: Launched a powerful new Playwright destruction loop inside the CLI spanning two new major commands `uninstall [NAME]` and `uninstall-all`, complete with robust Antropic quarantine safety features and targeted 3-dot dropdown logic processing.
+- **Teardown UI Module**: Styled and locked two pristine interactive developer cards ("Teardown", "Mass Purge") into the central `index.html` toolbox.
+- **Optical Fading Grids**: Re-architected the `index.html` Global Options block. Stripped the chunky 2D cards in favor of a sleek, borderless radial-gradient gap-mask, creating beautiful Apple-style fading intersection lines exactly matching the modern CLI spec.
+- **Documentation Parity**: Complete holistic audit of `index.html`, `docs.html`, and `README.md` to perfectly sync deeply-nested engine tools (`prune`, `--keep-zips`, `--connect`) across the full Frontend and markdown web.
+
 ## [v2.4.0] IRONCLAD - 2026-04-14
 
 ### Added

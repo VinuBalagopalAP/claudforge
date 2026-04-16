@@ -11,7 +11,7 @@ in the install block. Never substitute with synonyms.
 
 ## Occurrences (never change these)
 - Hero badge: `IRONCLAD • THE 1% STANDARD`
-- Install tagline: `v2.0.2 IRONCLAD Engine.` (only version number changes)
+- Install tagline: `v2.5.0 IRONCLAD Engine.` (only version number changes)
 - Changelog entry: `v2.0.1 IRONCLAD` (this milestone label is frozen)
 
 ---

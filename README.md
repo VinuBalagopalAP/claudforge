@@ -46,7 +46,8 @@ Every Claude.ai power user knows this pain:
 | 🖥️ **Live Monitor** | A dedicated Streamlit Web UI to track long-running batches with ETR gauges. |
 | 🆔 **Smart Profiles** | Automatically discovers your Chrome profiles and remembers your selection. |
 | 🧪 **Industrial Core** | Structured logging, enhanced security (0700), and automated CI verification. |
-| 🧹 **Library Pruning** | **NEW**: `prune` command to clear engine logs and temporary packaged assets. |
+| 🧹 **Library Pruning** | `prune` command to clear engine logs and temporary packaged assets. |
+| 🗑️ **Target Teardown** | **NEW**: `uninstall` and `uninstall-all` tools to safely clear active remote testing skills. |
 
 ---
 
@@ -79,15 +80,17 @@ claudforge upload ./my_skills --limit 30
 Usage: claudforge [command] [PATH] [options]
 
 Commands:
-  upload [PATH]     Deploy a skill or batch (auto-detects mode)
-  rollback [PATH]   Revert a skill to a previous version from the archive
-  dashboard [PATH]  Launch the real-time web monitor (Streamlit)
-  status [PATH]     Fast summary of batch progress (Local History vs Total)
-  list [PATH]       List every skill name recorded in the local history
-  validate [PATH]   Check SKILL.md structure and reserved word compliance
-  init              Scaffold a new Claude skill folder
-  doctor            Check environment health (Chrome, Playwright, Python)
-  prune [PATH]      Cleanup temporary files, logs, and packaged assets
+  upload [PATH]       Deploy a skill or batch (auto-detects mode)
+  uninstall [NAME]    Find a particular skill uploaded and uninstall it
+  uninstall-all       Find all custom non-Anthropic skills uploaded and uninstall them
+  rollback [PATH]     Revert a skill to a previous version from the archive
+  dashboard [PATH]    Launch the real-time web monitor (Streamlit)
+  status [PATH]       Fast summary of batch progress (Local History vs Total)
+  list [PATH]         List every skill name recorded in the local history
+  validate [PATH]     Check SKILL.md structure and reserved word compliance
+  init                Scaffold a new Claude skill folder
+  doctor              Check environment health (Chrome, Playwright, Python)
+  prune [PATH]        Cleanup temporary files, logs, and packaged assets
 
 Options:
   --limit N           Strictly attempt N brand-new uploads
@@ -95,6 +98,8 @@ Options:
   --profile NAME      Use a persistent profile (manual path or name)
   --select-profile    Force interactive selection of system Chrome profiles
   --headless          Run in headless mode
+  --connect PORT      Attach to a pre-opened Chrome instance (skips repetitive login)
+  --keep-zips         Persist temporary skill bundles in _zips folder for auditing
 ```
 
 ---
@@ -110,6 +115,9 @@ Options:
 **Solo Power User**
 > You maintain 15 custom skills. Instead of zipping and clicking for 20 minutes, you run `claudforge upload ./my-skills` and it finishes in seconds.
 
+**The QA Tester / Core Developer**
+> You generate dozens of skills during local execution runs. Instead of keeping a bloated library, you execute `claudforge uninstall-all` at the end of the shift to purge local test skills while keeping your official Anthropic tools perfectly intact.
+
 ---
 
 ## 🏗 Architecture
@@ -118,7 +126,8 @@ Options:
 claudforge/
 ├── uploader/
 │   ├── single.py            # Flicker-proof upload logic & success polling
-│   └── batch.py             # Predictive queueing & pre-batch sanitization
+│   ├── batch.py             # Predictive queueing & pre-batch sanitization
+│   └── uninstaller.py       # Teardown logic & Anthropic quarantine parsing
 ├── browser/
 │   └── launcher.py          # Stealth Chrome launcher & Inventory scraping
 ├── utils/
@@ -148,6 +157,8 @@ claudforge/
 | ✅ Done | **v2.1.1 IRONCLAD Engine**: Smart Profile Discovery & Persistence |
 | ✅ Done | **v2.2.0 IRONCLAD Engine**: Structured Logging, Security (0700) & CI |
 | ✅ Done | **v2.3.0 IRONCLAD Engine**: Static Analysis (MyPy/Ruff) & Log Streaming |
+| ✅ Done | **v2.4.0 IRONCLAD Engine**: Modular UI Architecture & Modular Scale |
+| ✅ Done | **v2.5.0 IRONCLAD Engine**: Target Teardown Loop & Optical Fading Grids |
 
 ---
 

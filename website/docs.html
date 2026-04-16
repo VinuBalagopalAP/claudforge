@@ -78,7 +78,7 @@
                     <a href="changelog.html">Chronicle</a>
                     <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank">GitHub</a>
                     <div class="mobile-nav-version">
-                        <span>v2.4.0</span>
+                        <span>v2.5.0</span>
                     </div>
                 </div>
                 
@@ -167,6 +167,37 @@
                 <div class="t-top"><span class="t-title">execution — prune</span></div>
                 <div class="t-body">
                     <span class="t-pmp">$</span> claudforge prune
+                </div>
+            </div>
+        </section>
+        <!-- UNINSTALL SECTION -->
+        <section id="cmd-uninstall" class="blueprint-card">
+            <div class="tag-row">
+                <span class="tag required" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">COMMAND: UNINSTALL</span>
+                <span class="tag optional" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">TEARDOWN</span>
+            </div>
+            <h3>Target Destruction (uninstall)</h3>
+            <p>Runs a highly targeted Playwright script to locate a precise skill and instantly process its destruction sequence.</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title" style="color: var(--accent);">execution — uninstall</span></div>
+                <div class="t-body">
+                    <span class="t-pmp" style="color: var(--accent);">$</span> claudforge uninstall "skill-apollo"
+                </div>
+            </div>
+        </section>
+
+        <!-- UNINSTALL-ALL SECTION -->
+        <section id="cmd-uninstall-all" class="blueprint-card">
+            <div class="tag-row">
+                <span class="tag required" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">COMMAND: UNINSTALL-ALL</span>
+                <span class="tag optional" style="color: var(--accent); border-color: rgba(255, 75, 75, 0.3);">GLOBAL_PURGE</span>
+            </div>
+            <h3>Global Wipe Protocol (uninstall-all)</h3>
+            <p>Loops dynamically through the current workspace, mass-deleting all uploaded custom skills while actively scanning for and quarantining Anthropic-origin skills.</p>
+            <div class="terminal-loader">
+                <div class="t-top"><span class="t-title" style="color: var(--accent);">execution — mass-purge</span></div>
+                <div class="t-body">
+                    <span class="t-pmp" style="color: var(--accent);">$</span> claudforge uninstall-all
                 </div>
             </div>
         </section>
