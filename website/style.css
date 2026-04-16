@@ -268,6 +268,11 @@ body::after {
     text-align: center;
 }
 
+/* For docs and changelog */
+.hero-compact {
+    padding: clamp(120px, 12vh, 160px) 0 40px;
+}
+
 .hero-badge {
     display: inline-block;
     background: rgba(0, 212, 255, 0.05);
@@ -792,9 +797,9 @@ body::after {
 }
 
 /* TIMELINE */
-.history-section {
+/* .history-section {
     padding: var(--section-gap) 0;
-}
+} */
 
 .timeline {
     max-width: 800px;
