@@ -159,7 +159,7 @@ claudforge/
 | ✅ Done | **v2.2.0 IRONCLAD Engine**: Structured Logging, Security (0700) & CI |
 | ✅ Done | **v2.3.0 IRONCLAD Engine**: Static Analysis (MyPy/Ruff) & Log Streaming |
 | ✅ Done | **v2.4.0 IRONCLAD Engine**: Modular UI Architecture & Modular Scale |
-| ✅ Done | **v2.5.1 IRONCLAD Engine**: Teardown Loops & Technical Blueprint Overhaul |
+| ✅ Done | **v2.5.2 IRONCLAD Engine**: Teardown Loops & Technical Blueprint Overhaul |
 
 ---
 

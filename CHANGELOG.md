@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v2.5.1] IRONCLAD - 2026-04-16
+## [v2.5.2] IRONCLAD - 2026-04-16
 
 ### Added
 - **Teardown Engine**: Launched a powerful new Playwright destruction loop inside the CLI spanning two new major commands `uninstall` and `uninstall-all`, complete with robust Anthropic quarantine safety features.

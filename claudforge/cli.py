@@ -21,7 +21,7 @@ from rich.prompt import Prompt, Confirm
 from claudforge.utils.logger import logger, console
 
 app = typer.Typer(
-    help="ClaudForge ⚒️ - v2.5.1 IRONCLAD Engine. The missing CLI for Claude.ai Skills.",
+    help="ClaudForge ⚒️ - v2.5.2 IRONCLAD Engine. The missing CLI for Claude.ai Skills.",
     add_completion=True,
 )
 
@@ -86,7 +86,7 @@ def upload(
     ),
 ):
     """Deploy a skill or a batch of skills to Claude.ai."""
-    check_for_updates("2.3.0")
+    check_for_updates("2.5.2")
     target = path.expanduser().resolve()
     if not target.exists():
         console.print(f"[red]Error: Path '{target}' does not exist.[/red]")
@@ -257,7 +257,7 @@ Describe your skill here.
 @app.command()
 def doctor():
     """Check environment health (Chrome, Playwright, Python)."""
-    check_for_updates("2.3.0")
+    check_for_updates("2.5.2")
     import sys
     import platform
 
