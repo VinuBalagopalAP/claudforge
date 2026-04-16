@@ -8,7 +8,8 @@ All notable changes to this project will be documented in this file.
 - **Suite-Wide Modular Scale**: Completely purged legacy fluid spacing variables, transitioning the entire `style.css` architecture to a mathematically rigid, `8px`-based UUPM modular scale.
 - **Architectural UI Synchronization**: Standardized the mega `.premium-footer` infrastructure globally across all pages (`index.html`, `docs.html`, `changelog.html`) using automated flexbox locking mechanisms.
 - **Side-Panel Mobile Routing**: Deprecated the destructive full-screen `100vh` mobile overlay. Mobile navigation now spawns strictly beneath the glass navbar as a smooth slide-out `300px` fixed panel.
-- **Hanging Sign Restoration**: Re-engineered and restored the brand-critical "⭐ THE FORGE" dynamic swinging sign utilizing isolated absolute positioning to preserve strict 3-column navbar symmetry.
+- **Hanging Sign Restoration**: Re-engineered and restored the brand-critical "⭐ THE FORGE" dynamic swinging sign utilizing isolated absolute positioning to preserve strict 3-column navbar symmetry and flawless center-point mobile viewport rendering.
+- **Global Asset Optimization**: Abstracted scattered inline Github API arrays and IntersectionObserver logic across the suite into a hyper-efficient centralized `script.js` global engine.
 
 ## [v2.3.0] IRONCLAD - 2026-04-13
 

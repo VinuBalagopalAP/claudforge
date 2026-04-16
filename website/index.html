@@ -77,13 +77,13 @@
             </div>
 
             <div class="nav-col-center">
-                <div class="nav-stars-assembly" id="gh-stars-sign">
+                <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank" class="nav-stars-assembly" id="gh-stars-sign" style="color: var(--text-dim);">
                     <div class="stars-upper">
                         <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>
                         <span id="star-count">...</span> Stars
                     </div>
-                    <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank" class="hanging-board">⭐ THE FORGE</a>
-                </div>
+                    <div class="hanging-board">⭐ THE FORGE</div>
+                </a>
             </div>
 
             <div class="nav-col-right">
@@ -92,6 +92,9 @@
                     <a href="docs.html">Toolbox</a>
                     <a href="changelog.html">Chronicle</a>
                     <a href="https://github.com/VinuBalagopalAP/claudforge" target="_blank">GitHub</a>
+                    <div class="mobile-nav-version">
+                        <span>v2.4.0</span>
+                    </div>
                 </div>
                 
                 <label for="menu-check" class="menu-toggle">
@@ -457,6 +460,21 @@
                         <span class="o-line highlight">URL: http://localhost:8501</span>
                     </div>
                 </div>
+
+                <div class="toolbox-card glass">
+                    <div class="t-header">
+                        <div class="t-icon"><svg viewBox="0 0 100 100"><path d="M25,25 L75,75 M75,25 L25,75" stroke="var(--primary)" stroke-width="4" stroke-linecap="round"/><path d="M50,10 L50,90" stroke="var(--primary)" stroke-width="2" stroke-dasharray="4"/></svg></div>
+                        <span class="t-cmd">claudforge prune</span>
+                    </div>
+                    <h4>Prune</h4>
+                    <p>Cleanup temporary files, compiled logs, and packaged zip artifacts.</p>
+                    <div class="t-output">
+                        <span class="o-label">Garbage Collection</span>
+                        <span class="o-line">🧹 Sweeping workspace array...</span>
+                        <span class="o-line highlight">✅ Removed 45 artifacts (12MB).</span>
+                    </div>
+                </div>
+                
                 <!-- NEW CARDS END -->
             </div>
         </div>
@@ -573,29 +591,6 @@
         </div>
     </footer>
 
-    <script>
-        // GH Stars Fetch
-        async function fetchStars() {
-            try {
-                const response = await fetch('https://api.github.com/repos/VinuBalagopalAP/claudforge');
-                const data = await response.json();
-                if (data.stargazers_count !== undefined) {
-                    document.getElementById('star-count').innerText = data.stargazers_count;
-                }
-            } catch (error) {
-                console.error('Error fetching stars:', error);
-                document.getElementById('star-count').innerText = '10+'; // Fallback
-            }
-        }
-        fetchStars();
-
-        // Reveal Observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.animate-in, .animate-on-scroll, .suite-card, .toolbox-card').forEach(el => observer.observe(el));
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
