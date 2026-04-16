@@ -1297,6 +1297,10 @@ body::after {
         align-items: center; 
         gap: 1.5rem; 
     }
+    .active-milestone {
+        display: block;
+        text-align: center;
+    }
     .s-math-icon.aligned { 
         margin: 0; 
         width: 45px; 
