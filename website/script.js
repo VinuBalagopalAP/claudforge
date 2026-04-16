@@ -20,3 +20,30 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.1 });
 document.querySelectorAll('.animate-in, .animate-on-scroll, .suite-card, .toolbox-card').forEach(el => observer.observe(el));
+
+// Terminal Copy Logic
+document.addEventListener('click', (e) => {
+    const copyBtn = e.target.closest('.t-copy');
+    if (copyBtn) {
+        const terminal = copyBtn.closest('.terminal-loader');
+        const textElement = terminal.querySelector('.t-body');
+        
+        // Clean text (remove $ prompt and extra spaces)
+        let text = textElement.innerText;
+        if (text.includes('$')) {
+            text = text.split('$')[1];
+        }
+        text = text.trim();
+
+        navigator.clipboard.writeText(text).then(() => {
+            const originalText = copyBtn.querySelector('span').innerText;
+            copyBtn.querySelector('span').innerText = 'Copied!';
+            copyBtn.classList.add('copied');
+            
+            setTimeout(() => {
+                copyBtn.querySelector('span').innerText = originalText;
+                copyBtn.classList.remove('copied');
+            }, 2000);
+        });
+    }
+});
