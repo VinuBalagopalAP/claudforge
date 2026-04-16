@@ -2,21 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v2.5.0] IRONCLAD - 2026-04-16
+## [v2.5.1] IRONCLAD - 2026-04-16
 
 ### Added
-- **Teardown Engine**: Launched a powerful new Playwright destruction loop inside the CLI spanning two new major commands `uninstall [NAME]` and `uninstall-all`, complete with robust Antropic quarantine safety features and targeted 3-dot dropdown logic processing.
-- **Teardown UI Module**: Styled and locked two pristine interactive developer cards ("Teardown", "Mass Purge") into the central `index.html` toolbox.
-- **Optical Fading Grids**: Re-architected the `index.html` Global Options block. Stripped the chunky 2D cards in favor of a sleek, borderless radial-gradient gap-mask, creating beautiful Apple-style fading intersection lines exactly matching the modern CLI spec.
-- **Documentation Parity**: Complete holistic audit of `index.html`, `docs.html`, and `README.md` to perfectly sync deeply-nested engine tools (`prune`, `--keep-zips`, `--connect`) across the full Frontend and markdown web.
-
-### Changed
-- **Repository Hygiene**: Completely refactored `.gitignore` to industry-standard Python specifications, including robust coverage for testing caches and IDE-specific artifacts.
-- **Developer Setup**: Modernized `CONTRIBUTING.md` to favor the editable install pattern (`pip install -e .[dev]`) for significantly faster backend iteration.
-- **Security Matrix**: Synchronized `SECURITY.md` to officially extend support to the current `v2.4.x` and `v2.5.x` release families.
+- **Teardown Engine**: Launched a powerful new Playwright destruction loop inside the CLI spanning two new major commands `uninstall` and `uninstall-all`, complete with robust Anthropic quarantine safety features.
+- **Technical Blueprint Overhaul**: Transformed the documentation suite into a high-fidelity engineering manual featuring coordinate metadata, drafting grids, and 3D hover physics.
+- **1-Click Terminal Utility**: Integrated a project-wide copy-to-clipboard button into all terminal loaders with automated feedback transitions and command cleaning logic.
+- **Engine Logic Auditing**: Injected "Logic Flow" documentation into every command module to clarify the interaction between CLI tags and engine execution.
 
 ### Fixed
-- **Compact Hero Layout**: Corrected excess vertical whitespace on `docs.html` and `changelog.html` by introducing the `.hero-compact` modifier, improving subpage information density and scanability.
+- **Terminal Width Constraints**: Resolved an issue where long batch deployment commands would overflow smaller terminal containers by introducing a responsive `.cli-usage` scale (900px max-width).
+- **Compact Hero Layout**: Corrected excess vertical whitespace on subpages, improving information density across the suite.
 
 ## [v2.4.0] IRONCLAD - 2026-04-14
 

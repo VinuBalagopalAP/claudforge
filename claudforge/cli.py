@@ -22,7 +22,7 @@ from rich.prompt import Prompt, Confirm
 from claudforge.utils.logger import logger, console
 
 app = typer.Typer(
-    help="ClaudForge ⚒️ - v2.5.0 IRONCLAD Engine. The missing CLI for Claude.ai Skills.",
+    help="ClaudForge ⚒️ - v2.5.1 IRONCLAD Engine. The missing CLI for Claude.ai Skills.",
     add_completion=True,
 )
 
