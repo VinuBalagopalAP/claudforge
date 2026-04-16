@@ -4,6 +4,8 @@ import re
 import json
 from pathlib import Path
 from typing import Optional, Set, List, Dict, Any
+from playwright.sync_api import Page
+from rich.console import Console
 from claudforge.utils.logger import logger, console
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
 from rich.prompt import Prompt

@@ -1,4 +1,4 @@
-from typing import Optional, List, Dict, Tuple
+from typing import Optional, Tuple
 from playwright.sync_api import Page, ElementHandle
 from rich.console import Console
 from claudforge.utils.logger import logger, console
