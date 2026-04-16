@@ -1,5 +1,3 @@
-import pytest
-from pathlib import Path
 from claudforge.utils.yaml_parser import validate_skill_metadata, sanitize_skill_metadata
 from rich.console import Console
 

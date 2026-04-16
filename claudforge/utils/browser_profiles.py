@@ -2,7 +2,7 @@ import json
 import os
 import platform
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 
 def get_chrome_user_data_dir() -> Optional[Path]:

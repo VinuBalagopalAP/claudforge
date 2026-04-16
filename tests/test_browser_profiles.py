@@ -1,8 +1,5 @@
-import pytest
-import os
-import json
-from pathlib import Path
-import claudforge.utils.browser_profiles
+
+# Tests for browser profile discovery logic
 
 def test_profile_discovery_simple_mock(mocker):
     """

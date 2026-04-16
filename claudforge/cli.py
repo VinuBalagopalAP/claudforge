@@ -1,7 +1,6 @@
 import typer
 from pathlib import Path
 import shutil
-import os
 from typing import Optional
 from rich.console import Console
 from rich.table import Table
@@ -260,7 +259,6 @@ def doctor():
     """Check environment health (Chrome, Playwright, Python)."""
     check_for_updates("2.3.0")
     import sys
-    import subprocess
     import platform
 
     logger.info(f"Python Version: [cyan]{sys.version.split()[0]}[/cyan]")

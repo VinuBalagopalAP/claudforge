@@ -1,7 +1,7 @@
 import time
 import random
 from typing import Optional
-from playwright.sync_api import Page, TimeoutError as PWTimeout
+from playwright.sync_api import Page
 from rich.console import Console
 from rich.prompt import Confirm
 

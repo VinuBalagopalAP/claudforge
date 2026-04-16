@@ -1,8 +1,6 @@
 from playwright.sync_api import Page
 from rich.console import Console
-from claudforge.utils.logger import logger
-
-
+from claudforge.utils.logger import logger, console
 from claudforge.utils.browser_profiles import is_profile_locked
 import socket
 
@@ -74,7 +72,8 @@ def launch_browser(
                                 page = p_
                                 logger.info(f"✅ Found existing Claude tab: '{page.title()}'")
                                 break
-                        if page: break
+                        if page:
+                            break
                     if not page:
                         page = browser.contexts[0].new_page()
                     return browser, page

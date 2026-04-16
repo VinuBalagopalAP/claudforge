@@ -11,6 +11,8 @@ All notable changes to this project will be documented in this file.
 - **Engine Logic Auditing**: Injected "Logic Flow" documentation into every command module to clarify the interaction between CLI tags and engine execution.
 
 ### Fixed
+- **CI/CD Restoration**: Resolved 17 linting errors identified in the automated pipeline, including a critical undefined `console` reference in the browser launcher and a botched logic one-liner.
+- **Dependency Hygiene**: Purged unused imports across 9 files, optimizing startup performance and maintainability.
 - **Terminal Width Constraints**: Resolved an issue where long batch deployment commands would overflow smaller terminal containers by introducing a responsive `.cli-usage` scale (900px max-width).
 - **Compact Hero Layout**: Corrected excess vertical whitespace on subpages, improving information density across the suite.
 

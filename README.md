@@ -47,7 +47,8 @@ Every Claude.ai power user knows this pain:
 | 🆔 **Smart Profiles** | Automatically discovers your Chrome profiles and remembers your selection. |
 | 🧪 **Industrial Core** | Structured logging, enhanced security (0700), and automated CI verification. |
 | 🧹 **Library Pruning** | `prune` command to clear engine logs and temporary packaged assets. |
-| 🗑️ **Target Teardown** | **NEW**: `uninstall` and `uninstall-all` tools to safely clear active remote testing skills. |
+| 🗑️ **Sweep & Purge**   | **NEW**: `uninstall` and `uninstall-all` tools to safely clear active remote testing skills with Anthropic Quarantine. |
+| 📐 Engineering Manual | **NEW**: Coordinate-based Technical Blueprint documentation with 3D physics and engine logic flow auditing. |
 
 ---
 
@@ -60,8 +61,8 @@ Every Claude.ai power user knows this pain:
 pip install claudforge
 playwright install chromium
 
-# 2. Launch the Live Monitor (optional)
-claudforge dashboard ./my_skills
+# 2. Launch the High-Fidelity Docs (Interactive)
+# visit https://claudforge.vercel.app/docs.html
 
 # 3. Deploy (Smart detection: folder or batch)
 claudforge upload ./my_skills --limit 30
@@ -73,7 +74,7 @@ claudforge upload ./my_skills --limit 30
 ## 📖 CLI Reference
  
 > [!TIP]
-> **View the Interactive Guide**: For a detailed view of all flags and examples, visit the [**Official CLI Reference ↗**](https://claudforge.vercel.app/docs.html).
+> **View the Interactive Guide**: For a detailed view of all flags and examples, visit the [**Official Technical Blueprint 📐**](https://claudforge.vercel.app/docs.html).
  
 
 ```
@@ -158,7 +159,7 @@ claudforge/
 | ✅ Done | **v2.2.0 IRONCLAD Engine**: Structured Logging, Security (0700) & CI |
 | ✅ Done | **v2.3.0 IRONCLAD Engine**: Static Analysis (MyPy/Ruff) & Log Streaming |
 | ✅ Done | **v2.4.0 IRONCLAD Engine**: Modular UI Architecture & Modular Scale |
-| ✅ Done | **v2.5.0 IRONCLAD Engine**: Target Teardown Loop & Optical Fading Grids |
+| ✅ Done | **v2.5.1 IRONCLAD Engine**: Teardown Loops & Technical Blueprint Overhaul |
 
 ---
 

@@ -23,4 +23,4 @@ def check_for_updates(current_version: str):
             f"🚀 [bold cyan]A new version of ClaudForge is available![/bold cyan] "
             f"([dim]{current_version}[/dim] -> [bold green]{latest}[/bold green])"
         )
-        logger.info(f"👉 Run [bold yellow]pip install --upgrade claudforge[/bold yellow] to update.")
+        logger.info("👉 Run [bold yellow]pip install --upgrade claudforge[/bold yellow] to update.")
